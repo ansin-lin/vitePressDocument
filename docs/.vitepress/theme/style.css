@@ -1,0 +1,15 @@
+ :root { --vp-c-brand-1: #21815c; --vp-c-brand-2: #29996e; --vp-c-brand-3: #237e5d; }
+.dark { --vp-c-brand-1: #62dca6; --vp-c-brand-2: #49b98b; }
+.demo { border: 1px solid var(--vp-c-divider); border-radius: 12px; margin: 24px 0; overflow: hidden; }
+.demo header { padding: 20px; display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; background: var(--vp-c-bg-soft); }
+.demo h3 { margin: 0; } .demo header p { margin-bottom: 0; color: var(--vp-c-text-2); }
+.demo-body, .demo details { padding: 20px; } .demo pre, .mermaid-diagram pre { overflow: auto; }
+.demo button { border: 1px solid var(--vp-c-divider); border-radius: 6px; padding: 6px 14px; background: var(--vp-c-bg); cursor: pointer; white-space: nowrap; }
+.demo button:hover { border-color: var(--vp-c-brand-1); } .demo button:disabled { opacity: .4; cursor: default; }
+.demo button:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 3px; }
+.counter { display: inline-block; font-size: 36px; min-width: 80px; vertical-align: middle; }
+.demo-error { color: var(--vp-c-danger-1); padding: 0 20px; } .actions { display: flex; gap: 12px; }
+.flow li { padding: 8px 12px; border-left: 3px solid var(--vp-c-divider); } .flow li span { display: block; }
+.flow .active { border-color: var(--vp-c-brand-1); background: var(--vp-c-bg-soft); } .flow .done { color: var(--vp-c-text-2); }
+.mermaid-diagram { overflow-x: auto; margin: 24px 0; } .mermaid-diagram svg { max-width: 100%; height: auto; }
+@media(max-width: 480px) { .demo header { flex-wrap: wrap; } }
