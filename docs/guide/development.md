@@ -42,4 +42,4 @@ Markdown 中使用 mermaid 代码围栏。支持流程图和时序图；图表�
 
 ## 后续阶段
 
-第一阶段完成验证后再开发 Vue REPL、React Sandpack、SQLite WASM，采用懒加载与隔离执行。SQLite 不执行 PL/SQL。Git、Linux、Shell 只提供明确标注的教学模拟。部署依照仓库 README 配置。
+Vue REPL、React Sandpack、SQLite WASM 已接入，页面按需加载。SQLite 不执行 PL/SQL。Git、Linux、Shell 只提供明确标注的教学模拟。部署依照仓库 README 配置。

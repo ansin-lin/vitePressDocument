@@ -16,6 +16,12 @@
 
 尚未手动完成搜索结果的浏览器验收；已配置 VitePress 本地搜索并成功生成构建。未对参考教材逐篇做兼容性测试，未迁移或修改参考目录。
 
-第二阶段 Vue REPL、React Sandpack、SQLite WASM，以及 Git/Linux/Shell 模拟器未开发。
+第二阶段 Vue REPL、React Sandpack、SQLite WASM 已开发；Git/Linux/Shell 模拟器未开发。
 
 本机 Node 24.11.0 的后续构建发生无诊断退出；用 Node 24.22.1 完成最终验证。Mermaid 使用官方预编译浏览器模块，避免全量重打包。运行 tests/smoke.mjs 前需构建 /training/ 子路径。
+
+## 第二阶段验证
+
+- 类型检查与 `/vitePressDocument/` 生产构建通过。
+- Chromium 验证：Vue 与 React 预览中的计数按钮真实可点击；SQL 查询、结果行、语法错误及数据重置通过。
+- React 代码发送至 CodeSandbox 编译服务；Vue REPL 编译器资源需联网。

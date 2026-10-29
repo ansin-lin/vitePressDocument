@@ -38,7 +38,7 @@ Remove-Item Env:BASE_PATH
 
 不修改参考目录 LearnDocument。普通 Markdown、代码围栏、相对链接、图片可继续采用；先小批接入并构建。MkDocs 专用 admonition、tab、宏、Obsidian 双链、特定插件语法不保证直接兼容，需要逐项适配。不要全量重写或自动迁移。构建保留死链检查。
 
-详见 [开发说明](docs/guide/development.md)。第二阶段 Vue REPL、React Sandpack、SQLite WASM 尚未实现。
+详见 [开发说明](docs/guide/development.md)。第二阶段已加入 Vue REPL、React Sandpack 与 SQLite WASM 练习区。React 编译依赖 CodeSandbox 在线服务；Vue REPL 首次加载编译器需要网络；SQLite 在浏览器本地执行。
 
 ## 浏览器验证
 
@@ -51,3 +51,5 @@ VitePress 1.x 构建工具链存在 npm audit 告警，需后续升级并回归�
 本机 Node 24.11.0 在复验时发生无诊断退出；使用 24.22.1 后构建和浏览器检查通过。建议使用当前维护版本的 Node。Mermaid 官方浏览器模块在 dev/build 前复制到 public/vendor，按需从本站加载，不依赖 CDN。
 
 验证详情见 [TEST-RESULTS.md](TEST-RESULTS.md)。
+
+第二阶段浏览器验证：先以 `BASE_PATH=/vitePressDocument/` 构建，再运行 `node tests/playgrounds.mjs`。
