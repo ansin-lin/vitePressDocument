@@ -18,7 +18,7 @@ try {
   await page.locator('#sql-code').fill('not sql')
   await page.getByRole('button', { name: '运行 SQL' }).click()
   assert.equal(await page.getByRole('alert').count(), 1)
-  await page.getByRole('button', { name: '重置' }).click()
+  await page.getByRole('button', { name: '↺ 重置' }).click()
   assert.equal(await page.locator('#sql-code').inputValue(), 'SELECT id, name, score FROM students ORDER BY score DESC;')
   console.log('PASS SQL execution, result, error, reset')
   await page.goto('http://localhost:4174/vitePressDocument/examples/vue-playground.html')
