@@ -1,27 +1,12 @@
-# 第一阶段验证记录
+# SQL 教材接入验证
 
-验证日期：2026-10-29。
+验证日期：2026-10-30。
 
-- npm ci：成功从锁文件安装 305 个包。
-- Vue TypeScript 检查：通过。
-- 根路径生产构建：通过（首次及最终复验）。
-- /training/ 子路径生产构建：通过，最终构建约 8 秒。
-- Chromium 自动检查：通过计数器上限提示与重置、请求异常路径与前后步骤禁用、重置关闭异常开关、Mermaid 流程图和时序图、主题切换后的图表、390px 视口无页面横向溢出；无 pageerror。
-- GitHub Actions：已检查配置包含锁文件安装、类型检查、构建、PR 不发布、Pages artifact、部署权限、环境和仓库子路径推导；未在 GitHub 实际运行。
-- npm audit：3 项告警（2 moderate、1 high），来自 VitePress 1.x 的 Vite/esbuild 工具链，尚未解决。
+- 从 LearnDocument 复制 SQL 知识章节 16 篇及综合练习 1 篇；逐文件哈希确认内容与参考原件一致，参考目录未修改。
+- 参考课程审计：16 个 Markdown 文件，P0=0、P1=0、P2=0。
+- Vue/TypeScript 检查、GitHub Pages 子路径生产构建：通过。
+- Chromium 预览：0 章正文、课程入口、10 章的 3 个 Mermaid 图、15 章到综合练习的链接均正常；未捕获页面脚本错误。
+- 布局：1440px 屏幕侧栏 181px、正文约 1215px；390px 手机宽度无横向溢出。
+- 旧在线练习、计数器和 Spring Boot 模拟页面已移除，页面导航无相关入口。
 
-## 限制与未完成
-
-当前目录不是 Git 仓库，未推送，未实际部署 GitHub Pages。需要创建或关联仓库并设置 Pages 来源为 GitHub Actions。
-
-尚未手动完成搜索结果的浏览器验收；已配置 VitePress 本地搜索并成功生成构建。未对参考教材逐篇做兼容性测试，未迁移或修改参考目录。
-
-第二阶段 Vue REPL、React Sandpack、SQLite WASM 已开发；Git/Linux/Shell 模拟器未开发。
-
-本机 Node 24.11.0 的后续构建发生无诊断退出；用 Node 24.22.1 完成最终验证。Mermaid 使用官方预编译浏览器模块，避免全量重打包。运行 tests/smoke.mjs 前需构建 /training/ 子路径。
-
-## 第二阶段验证
-
-- 类型检查与 `/vitePressDocument/` 生产构建通过。
-- Chromium 验证：Vue 与 React 预览中的计数按钮真实可点击；SQL 查询、结果行、语法错误及数据重置通过。
-- React 代码发送至 CodeSandbox 编译服务；Vue REPL 编译器资源需联网。
+GitHub Pages 部署结果见 GitHub Actions。教材为从参考文档复制的阅读内容，尚未按 VitePress 对所有章节逐页做视觉复核。
