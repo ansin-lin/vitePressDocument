@@ -147,3 +147,33 @@
 .js-run-output pre { min-height: 185px; margin: 7px 0 0; padding: 10px; white-space: pre-wrap; overflow-wrap: anywhere; border-radius: 6px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); font: 12px/1.55 var(--vp-font-family-mono); }
 .js-run-note { margin: 0; padding: 8px 13px; border-top: 1px solid var(--vp-c-divider); color: var(--vp-c-text-3); font-size: 11px; }
 @media (max-width: 720px) { .js-run-demo header { align-items: flex-start; flex-direction: column; } .js-run-grid { grid-template-columns: 1fr; } .js-run-grid label { border-right: 0; border-bottom: 1px solid var(--vp-c-divider); } }
+
+/* 第 21 章：异步执行流程教学演示 */
+.async-trace { margin: 24px 0; overflow: hidden; border: 1px solid var(--vp-c-divider); border-radius: 15px; background: var(--vp-c-bg); }
+.async-trace-head { display: flex; justify-content: space-between; gap: 16px; padding: 20px 22px; border-bottom: 1px solid var(--vp-c-divider); background: var(--vp-c-bg-soft); }
+.async-trace-head h3 { margin: 4px 0 5px; padding: 0; border: 0; font-size: 20px; }
+.async-trace-head p { margin: 0; color: var(--vp-c-text-2); font-size: 13px; }
+.async-trace-count { align-self: flex-start; white-space: nowrap; color: var(--vp-c-brand-1); font-size: 13px; font-weight: 700; }
+.async-trace-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.async-trace-code, .async-trace-state { min-width: 0; padding: 18px; }
+.async-trace-code { border-right: 1px solid var(--vp-c-divider); }
+.async-trace-code > strong, .async-trace-state > strong, .async-trace-output > strong { display: block; margin-bottom: 10px; font-size: 13px; }
+.async-trace-line { display: flex; gap: 10px; padding: 6px 7px; border-radius: 6px; font: 12px/1.6 var(--vp-font-family-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.async-trace-line > span { flex-shrink: 0; color: var(--vp-c-text-3); }
+.async-trace-line.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
+.async-trace-state > p { min-height: 58px; margin: 0 0 12px; color: var(--vp-c-text-2); font-size: 13px; line-height: 1.6; }
+.async-trace-lanes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.async-trace-lanes div { padding: 9px 10px; border: 1px solid var(--vp-c-divider); border-radius: 8px; background: var(--vp-c-bg-soft); }
+.async-trace-lanes span, .async-trace-lanes b { display: block; }
+.async-trace-lanes span { color: var(--vp-c-text-3); font-size: 11px; }
+.async-trace-lanes b { margin-top: 4px; font-size: 12px; font-weight: 600; }
+.async-trace-output { display: flex; gap: 15px; align-items: baseline; min-width: 0; padding: 13px 18px; border-top: 1px solid var(--vp-c-divider); background: var(--vp-c-bg-soft); }
+.async-trace-output strong { flex-shrink: 0; margin: 0; }
+.async-trace-output span { overflow-wrap: anywhere; color: var(--vp-c-brand-1); font: 12px/1.6 var(--vp-font-family-mono); }
+.async-trace-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 18px; border-top: 1px solid var(--vp-c-divider); }
+.async-trace-footer p { margin: 0; color: var(--vp-c-text-3); font-size: 11px; }
+.async-trace-footer > div { display: flex; gap: 6px; flex-shrink: 0; }
+.async-trace-footer button { padding: 6px 10px; border: 1px solid var(--vp-c-divider); border-radius: 7px; font-size: 12px; cursor: pointer; }
+.async-trace-footer button:disabled { opacity: .45; cursor: not-allowed; }
+.async-trace-footer button:not(:disabled):hover { border-color: var(--vp-c-brand-1); color: var(--vp-c-brand-1); }
+@media (max-width: 800px) { .async-trace-grid { grid-template-columns: 1fr; } .async-trace-code { border-right: 0; border-bottom: 1px solid var(--vp-c-divider); } .async-trace-footer { align-items: flex-start; flex-direction: column; } }

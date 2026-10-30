@@ -15,6 +15,8 @@
 
 本章使用 `setTimeout()` 模拟耗时任务。下一章会把相同的处理方式应用到真实的 `fetch()` 请求中。
 
+这一章沿着一个问题往下走：**代码遇到等待时，后面的代码为什么先运行？**先追踪输出顺序，再让“读取用户 → 读取申请”的同一业务场景依次使用回调、Promise 链和 `async/await`。每遇到新写法，先预测结果，再运行验证。
+
 ## 本章学习路线
 
 本章使用同一组模拟用户和申请数据，逐步观察结果怎样交给后续处理：
@@ -28,10 +30,6 @@
 第一次学习不要同时混写Promise链和`async/await`。先分别完成两个阶段的示例，再比较两种写法。
 
 ## 1. 为什么需要异步处理
-
-运行下面的实验，观察同步输出、Promise 回调和定时器回调的先后；可以自行修改日志文字再运行。
-
-<JSRunDemo example="async" />
 
 ### 1.1 同步代码按顺序执行
 
@@ -111,7 +109,25 @@ JavaScript 继续执行后面的同步代码
 当前同步代码结束后，执行后续处理
 ```
 
-JavaScript 代码仍然按顺序执行，只是等待工作由浏览器等运行环境管理。本章先学会正确组织异步结果，调用栈、任务队列和微任务等底层细节不影响本章的基本使用。
+JavaScript 代码仍然按顺序执行，只是等待工作由浏览器等运行环境管理。接下来只引入解释输出顺序所需的三个概念：**调用栈、微任务队列和后续任务**。这里讨论的是普通网页脚本所在的执行环境；Web Worker 可以有自己的执行环境，不应把“JavaScript 永远只有一个线程”当作通用结论。
+
+### 1.4 逐步追踪一次完整执行
+
+现在把同步代码、Promise 回调和定时器回调放在一起。先不要急着运行：读完四行代码，猜测 `A`、`B`、`C`、`D` 的输出顺序，再点击“下一步”观察每一步。
+
+<AsyncExecutionTrace />
+
+从这个例子可以抓住三条规则：
+
+1. 当前同步代码先执行完；排队的回调不会打断正在运行的代码。
+2. 已成功的 Promise 所登记的 `then()` 回调进入**微任务队列**，在当前脚本结束后处理。
+3. `setTimeout()` 回调在计时条件满足后作为后续任务等待执行；`0` 毫秒不代表立即执行。对本例而言，它排在微任务之后。
+
+流程图是为了观察先后关系；浏览器内部可能还要处理页面渲染、其他任务来源等，不能用这张图推断所有复杂场景。现在运行同一段真实 JavaScript，核对你的预测：
+
+<JSRunDemo example="async" />
+
+下面的 Promise 与 `async/await` 章节仍沿用这一规则：**先拿到一个未来结果，再登记或等待后续处理**。想进一步查事件循环机制，可参阅 [MDN 的执行模型](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model)和 [微任务说明](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide)。
 
 ## 2. 回调函数如何接收异步结果
 
@@ -485,6 +501,17 @@ loadCurrentUser()
 
 第一段 `then()` 返回 `loadApplications()` 的 Promise，因此第二段会等待申请列表准备完成。读取用户或读取申请任意一步失败，都会沿着链向后传递到同一个 `catch()`。
 
+```mermaid
+flowchart LR
+    A[读取用户的 Promise] -->|成功：交出 user| B[第一段 then]
+    B -->|return 读取申请的 Promise| C[等待申请结果]
+    C -->|成功：交出 applications| D[第二段 then]
+    A -->|失败| E[同一个 catch]
+    C -->|失败| E
+```
+
+图中的 `return` 是接力点：它让下一段 `then()` 等待第二个任务。如果去掉它，下一段会提前收到 `undefined`。
+
 ### 6.3 忘记 `return` 会断开连接
 
 ```js
@@ -586,6 +613,22 @@ console.log("函数外：调用后");
 ```
 
 调用 `async` 函数时，它先执行到 `await`。遇到仍在等待的 Promise 后，外部同步代码继续执行；Promise 成功后，再恢复当前函数。
+
+```mermaid
+sequenceDiagram
+    participant C as 调用方
+    participant F as showApplications 函数
+    participant P as loadCurrentUser 的 Promise
+    C->>F: 调用 showApplications
+    F->>F: 输出 函数内：开始读取
+    F->>P: 遇到 await，等待结果
+    F-->>C: 先返回 Promise
+    C->>C: 输出 函数外：调用后
+    P-->>F: 结果就绪，安排函数继续
+    F->>F: 输出 函数内：读取完成
+```
+
+这里“暂停”的只是这个 `async` 函数在 `await` 后面的部分，不是整页 JavaScript。图中省略了微任务入队等底层细节，具体顺序可回看第 1.4 节。
 
 ### 7.4 Promise 链和 `async/await` 是同一套机制
 
@@ -946,3 +989,7 @@ async function processApplications(applications) {
 - `then()` 链中的 `return` 为什么不能随意省略。
 - `async` 函数返回什么，`await` 暂停的是哪一部分代码。
 - 什么情况下应顺序等待，什么情况下可以并行等待。
+
+## 延伸阅读
+
+想沿着更长的讲解继续阅读，可参考[一文彻底搞懂 JS 异步编程](https://github.com/JERRY-Z-J-R/I-love-you-3-thousand/blob/master/%E6%88%91%E7%88%B1%E4%BD%A0%EF%BC%8C%E4%B8%8D%E6%AD%A2%E4%B8%89%E5%8D%83%E9%81%8D/JavaScript/13%E3%80%90ES6%E4%B9%8B%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E3%80%91/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82JS%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B.md)。本章的代码、图解和互动演示按当前课程重新组织；遇到不同说法时，以本章的实际运行结果和上文链接的标准资料核对。

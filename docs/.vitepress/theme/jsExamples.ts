@@ -59,10 +59,10 @@ console.log(pattern.test("EMP-12"));` },
 } finally {
   console.log("清理结束");
 }` },
-  async: { title: '同步、微任务与定时器', code: `console.log("1 同步开始");
-setTimeout(() => console.log("3 定时器"), 0);
-Promise.resolve().then(() => console.log("2 Promise 回调"));
-console.log("1 同步结束");` }
+  async: { title: '验证执行顺序：A → B → C → D', code: `console.log("A 同步开始");
+setTimeout(() => console.log("D 定时器"), 0);
+Promise.resolve().then(() => console.log("C Promise"));
+console.log("B 同步结束");` }
 } as const
 
 export type JsExampleKey = keyof typeof jsExamples
