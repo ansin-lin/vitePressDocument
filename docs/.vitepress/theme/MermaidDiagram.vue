@@ -20,5 +20,5 @@ async function render() {
 }
 onMounted(() => { render(); watch([() => props.code, isDark], render) })
 </script>
-<template><div class="mermaid-diagram"><p v-if="error" role="alert">{{ error }}</p><div v-else-if="svg" v-html="svg" /><p v-else>图表加载中…</p><details><summary>图表源码</summary><pre>{{ code }}</pre></details></div></template>
+<template><div class="mermaid-diagram"><p v-if="error" role="alert">{{ error }}</p><div v-else-if="svg" v-html="svg" /><p v-else>图表加载中…</p></div></template>
 
