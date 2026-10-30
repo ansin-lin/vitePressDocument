@@ -90,3 +90,14 @@
   .VPSidebar .group { width: 100% !important; }
   .VPSidebar .text { overflow-wrap: anywhere; }
 }
+
+/* SQL 第 9 章：书写顺序与逻辑处理顺序 */
+.sql-order-compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 24px 0; }
+.sql-order-card { min-width: 0; padding: 20px 24px; border: 1px solid var(--vp-c-divider); border-radius: 14px; background: var(--vp-c-bg-soft); }
+.sql-order-card h3 { margin: 0 0 14px; padding: 0; border: 0; font-size: 18px; }
+.sql-order-card ol { margin: 0; padding-left: 28px; }
+.sql-order-card li { padding: 7px 0; line-height: 1.5; }
+.sql-order-card li + li { border-top: 1px solid var(--vp-c-divider); }
+.sql-order-card li strong { display: inline-block; min-width: 108px; color: var(--vp-c-brand-1); }
+.sql-order-card li span { color: var(--vp-c-text-2); }
+@media (max-width: 720px) { .sql-order-compare { grid-template-columns: 1fr; } }

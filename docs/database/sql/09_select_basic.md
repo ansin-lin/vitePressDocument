@@ -17,27 +17,32 @@ ORDER BY 排序列;
 
 SQL 的书写顺序与逻辑处理顺序不同。下面的两列分别从上往下看：
 
-```mermaid
-flowchart LR
-    subgraph W[书写顺序]
-        direction TB
-        W1[SELECT 选择输出列] --> W2[FROM 指定数据来源]
-        W2 --> W3[WHERE 筛选明细行]
-        W3 --> W4[GROUP BY 分组]
-        W4 --> W5[HAVING 筛选分组]
-        W5 --> W6[ORDER BY 排序]
-        W6 --> W7[分页：LIMIT 或 OFFSET FETCH]
-    end
-    subgraph L[逻辑处理顺序]
-        direction TB
-        L1[FROM 取得数据] --> L2[WHERE 筛选明细行]
-        L2 --> L3[GROUP BY 分组]
-        L3 --> L4[HAVING 筛选分组]
-        L4 --> L5[SELECT 生成输出列]
-        L5 --> L6[ORDER BY 排序]
-        L6 --> L7[分页：取指定范围]
-    end
-```
+<div class="sql-order-compare">
+  <section class="sql-order-card" aria-labelledby="sql-writing-title">
+    <h3 id="sql-writing-title">SQL 书写顺序</h3>
+    <ol>
+      <li><strong>SELECT</strong><span>选择输出列</span></li>
+      <li><strong>FROM</strong><span>指定数据来源</span></li>
+      <li><strong>WHERE</strong><span>筛选明细行</span></li>
+      <li><strong>GROUP BY</strong><span>分组</span></li>
+      <li><strong>HAVING</strong><span>筛选分组</span></li>
+      <li><strong>ORDER BY</strong><span>排序</span></li>
+      <li><strong>分页</strong><span>LIMIT 或 OFFSET FETCH</span></li>
+    </ol>
+  </section>
+  <section class="sql-order-card" aria-labelledby="sql-logical-title">
+    <h3 id="sql-logical-title">SQL 逻辑处理顺序</h3>
+    <ol>
+      <li><strong>FROM</strong><span>取得数据</span></li>
+      <li><strong>WHERE</strong><span>筛选明细行</span></li>
+      <li><strong>GROUP BY</strong><span>分组</span></li>
+      <li><strong>HAVING</strong><span>筛选分组</span></li>
+      <li><strong>SELECT</strong><span>生成输出列</span></li>
+      <li><strong>ORDER BY</strong><span>排序</span></li>
+      <li><strong>分页</strong><span>取指定范围</span></li>
+    </ol>
+  </section>
+</div>
 
 没有使用的子句可以跳过。例如本章的基础查询没有 `GROUP BY` 和 `HAVING`；这两项会在[第 11 章分组与聚合函数](11_groupby_aggregate.md)中学习。分页语法依数据库而异，见本章第六节。图表示帮助理解查询结果的逻辑顺序，不代表数据库实际逐步执行的物理计划；复杂查询还可能涉及去重、窗口函数或集合操作。
 
