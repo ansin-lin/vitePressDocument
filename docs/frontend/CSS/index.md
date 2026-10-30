@@ -74,7 +74,8 @@ CSS 用来控制网页的外观和布局。HTML 负责页面中“有什么内�
 9. [响应式布局与媒体查询](09_responsive_media.md)
 10. [变量、命名与样式组织](10_variables_naming_organization.md)
 11. [过渡、动画与可用性](11_transition_animation_accessibility.md)
-12. [CSS 新人综合练习：有給休暇申請システム](../../exercises/frontend/CSS/12_css_project.md)
+12. [CSS 属性速查表](12_css_properties_reference.md)
+13. [CSS 新人综合练习：有給休暇申請システム](../../exercises/frontend/CSS/12_css_project.md)
 
 ## 练习目录
 

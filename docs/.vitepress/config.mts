@@ -34,6 +34,7 @@ export default defineConfig({
           { text: '11. HTML 表单验证属性', link: '/frontend/HTML/11_form_validation' },
           { text: '12. 语义化页面结构', link: '/frontend/HTML/12_semantic_structure' },
           { text: '13. 页面元数据与 HTML 检查', link: '/frontend/HTML/13_metadata_validation' },
+          { text: '14. HTML 标签与属性速查表', link: '/frontend/HTML/14_tags_attributes_reference' },
           { text: '综合练习', link: '/exercises/frontend/HTML/14_html_project' }
         ] }
       ],
@@ -52,6 +53,7 @@ export default defineConfig({
           { text: '11. HTML 表单验证属性', link: '/frontend/HTML/11_form_validation' },
           { text: '12. 语义化页面结构', link: '/frontend/HTML/12_semantic_structure' },
           { text: '13. 页面元数据与 HTML 检查', link: '/frontend/HTML/13_metadata_validation' },
+          { text: '14. HTML 标签与属性速查表', link: '/frontend/HTML/14_tags_attributes_reference' },
           { text: '综合练习', link: '/exercises/frontend/HTML/14_html_project' }
         ] }
       ],
@@ -68,6 +70,7 @@ export default defineConfig({
           { text: '9. 响应式布局与媒体查询', link: '/frontend/CSS/09_responsive_media' },
           { text: '10. CSS 变量、命名与样式组织', link: '/frontend/CSS/10_variables_naming_organization' },
           { text: '11. 过渡、动画与可访问性', link: '/frontend/CSS/11_transition_animation_accessibility' },
+          { text: '12. CSS 属性速查表', link: '/frontend/CSS/12_css_properties_reference' },
           { text: '综合练习', link: '/exercises/frontend/CSS/12_css_project' }
         ] }
       ],
@@ -84,6 +87,7 @@ export default defineConfig({
           { text: '9. 响应式布局与媒体查询', link: '/frontend/CSS/09_responsive_media' },
           { text: '10. CSS 变量、命名与样式组织', link: '/frontend/CSS/10_variables_naming_organization' },
           { text: '11. 过渡、动画与可访问性', link: '/frontend/CSS/11_transition_animation_accessibility' },
+          { text: '12. CSS 属性速查表', link: '/frontend/CSS/12_css_properties_reference' },
           { text: '综合练习', link: '/exercises/frontend/CSS/12_css_project' }
         ] }
       ],

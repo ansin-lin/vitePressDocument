@@ -59,7 +59,8 @@ html-event-site/
 11. [HTML 表单验证属性](11_form_validation.md)
 12. [语义化页面结构](12_semantic_structure.md)
 13. [页面元数据与 HTML 检查](13_metadata_validation.md)
-14. [HTML 新人综合练习](../../exercises/frontend/HTML/14_html_project.md)
+14. [HTML 标签与属性速查表](14_tags_attributes_reference.md)
+15. [HTML 新人综合练习](../../exercises/frontend/HTML/14_html_project.md)
 
 ## 学习范围
 
