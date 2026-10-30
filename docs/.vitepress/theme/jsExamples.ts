@@ -28,10 +28,11 @@ console.log("splice 后", values);` },
 const first = createCounter();
 const second = createCounter();
 console.log(first(), first(), second());` },
-  callbacks: { title: 'filter 与 map 的差别', code: `const days = [1, 3, 5, 8];
-console.log("筛选", days.filter(day => day >= 3));
-console.log("转换", days.map(day => day * 2));
-console.log("原数组", days);` },
+  foreach: { title: 'forEach 逐项调用回调', code: `const scores = [60, 80, 40, 90];
+scores.forEach((score, index) => {
+  console.log("第 " + (index + 1) + " 次：", score);
+});
+console.log("原数组：", scores);` },
   references: { title: '两个变量指向同一对象', code: `const first = { name: "田中" };
 const second = first;
 second.name = "佐藤";
