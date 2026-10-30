@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 export default defineConfig({
-  lang: 'zh-CN', title: '技术研习室', description: 'HTML、CSS、Java 与 SQL 技术课程',
+  lang: 'zh-CN', title: '技术研习室', description: 'HTML、CSS、JavaScript、Java 与 SQL 技术课程',
   base: process.env.BASE_PATH || '/',
   themeConfig: {
     nav: [
@@ -8,6 +8,7 @@ export default defineConfig({
       { text: 'Web 开发基础', activeMatch: '/frontend/|/exercises/frontend/', items: [
         { text: 'HTML 教程', link: '/frontend/HTML/' },
         { text: 'CSS 教程', link: '/frontend/CSS/' },
+        { text: 'JavaScript 教程', link: '/frontend/JavaScript/' },
         { text: '网页编辑室', link: '/frontend/playground' }
       ] },
       { text: '数据库', activeMatch: '/database/', items: [
@@ -19,6 +20,40 @@ export default defineConfig({
       ] }
     ],
     sidebar: {
+      '/frontend/JavaScript/': [
+        { text: 'JavaScript 章节目录', link: '/frontend/JavaScript/', items: [
+          { text: '1. 认识 JavaScript 与运行方式', link: '/frontend/JavaScript/01_js_intro_runtime' },
+          { text: '2. 变量、值与数据类型', link: '/frontend/JavaScript/02_values_variables_types' },
+          { text: '3. 运算符、条件判断与真值', link: '/frontend/JavaScript/03_operators_conditions' },
+          { text: '4. 循环与数组基础', link: '/frontend/JavaScript/04_loops_arrays' },
+          { text: '5. 数组基本方法', link: '/frontend/JavaScript/05_array_methods' },
+          { text: '6. 字符串常用方法', link: '/frontend/JavaScript/06_string_methods' },
+          { text: '7. 函数、作用域与闭包', link: '/frontend/JavaScript/07_functions_scope_callbacks' },
+          { text: '8. 数组回调方法', link: '/frontend/JavaScript/08_array_callback_methods' },
+          { text: '9. 对象基础与业务数据', link: '/frontend/JavaScript/09_objects_basics' },
+          { text: '10. 对象方法、this 与原型', link: '/frontend/JavaScript/10_object_methods_prototype' },
+          { text: '11. ES6+ 常用现代语法', link: '/frontend/JavaScript/11_destructuring_spread_modern_syntax' },
+          { text: '12. DOM 基础与节点操作', link: '/frontend/JavaScript/12_dom_query_content' },
+          { text: '13. 事件传播与表单操作', link: '/frontend/JavaScript/13_events_forms' },
+          { text: '14. 表单校验与错误提示', link: '/frontend/JavaScript/14_form_validation_errors' },
+          { text: '15. 正则表达式与格式校验', link: '/frontend/JavaScript/15_regex_validation' },
+          { text: '16. BOM、跳转与浏览器信息', link: '/frontend/JavaScript/16_bom_navigation_session' },
+          { text: '17. 日期、数字与工具函数', link: '/frontend/JavaScript/17_date_number_utils' },
+          { text: '18. 错误处理与浏览器调试', link: '/frontend/JavaScript/18_error_debugging' },
+          { text: '19. JSON 与浏览器存储', link: '/frontend/JavaScript/19_json_browser_storage' },
+          { text: '20. ES 模块与脚本组织', link: '/frontend/JavaScript/20_modules_script_organization' },
+          { text: '21. Promise 与 async/await', link: '/frontend/JavaScript/21_async_promise_async_await' },
+          { text: '22. HTTP 请求与 fetch', link: '/frontend/JavaScript/22_fetch_http_intro' },
+          { text: '23. Set、Map 与现代对象', link: '/frontend/JavaScript/23_set_map_modern_objects' },
+          { text: '综合练习', link: '/exercises/frontend/JavaScript/24_js_project' }
+        ] }
+      ],
+      '/exercises/frontend/JavaScript/': [
+        { text: 'JavaScript 课程', link: '/frontend/JavaScript/', items: [
+          { text: '返回章节目录', link: '/frontend/JavaScript/' },
+          { text: '综合练习', link: '/exercises/frontend/JavaScript/24_js_project' }
+        ] }
+      ],
       '/frontend/HTML/': [
         { text: 'HTML 章节目录', link: '/frontend/HTML/', items: [
           { text: '1. 认识 HTML 并创建第一个网页', link: '/frontend/HTML/01_html_intro' },

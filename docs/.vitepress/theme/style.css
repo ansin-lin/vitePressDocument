@@ -131,3 +131,19 @@
 .web-preview-pane iframe { flex: 1; width: 100%; min-height: 420px; border: 0; background: white; }
 .web-playground-note { margin: 0; padding: 10px 17px; border-top: 1px solid var(--vp-c-divider); color: var(--vp-c-text-2); font-size: 12px; }
 @media (max-width: 760px) { .web-playground-header { align-items: flex-start; flex-direction: column; padding: 16px; } .web-playground-grid { grid-template-columns: 1fr; } .web-editor-pane { border-right: 0; border-bottom: 1px solid var(--vp-c-divider); } .web-editor-pane textarea { min-height: 270px; } .web-preview-pane iframe { min-height: 280px; } }
+
+/* JavaScript 可编辑运行示例 */
+.js-run-demo { margin: 20px 0; border: 1px solid var(--vp-c-divider); border-radius: 12px; overflow: hidden; background: var(--vp-c-bg); }
+.js-run-demo header { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 17px; background: var(--vp-c-bg-soft); border-bottom: 1px solid var(--vp-c-divider); }
+.js-run-demo header strong { font-size: 15px; }
+.js-run-demo header p { margin: 3px 0 0; color: var(--vp-c-text-2); font-size: 12px; }
+.js-run-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.js-run-actions button { padding: 6px 12px; border: 1px solid var(--vp-c-divider); border-radius: 7px; font-size: 12px; cursor: pointer; }
+.js-run-actions button:first-child { color: white; background: var(--vp-c-brand-1); border-color: var(--vp-c-brand-1); }
+.js-run-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.js-run-grid label { display: flex; flex-direction: column; min-width: 0; padding: 10px; border-right: 1px solid var(--vp-c-divider); color: var(--vp-c-text-2); font-size: 12px; }
+.js-run-grid textarea { width: 100%; min-height: 185px; margin-top: 7px; padding: 10px; resize: vertical; border: 1px solid var(--vp-c-divider); border-radius: 6px; background: var(--vp-c-bg); color: var(--vp-c-text-1); font: 12px/1.55 var(--vp-font-family-mono); }
+.js-run-output { min-width: 0; padding: 10px; color: var(--vp-c-text-2); font-size: 12px; }
+.js-run-output pre { min-height: 185px; margin: 7px 0 0; padding: 10px; white-space: pre-wrap; overflow-wrap: anywhere; border-radius: 6px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); font: 12px/1.55 var(--vp-font-family-mono); }
+.js-run-note { margin: 0; padding: 8px 13px; border-top: 1px solid var(--vp-c-divider); color: var(--vp-c-text-3); font-size: 11px; }
+@media (max-width: 720px) { .js-run-demo header { align-items: flex-start; flex-direction: column; } .js-run-grid { grid-template-columns: 1fr; } .js-run-grid label { border-right: 0; border-bottom: 1px solid var(--vp-c-divider); } }

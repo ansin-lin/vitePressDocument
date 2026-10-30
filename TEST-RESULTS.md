@@ -26,6 +26,14 @@ GitHub Pages 部署结果见 GitHub Actions。教材为从参考文档复制的�
 - VitePress 子路径构建通过。
 - Chromium 预览：HTML/CSS 独立左侧导航、课程首页、CSS 综合练习链接通过；390px 宽度无横向溢出，无页面脚本错误。
 
+## JavaScript 课程接入（2026-10-30）
+
+- 从参考目录复制 23 章 JavaScript 知识文件、课程首页和第 24 章综合练习；第 22 章引用的 HTTP 基础页一并复制。参考目录未修改。
+- 逐章内容、运行环境和图解判断见 `JS-REVIEW.md`。全部 24 个课程 Markdown 代码围栏成对，站内相对 Markdown 链接检查无缺失。
+- 在 12 个章节加入可编辑 JavaScript 运行示例，使用 Web Worker 真实执行；另新增 7 幅 Mermaid 图解。DOM、模块、存储和网络请求章节标明独立环境要求。
+- Vue/TypeScript 类型检查、GitHub Pages 子路径生产构建通过。
+- Chromium 验证：代码运行、编辑、重置、语法错误提示、异步输出顺序、7 幅新增图表渲染、静态站点 API 提示与 390px 宽度均通过。
+
 ## HTML / CSS 可视化示例（2026-10-30）
 
 - HTML 第 1、8 章及 CSS 第 1、7 章加入默认收起的效果预览，原代码块保留。
