@@ -1,5 +1,10 @@
 export const jsExamples = {
-  types: { title: '变量与类型转换', code: `const raw = "12";
+  variables: { title: '变量保存并复用数据', code: `const employeeName = "山田 太郎";
+let remainingDays = 12;
+console.log(employeeName + "还有 " + remainingDays + " 天假期");
+remainingDays = remainingDays - 2;
+console.log(employeeName + "还有 " + remainingDays + " 天假期");` },
+  types: { title: '字符串与数字类型转换', code: `const raw = "12";
 console.log(typeof raw, raw + 2);
 const days = Number(raw);
 console.log(typeof days, days + 2);` },
