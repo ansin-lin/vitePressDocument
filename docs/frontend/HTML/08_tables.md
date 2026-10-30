@@ -38,6 +38,8 @@
 </table>
 ```
 
+<WebPreview example="html-table" />
+
 - `table`：整个表格
 - `tr`：一行
 - `th`：表头单元格

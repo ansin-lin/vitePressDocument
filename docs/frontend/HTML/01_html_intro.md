@@ -55,6 +55,8 @@ html-event-site/
 </html>
 ```
 
+<WebPreview example="html-intro" />
+
 现在不需要记住所有标签。下一章会逐一解释文档结构。
 
 ## 4. 用浏览器查看

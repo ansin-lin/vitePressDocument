@@ -68,6 +68,8 @@ Flex 的作用是让父元素直接管理子元素的排列。
 }
 ```
 
+<WebPreview example="css-flex" />
+
 观察结果：
 
 - 三个子盒子不再上下排列。

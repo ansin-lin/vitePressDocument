@@ -19,4 +19,6 @@ HTML、CSS 页面位于 `docs/frontend/`；SQL 页面位于 `docs/database/sql/`
 
 推送到 `main` 后，GitHub Actions 自动检查类型、构建并部署。仓库站点自动设置 `/vitePressDocument/` 基础路径。站点地址：https://ansin-lin.github.io/vitePressDocument/
 
-当前展示为阅读型教材，已移除早期交互示例。Mermaid 图表仍可在教材中显示。
+HTML 和 CSS 的部分章节提供可展开的效果预览，导航中的「网页编辑室」可以同时编辑 HTML、CSS 并实时查看效果。预览在隔离的浏览器框中渲染，不执行 JavaScript；编辑内容不会保存。原有 Markdown 代码块保留，Mermaid 图表仍可在教材中显示。
+
+如需恢复此次改动前的版本，可使用提交 `3ec4938`。参考教材目录未修改。

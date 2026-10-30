@@ -7,7 +7,8 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: 'Web 开发基础', activeMatch: '/frontend/|/exercises/frontend/', items: [
         { text: 'HTML 教程', link: '/frontend/HTML/' },
-        { text: 'CSS 教程', link: '/frontend/CSS/' }
+        { text: 'CSS 教程', link: '/frontend/CSS/' },
+        { text: '网页编辑室', link: '/frontend/playground' }
       ] },
       { text: '数据库', activeMatch: '/database/', items: [
         { text: 'SQL 课程', link: '/database/sql/' }

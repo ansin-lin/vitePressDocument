@@ -22,6 +22,8 @@ h1 {
 }
 ```
 
+<WebPreview example="css-intro" />
+
 这段代码做了两件事：
 
 - 找到所有 `h1` 标签
