@@ -1,5 +1,11 @@
 # 课程目录
 
+## Web 开发基础
+
+[HTML 基础教程](../frontend/HTML/index.md)从网页结构与常用元素开始。
+
+[CSS 基础教程](../frontend/CSS/index.md)学习样式、布局与响应式页面。
+
 ## Java
 
 [Java 基础教程](../backend/java/index.md)从第 1 章入门，依次覆盖语法、面向对象、集合、文件、Maven、JDBC 和 JUnit。进入课程后可用左侧目录切换章节。

@@ -1,10 +1,14 @@
 import { defineConfig } from 'vitepress'
 export default defineConfig({
-  lang: 'zh-CN', title: '技术研习室', description: 'Java 与 SQL 技术课程',
+  lang: 'zh-CN', title: '技术研习室', description: 'HTML、CSS、Java 与 SQL 技术课程',
   base: process.env.BASE_PATH || '/',
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
+      { text: 'Web 开发基础', activeMatch: '/frontend/|/exercises/frontend/', items: [
+        { text: 'HTML 教程', link: '/frontend/HTML/' },
+        { text: 'CSS 教程', link: '/frontend/CSS/' }
+      ] },
       { text: '数据库', activeMatch: '/database/', items: [
         { text: 'SQL 课程', link: '/database/sql/' }
       ] },
@@ -14,6 +18,74 @@ export default defineConfig({
       ] }
     ],
     sidebar: {
+      '/frontend/HTML/': [
+        { text: 'HTML 章节目录', link: '/frontend/HTML/', items: [
+          { text: '1. 认识 HTML 并创建第一个网页', link: '/frontend/HTML/01_html_intro' },
+          { text: '2. HTML 文档结构', link: '/frontend/HTML/02_document_structure' },
+          { text: '3. 元素、属性与嵌套', link: '/frontend/HTML/03_elements_attributes' },
+          { text: '4. 文本内容标签', link: '/frontend/HTML/04_text_content' },
+          { text: '5. 链接与文件路径', link: '/frontend/HTML/05_links_paths' },
+          { text: '6. 图片标签', link: '/frontend/HTML/06_images' },
+          { text: '7. 列表标签', link: '/frontend/HTML/07_lists' },
+          { text: '8. 表格标签', link: '/frontend/HTML/08_tables' },
+          { text: '9. 表单基础', link: '/frontend/HTML/09_form_basics' },
+          { text: '10. 常用表单控件', link: '/frontend/HTML/10_form_controls' },
+          { text: '11. HTML 表单验证属性', link: '/frontend/HTML/11_form_validation' },
+          { text: '12. 语义化页面结构', link: '/frontend/HTML/12_semantic_structure' },
+          { text: '13. 页面元数据与 HTML 检查', link: '/frontend/HTML/13_metadata_validation' },
+          { text: '综合练习', link: '/exercises/frontend/HTML/14_html_project' }
+        ] }
+      ],
+      '/exercises/frontend/HTML/': [
+        { text: 'HTML 章节目录', link: '/frontend/HTML/', items: [
+          { text: '1. 认识 HTML 并创建第一个网页', link: '/frontend/HTML/01_html_intro' },
+          { text: '2. HTML 文档结构', link: '/frontend/HTML/02_document_structure' },
+          { text: '3. 元素、属性与嵌套', link: '/frontend/HTML/03_elements_attributes' },
+          { text: '4. 文本内容标签', link: '/frontend/HTML/04_text_content' },
+          { text: '5. 链接与文件路径', link: '/frontend/HTML/05_links_paths' },
+          { text: '6. 图片标签', link: '/frontend/HTML/06_images' },
+          { text: '7. 列表标签', link: '/frontend/HTML/07_lists' },
+          { text: '8. 表格标签', link: '/frontend/HTML/08_tables' },
+          { text: '9. 表单基础', link: '/frontend/HTML/09_form_basics' },
+          { text: '10. 常用表单控件', link: '/frontend/HTML/10_form_controls' },
+          { text: '11. HTML 表单验证属性', link: '/frontend/HTML/11_form_validation' },
+          { text: '12. 语义化页面结构', link: '/frontend/HTML/12_semantic_structure' },
+          { text: '13. 页面元数据与 HTML 检查', link: '/frontend/HTML/13_metadata_validation' },
+          { text: '综合练习', link: '/exercises/frontend/HTML/14_html_project' }
+        ] }
+      ],
+      '/frontend/CSS/': [
+        { text: 'CSS 章节目录', link: '/frontend/CSS/', items: [
+          { text: '1. 认识 CSS 与引入样式', link: '/frontend/CSS/01_css_intro' },
+          { text: '2. 选择器与 CSS 的三大特性', link: '/frontend/CSS/02_selectors_cascade' },
+          { text: '3. 文字、颜色与背景', link: '/frontend/CSS/03_text_color_background' },
+          { text: '4. 盒子模型、边框与间距', link: '/frontend/CSS/04_box_model_spacing' },
+          { text: '5. 元素显示模式、普通流与溢出', link: '/frontend/CSS/05_display_flow_overflow' },
+          { text: '6. 定位、层级与显示隐藏', link: '/frontend/CSS/06_position_zindex_visibility' },
+          { text: '7. Flex 弹性布局', link: '/frontend/CSS/07_flexbox_layout' },
+          { text: '8. Grid 网格布局', link: '/frontend/CSS/08_grid_layout' },
+          { text: '9. 响应式布局与媒体查询', link: '/frontend/CSS/09_responsive_media' },
+          { text: '10. CSS 变量、命名与样式组织', link: '/frontend/CSS/10_variables_naming_organization' },
+          { text: '11. 过渡、动画与可访问性', link: '/frontend/CSS/11_transition_animation_accessibility' },
+          { text: '综合练习', link: '/exercises/frontend/CSS/12_css_project' }
+        ] }
+      ],
+      '/exercises/frontend/CSS/': [
+        { text: 'CSS 章节目录', link: '/frontend/CSS/', items: [
+          { text: '1. 认识 CSS 与引入样式', link: '/frontend/CSS/01_css_intro' },
+          { text: '2. 选择器与 CSS 的三大特性', link: '/frontend/CSS/02_selectors_cascade' },
+          { text: '3. 文字、颜色与背景', link: '/frontend/CSS/03_text_color_background' },
+          { text: '4. 盒子模型、边框与间距', link: '/frontend/CSS/04_box_model_spacing' },
+          { text: '5. 元素显示模式、普通流与溢出', link: '/frontend/CSS/05_display_flow_overflow' },
+          { text: '6. 定位、层级与显示隐藏', link: '/frontend/CSS/06_position_zindex_visibility' },
+          { text: '7. Flex 弹性布局', link: '/frontend/CSS/07_flexbox_layout' },
+          { text: '8. Grid 网格布局', link: '/frontend/CSS/08_grid_layout' },
+          { text: '9. 响应式布局与媒体查询', link: '/frontend/CSS/09_responsive_media' },
+          { text: '10. CSS 变量、命名与样式组织', link: '/frontend/CSS/10_variables_naming_organization' },
+          { text: '11. 过渡、动画与可访问性', link: '/frontend/CSS/11_transition_animation_accessibility' },
+          { text: '综合练习', link: '/exercises/frontend/CSS/12_css_project' }
+        ] }
+      ],
       '/backend/java/': [
         { text: 'Java 基础教程', link: '/backend/java/', items: [
           { text: '第1章 Java 入门简介', link: '/backend/java/01_intro' },
