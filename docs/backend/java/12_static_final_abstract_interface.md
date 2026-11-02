@@ -196,7 +196,85 @@ public class FullTimeEmployee extends Employee {
 
 ## 九、接口
 
-接口用于定义一组能力或规范。
+接口用于定义一组能力或规范。例如，仓储接口规定“能按编号查询、能保存员工”，具体如何存储由实现类决定。
+
+### 9.1 完整的接口声明
+
+```java
+[访问修饰符] interface 接口名 [extends 父接口1, 父接口2, ...] {
+    // 常量和方法声明
+}
+```
+
+- 顶层接口可以写 `public`，也可以不写访问修饰符（仅同一个包可见）；顶层接口不能写 `private` 或 `protected`。`public` 接口通常单独放在与接口同名的 `.java` 文件中。
+- `interface` 是声明接口的关键字；接口名通常采用大驼峰命名，例如 `EmployeeRepository`。
+- `extends` 用于继承其他接口，可以同时继承多个；不需要继承时省略。它与类使用 `implements` 实现接口不同。
+- 接口没有构造方法，不能直接用 `new EmployeeRepository()` 创建对象。
+
+```java
+public interface Identifiable {
+    Long getId();
+}
+
+public interface Named {
+    String getName();
+}
+
+public interface EmployeeInfo extends Identifiable, Named {
+    // 同时继承两个接口的抽象方法
+}
+```
+
+### 9.2 接口内部能写什么
+
+| 成员 | 写法 | 是否有方法体 | 如何使用 |
+| --- | --- | --- | --- |
+| 常量 | `int MAX_RETRIES = 3;` | 不适用 | `接口名.MAX_RETRIES` |
+| 抽象方法 | `void save(Employee employee);` | 没有 | 实现类负责实现 |
+| 默认方法（Java 8 起） | `default boolean exists(...) { ... }` | 有 | 实现类对象调用，可重写 |
+| 静态方法（Java 8 起） | `static boolean valid(...) { ... }` | 有 | `接口名.valid(...)` |
+| 私有方法（Java 9 起） | `private void log() { ... }` | 有 | 只能在接口内部复用代码 |
+| 私有静态方法（Java 9 起） | `private static void check() { ... }` | 有 | 只能在接口内部的静态上下文等处调用 |
+
+接口可以声明嵌套类型，例如内部接口、类、枚举；入门阶段先掌握上表中的常量和方法。接口不能声明普通实例字段、构造方法、静态初始化块，也不能用实例方法保存每个对象各自的状态。
+
+**常量：**接口中的字段隐含 `public static final`，声明时必须赋值，之后不能修改。因此 `int MAX_RETRIES = 3;` 等同于 `public static final int MAX_RETRIES = 3;`。接口不适合充当无关常量的集合。
+
+**抽象方法：**没有方法体，以分号结束。普通方法声明隐含 `public abstract`，例如 `void save(Employee employee);`。实现类实现该方法时必须使用 `public`，不能缩小可见范围。接口里的方法不能声明为 `protected`。
+
+**带方法体的方法：**必须明确写 `default`、`static` 或 `private` 等合适的修饰符；不能直接把类中的普通实例方法原样放进接口。`default` 方法给实现类提供可继承的行为，`static` 方法属于接口本身，`private` 方法只用于接口内部复用。接口没有实例字段，所以默认方法不能读写接口自身的“对象状态”。
+
+下面把这几类成员放在同一个接口里观察：
+
+```java
+public interface EmployeeRepository {
+    int MAX_RETRIES = 3; // 等同于 public static final int MAX_RETRIES = 3;
+
+    Employee findById(Long id); // 等同于 public abstract Employee findById(Long id);
+
+    default boolean existsById(Long id) {
+        return findById(id) != null; // 调用本接口的抽象方法
+    }
+
+    static boolean isValidId(Long id) {
+        return id != null && id > 0;
+    }
+
+    private String formatId(Long id) { // Java 9 起
+        return "员工编号：" + id;
+    }
+
+    default void printId(Long id) {
+        System.out.println(formatId(id)); // 私有方法仅供接口内部调用
+    }
+}
+```
+
+`MAX_RETRIES` 通过 `EmployeeRepository.MAX_RETRIES` 读取，`isValidId` 通过 `EmployeeRepository.isValidId(1001L)` 调用；`existsById` 和 `printId` 则由实现类对象调用。`formatId` 不能从接口外部或实现类中直接调用。
+
+### 9.3 实现接口并使用
+
+下面是只声明业务方法的精简版本；上面的完整示例用于辨认各类成员。
 
 ```java
 public interface EmployeeRepository {
@@ -238,6 +316,8 @@ System.out.println(employee.getName()); // 输出：Tanaka
 - 接口中的字段默认是 `public static final`。
 - 接口中的抽象方法默认是 `public abstract`。
 - Java 8 以后接口可以有 `default` 方法和 `static` 方法。
+- Java 9 以后接口可以有带方法体的私有方法，供接口内部复用。
+- 类可以 `implements A, B` 实现多个接口；接口可以 `extends A, B` 继承多个接口。
 
 ## 十、接口默认方法和静态方法
 
