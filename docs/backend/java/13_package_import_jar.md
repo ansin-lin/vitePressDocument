@@ -1,112 +1,185 @@
-# 第13章 Java 包、import 与 JAR 文件
+# 第13章 Java 程序运行原理、包与打包
 
-## 前言
+> 本章目标：看懂 Java 源码从编译到运行的过程，理解程序入口和常见执行顺序，能使用 `package` 与 `import` 组织类，并区分 JAR 和 WAR。
 
-前面的章节已经介绍了类与对象、封装、继承、多态、抽象类和接口。接下来学习如何用包组织 Java 类，以及如何把编译后的文件打成 JAR。
+第 2 章已经运行过最小 Java 程序。本章把当时的“运行”展开，说明 Java 程序如何找到类、从哪里开始执行，以及编译后的文件如何打包。
 
-有了上面的基础之后，今天我们来继续学习面向对象的相关知识，主要内容如下：
+## 一、从源码到运行
 
-- 包
-- jar 文件的创建
+```mermaid
+flowchart LR
+    A[编写 Main.java<br/>源代码] --> B[javac 编译]
+    B --> C[生成 Main.class<br/>字节码]
+    C --> D[java 启动 JVM]
+    D --> E[加载需要的类]
+    E --> F[执行 main 方法]
+    F --> G[按调用关系执行其他方法]
+```
 
----
+- `.java` 是开发者编写的源文件；`javac` 检查语法并编译成 `.class` 字节码。**编译成功不代表程序已经执行。**
+- `java` 命令启动 JVM。JVM 按需加载类、执行字节码；运行期间还会管理内存等资源。这里的流程图是便于理解的概览，不表示 JVM 内部只有这些步骤。
+- `main` 是普通 Java 应用常见的入口方法。运行时先进入 `main`，然后按代码中的方法调用继续执行；运行到 `main` 末尾不一定立刻结束，其他仍在运行的线程也会影响进程退出。
 
-## 包（Package）
-
-假设现在有这么一种情况，诸葛亮、周瑜、曹操共同开发一款程序。其中，周瑜和曹操均在自己代码模块中写了一个 `PublicUtil` 类，现在诸葛亮要调用他们的模块代码，需要同时用到 `PublicUtil` 类，这时候就会产生冲突。
-
-为了解决这个问题，Java 引入了 **包机制（package）**，它提供了命名空间，可以避免类名冲突。
-
-### 包名规则
-
-- 一般规则：公司域名反写 + 包的作用。
-- 包名全部使用小写字母。
-
-示例：
+下面是一个可以直接编译和运行的最小例子。文件名为 `Main.java`：
 
 ```java
-// 曹操的 PublicUtil 类
-package caocao;
-public class PublicUtil {
-    ...
-}
-
-// 周瑜的 PublicUtil 类
-package zhouyu;
-public class PublicUtil {
-    ...
-}
-
-// 诸葛亮使用两者的类
-package zhugeliang;
-import caocao.*;
-import zhouyu.*;
-
-public class Util {
+public class Main {
     public static void main(String[] args) {
-        // 使用周瑜的工具类
-        zhouyu.PublicUtil.xxx();
-        // 使用曹操的工具类
-        caocao.PublicUtil.xxx();
+        System.out.println("Hello, Java!");
     }
 }
 ```
 
-### 包的作用
-
-1. 将功能类似的类和接口组织在一起，方便查找和使用。
-2. 避免命名冲突，不同包中可以有同名的类。
-3. 提供访问权限控制。
-
----
-
-## JAR 文件的创建
-
-JAR（Java ARchive）文件是一种压缩包格式，用于将多个 `.class` 文件、资源文件等打包在一起，方便分发和使用。
-
-### 创建 JAR 文件
-
-1. 编译 Java 文件：
-
-   ```bash
-   javac HelloWorld.java
-   ```
-
-2. 使用 `jar` 工具打包：
-
-   ```bash
-   jar cvf HelloWorld.jar HelloWorld.class
-   ```
-
-   - `c` 创建 jar 文件
-   - `v` 显示打包过程
-   - `f` 指定输出文件名
-
-3. 运行 jar 文件（如果包含 `Main-Class`）：
-
-   ```bash
-   java -jar HelloWorld.jar
-   ```
-
-### 在 Manifest 文件中指定主类
-
-创建 `manifest.txt` 文件：
+在文件所在目录执行：
 
 ```bash
-Main-Class: HelloWorld
+javac Main.java
+java Main
 ```
 
-再执行：
+第一条命令生成 `Main.class`，第二条命令运行类 `Main`。这里写类名，不写 `Main.class`。控制台输出 `Hello, Java!`。
+
+## 二、程序中的执行顺序
+
+先看一段代码，预测输出顺序，再对照结果：
+
+```java
+public class OrderDemo {
+    static {
+        System.out.println("1. 静态代码块");
+    }
+
+    {
+        System.out.println("3. 实例代码块");
+    }
+
+    public OrderDemo() {
+        System.out.println("4. 构造方法");
+    }
+
+    public void work() {
+        System.out.println("5. 普通方法");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("2. main 开始");
+        OrderDemo demo = new OrderDemo();
+        demo.work();
+        System.out.println("6. main 结束");
+    }
+}
+```
+
+运行 `javac OrderDemo.java`、`java OrderDemo`，会按标号 1～6 输出。这里的先后关系是：
+
+1. JVM 初始化 `OrderDemo` 类时，先执行静态初始化（静态字段初始化和静态代码块按源码顺序执行）。这个例子中，它先于 `main`。
+2. 进入 `main`，从上到下执行语句。
+3. 遇到 `new OrderDemo()` 时，初始化新对象：先执行实例字段初始化和实例代码块，再执行构造方法；同一类中的这些初始化动作也按源码顺序进行。
+4. `demo.work()` 调用普通方法，方法执行完返回调用处，随后继续执行 `main` 中剩余的语句。
+
+```mermaid
+flowchart TD
+    A[初始化 OrderDemo 类] --> B[静态代码块]
+    B --> C[进入 main]
+    C --> D[new OrderDemo]
+    D --> E[实例初始化]
+    E --> F[构造方法]
+    F --> G[调用 work]
+    G --> H[返回 main 并继续执行]
+```
+
+这个顺序以**本例没有继承、只创建一次对象、没有额外线程**为前提。创建第二个 `OrderDemo` 时，静态代码块不会再执行，但新对象的实例初始化和构造方法会再执行一次。涉及继承时，父类的相关初始化还会先于子类。
+
+## 三、包与 import
+
+`package` 给类指定命名空间。不同包可以存在同名类，例如 `sales.Employee` 和 `hr.Employee`。`import` 让代码可以使用其他包中的类的短名称；它不会复制类，也不会改变程序的执行顺序。
+
+包名通常使用小写字母，并采用域名反写加功能名称的形式，例如 `com.example.sales`。源文件应放在与包名对应的目录中，编译输出也会形成相应目录。
+
+假设项目有以下文件：
+
+```text
+src/
+└── com/example/
+    ├── sales/Employee.java
+    └── app/Main.java
+```
+
+`src/com/example/sales/Employee.java`：
+
+```java
+package com.example.sales;
+
+public class Employee {
+    public String getName() {
+        return "Tanaka";
+    }
+}
+```
+
+`src/com/example/app/Main.java`：
+
+```java
+package com.example.app;
+
+import com.example.sales.Employee;
+
+public class Main {
+    public static void main(String[] args) {
+        Employee employee = new Employee();
+        System.out.println(employee.getName()); // 输出：Tanaka
+    }
+}
+```
+
+在包含 `src` 的目录中编译并运行：
 
 ```bash
-jar cvfm HelloWorld.jar manifest.txt HelloWorld.class
+javac -d out src/com/example/sales/Employee.java src/com/example/app/Main.java
+java -cp out com.example.app.Main
 ```
 
-这样就可以直接用 `java -jar HelloWorld.jar` 运行程序。
+`-d out` 指定 `.class` 文件的输出目录；`-cp out` 告诉 JVM 去哪里找类。运行时使用**完整类名** `com.example.app.Main`。如果两个包里都有 `Employee`，可以在代码中用完整类名明确指定，例如 `com.example.sales.Employee`，避免短名称冲突。
 
----
+包还能配合 `public`、默认访问权限等限制类和成员的可见范围。访问限定符的详细用法见第 8～12 章。
 
-## 小结
+## 四、JAR 文件
 
-- 包（package）用于管理命名空间和访问权限。
-- JAR 文件用于打包和分发 Java 应用程序。
+JAR（Java Archive）用于把编译后的 `.class` 文件和资源文件合在一个压缩包中，便于分发。**JAR 是文件格式；只有包含合适入口和运行所需依赖时，才能直接用 `java -jar` 启动。**
+
+沿用上一节已经生成的 `out` 目录，在项目根目录创建 `manifest.txt`：
+
+```text
+Main-Class: com.example.app.Main
+```
+
+清单文件这一行末尾需要换行。接着执行：
+
+```bash
+jar cfm learning-demo.jar manifest.txt -C out .
+java -jar learning-demo.jar
+```
+
+- `c` 创建归档，`f` 指定 JAR 文件名，`m` 读取自定义清单；`-C out .` 把 `out` 中的内容按原有包目录放进 JAR。
+- `Main-Class` 指定入口类的完整类名，不能写 `.java` 或 `.class` 后缀。
+- 运行本例会输出 `Tanaka`。本例只使用 JDK 自带类；如果项目还依赖外部库，打包和运行时还需处理这些依赖。第 20 章将介绍 Maven 构建工具。
+
+如果只是把类和资源归档为供其他程序使用的库，可以创建没有 `Main-Class` 的 JAR；这种 JAR 不能直接用 `java -jar` 作为应用启动。
+
+## 五、JAR 和 WAR 的区别
+
+| 对比 | JAR | WAR |
+| --- | --- | --- |
+| 全称 | Java Archive | Web Application Archive |
+| 常见用途 | Java 类库、命令行程序、可执行应用 | 传统 Java Web 应用部署包 |
+| 典型内容 | 类文件、资源文件、清单等 | Web 应用文件及 `WEB-INF` 下的类与依赖等 |
+| 常见运行方式 | 有入口的应用可用 `java -jar` 启动 | 通常部署到 Tomcat 等 Servlet 容器 |
+
+两者都属于归档文件，但用途和组织方式不同。学习普通 Java 程序时，先掌握 JAR 即可。后续接触 Java Web 或 Spring Boot 项目时，再根据项目的部署方式决定打成 JAR 还是 WAR。Spring Boot 也可以使用可执行 WAR，因此“WAR 一定不能直接运行”并不准确。
+
+## 本章总结
+
+- Java 源码先编译成字节码，再由 JVM 加载并执行；普通应用通常从 `main` 方法开始。
+- 本章示例的顺序是类初始化、进入 `main`、创建对象、执行实例初始化与构造方法、调用普通方法。
+- `package` 用于组织类和避免名称冲突，`import` 方便使用其他包中的类。
+- JAR 适合类库和 Java 应用；WAR 常用于部署 Java Web 应用。
