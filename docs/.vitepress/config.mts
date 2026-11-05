@@ -37,14 +37,16 @@ export default defineConfig({
           { text: '12. 模块与项目配置', link: '/frontend/TypeScript/12_modules_config_declarations' },
           { text: '13. 组件数据与界面状态', link: '/frontend/TypeScript/13_business_state_modeling' },
           { text: '14. 异步结果与外部数据', link: '/frontend/TypeScript/14_async_external_data' },
+          { text: '15. TypeScript 基础速查表', link: '/frontend/TypeScript/15_quick_reference' },
+          { text: '16. 综合练习', link: '/exercises/frontend/TypeScript/15_paid_leave_practice' },
           { text: '附录：高级类型', link: '/frontend/TypeScript/appendix_advanced_types' },
-          { text: '综合练习', link: '/exercises/frontend/TypeScript/15_paid_leave_practice' }
         ] }
       ],
       '/exercises/frontend/TypeScript/': [
         { text: 'TypeScript 课程', link: '/frontend/TypeScript/', items: [
           { text: '返回章节目录', link: '/frontend/TypeScript/' },
-          { text: '综合练习', link: '/exercises/frontend/TypeScript/15_paid_leave_practice' }
+          { text: '15. TypeScript 基础速查表', link: '/frontend/TypeScript/15_quick_reference' },
+          { text: '16. 综合练习', link: '/exercises/frontend/TypeScript/15_paid_leave_practice' }
         ] }
       ],
       '/frontend/JavaScript/': [

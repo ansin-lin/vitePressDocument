@@ -49,7 +49,8 @@ TypeScript 不是另一套浏览器运行语言：开发时检查类型，编译
 12. [模块与项目配置](12_modules_config_declarations.md)
 13. [组件数据与界面状态建模](13_business_state_modeling.md)
 14. [异步结果与外部数据](14_async_external_data.md)
-15. [有給休暇申请数据 TypeScript 结课练习](../../exercises/frontend/TypeScript/15_paid_leave_practice.md)
+15. [TypeScript 基础速查表](15_quick_reference.md)
+16. [有給休暇申请数据 TypeScript 结课练习](../../exercises/frontend/TypeScript/15_paid_leave_practice.md)
 
 阶段结果：能看懂框架项目的模块与 TypeScript 配置，能为已有业务数据、界面状态和异步结果设计类型，并在运行前后分别检查类型错误和外部数据错误。
 
@@ -59,7 +60,7 @@ TypeScript 不是另一套浏览器运行语言：开发时检查类型，编译
 
 第 1～11 章的普通 TypeScript 代码块是独立实验，使用第 1 章的方法逐个替换 example.ts 后编译运行，不要把同名声明全部拼在一起。注释中的错误写法用于对比，需要观察报错时再单独取消注释。
 
-第 12 章的多文件代码按标注分别保存；第 13～14 章仍是独立实验。第 15 章在 JavaScript 有給休暇练习的副本中新增 TypeScript 数据处理目录，不需要把前面示例拼成原生 DOM 页面。
+第 12 章的多文件代码按标注分别保存；第 13～14 章仍是独立实验。第 15 章用于速查，第 16 章在 JavaScript 有給休暇练习的副本中新增 TypeScript 数据处理目录，不需要把前面示例拼成原生 DOM 页面。
 
 ## 5. 掌握要求
 
