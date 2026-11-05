@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 export default defineConfig({
-  lang: 'zh-CN', title: '技术研习室', description: 'HTML、CSS、JavaScript、Java 与 SQL 技术课程',
+  lang: 'zh-CN', title: '技术研习室', description: 'HTML、CSS、JavaScript、TypeScript、Java 与 SQL 技术课程',
   base: process.env.BASE_PATH || '/',
   themeConfig: {
     nav: [
@@ -9,6 +9,7 @@ export default defineConfig({
         { text: 'HTML 教程', link: '/frontend/HTML/' },
         { text: 'CSS 教程', link: '/frontend/CSS/' },
         { text: 'JavaScript 教程', link: '/frontend/JavaScript/' },
+        { text: 'TypeScript 教程', link: '/frontend/TypeScript/' },
         { text: '网页编辑室', link: '/frontend/playground' }
       ] },
       { text: '数据库', activeMatch: '/database/', items: [
@@ -20,6 +21,32 @@ export default defineConfig({
       ] }
     ],
     sidebar: {
+      '/frontend/TypeScript/': [
+        { text: 'TypeScript 章节目录', link: '/frontend/TypeScript/', items: [
+          { text: '1. 认识 TypeScript 与运行代码', link: '/frontend/TypeScript/01_intro_setup_compile' },
+          { text: '2. 类型标注与基本类型', link: '/frontend/TypeScript/02_annotations_basic_types' },
+          { text: '3. 数组与元组', link: '/frontend/TypeScript/03_arrays_tuples' },
+          { text: '4. 对象类型与类型别名', link: '/frontend/TypeScript/04_object_types_aliases' },
+          { text: '5. 联合类型与字面量类型', link: '/frontend/TypeScript/05_unions_literals' },
+          { text: '6. 函数类型', link: '/frontend/TypeScript/06_function_types' },
+          { text: '7. 类型收窄与类型断言', link: '/frontend/TypeScript/07_narrowing_assertions' },
+          { text: '8. 接口与类型组合', link: '/frontend/TypeScript/08_interfaces_composition' },
+          { text: '9. 类的类型语法', link: '/frontend/TypeScript/09_classes' },
+          { text: '10. 泛型', link: '/frontend/TypeScript/10_generics' },
+          { text: '11. 常量与固定值', link: '/frontend/TypeScript/11_constants_enum' },
+          { text: '12. 模块与项目配置', link: '/frontend/TypeScript/12_modules_config_declarations' },
+          { text: '13. 组件数据与界面状态', link: '/frontend/TypeScript/13_business_state_modeling' },
+          { text: '14. 异步结果与外部数据', link: '/frontend/TypeScript/14_async_external_data' },
+          { text: '附录：高级类型', link: '/frontend/TypeScript/appendix_advanced_types' },
+          { text: '综合练习', link: '/exercises/frontend/TypeScript/15_paid_leave_practice' }
+        ] }
+      ],
+      '/exercises/frontend/TypeScript/': [
+        { text: 'TypeScript 课程', link: '/frontend/TypeScript/', items: [
+          { text: '返回章节目录', link: '/frontend/TypeScript/' },
+          { text: '综合练习', link: '/exercises/frontend/TypeScript/15_paid_leave_practice' }
+        ] }
+      ],
       '/frontend/JavaScript/': [
         { text: 'JavaScript 章节目录', link: '/frontend/JavaScript/', items: [
           { text: '1. 认识 JavaScript 与运行方式', link: '/frontend/JavaScript/01_js_intro_runtime' },

@@ -8,6 +8,8 @@
 
 [JavaScript 基础教程](../frontend/JavaScript/index.md)学习程序逻辑、DOM 交互、浏览器存储和异步请求。部分章节可以在线修改并运行代码。
 
+[TypeScript 基础教程](../frontend/TypeScript/index.md)从类型标注学到泛型、模块和业务数据建模，并通过结课练习检查外部数据。
+
 ## Java
 
 [Java 基础教程](../backend/java/index.md)从第 1 章入门，依次覆盖语法、面向对象、集合、文件、Maven、JDBC 和 JUnit。进入课程后可用左侧目录切换章节。
