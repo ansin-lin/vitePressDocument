@@ -30,28 +30,25 @@ public class StringDemo {
 }
 ```
 
-常用方法：
+常用方法（未标参数的方法都不需要传参）：
 
-```java
-public int length()
-public boolean isEmpty()
-public boolean isBlank()
-public char charAt(int index)
-public boolean equals(Object anObject)
-public boolean equalsIgnoreCase(String anotherString)
-public boolean contains(CharSequence s)
-public boolean startsWith(String prefix)
-public boolean endsWith(String suffix)
-public int indexOf(String str)
-public String substring(int beginIndex, int endIndex)
-public String replace(CharSequence target, CharSequence replacement)
-public String[] split(String regex)
-public String trim()
-public String strip()
-public String toUpperCase()
-public String toLowerCase()
-public static String valueOf(Object obj)
-```
+- `int length()`：返回字符串长度。
+- `boolean isEmpty()`：判断长度是否为 0；只包含空格的字符串不算空。
+- `boolean isBlank()`：判断是否为空字符串或只包含空白字符。
+- `char charAt(int index)`：返回下标 `index` 处的字符；下标从 0 开始，越界会报错。
+- `boolean equals(Object anObject)`：与传入的对象比较内容是否相等，区分大小写。
+- `boolean equalsIgnoreCase(String anotherString)`：与传入的字符串比较内容，忽略大小写。
+- `boolean contains(CharSequence s)`：判断是否包含指定文本 `s`。
+- `boolean startsWith(String prefix)`：判断是否以指定前缀 `prefix` 开头。
+- `boolean endsWith(String suffix)`：判断是否以指定后缀 `suffix` 结尾。
+- `int indexOf(String str)`：查找文本 `str` 首次出现的起始下标；找不到返回 `-1`。
+- `String substring(int beginIndex, int endIndex)`：截取从 `beginIndex`（包含）到 `endIndex`（不包含）的内容；下标从 0 开始。
+- `String replace(CharSequence target, CharSequence replacement)`：把匹配的文本 `target` 替换为 `replacement`，返回新字符串。
+- `String[] split(String regex)`：按正则表达式 `regex` 分割，返回字符串数组；普通点号需写成 `"\\."`。
+- `String trim()`：去掉首尾的传统空白字符，返回新字符串。
+- `String strip()`：去掉首尾的 Unicode 空白字符，返回新字符串。
+- `String toUpperCase()` / `String toLowerCase()`：转换大小写，返回新字符串。
+- `static String valueOf(Object obj)`：把对象 `obj` 转成字符串；传入 `null` 得到 `"null"`。
 
 使用示例：
 
@@ -95,15 +92,13 @@ public class StringBuilderDemo {
 
 常用方法：
 
-```java
-public StringBuilder append(String str)
-public StringBuilder insert(int offset, String str)
-public StringBuilder delete(int start, int end)
-public StringBuilder replace(int start, int end, String str)
-public StringBuilder reverse()
-public int length()
-public String toString()
-```
+- `StringBuilder append(String str)`：把 `str` 追加到末尾，返回当前对象，便于连续调用。
+- `StringBuilder insert(int offset, String str)`：在下标 `offset` 前插入 `str`；下标从 0 开始。
+- `StringBuilder delete(int start, int end)`：删除从 `start`（包含）到 `end`（不包含）的字符。
+- `StringBuilder replace(int start, int end, String str)`：用 `str` 替换从 `start`（包含）到 `end`（不包含）的字符。
+- `StringBuilder reverse()`：反转字符顺序，返回当前对象。
+- `int length()`：返回当前字符数，无参数。
+- `String toString()`：把当前内容转成 `String`，无参数。
 
 ## 四、StringBuffer
 
@@ -150,14 +145,12 @@ public class StringJoinerDemo {
 
 常用构造方法和方法：
 
-```java
-public StringJoiner(CharSequence delimiter)
-public StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
-public StringJoiner add(CharSequence newElement)
-public StringJoiner merge(StringJoiner other)
-public String toString()
-public int length()
-```
+- `StringJoiner(CharSequence delimiter)`：创建拼接器；`delimiter` 是元素之间的分隔符，例如 `","`。
+- `StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix)`：再指定整体文本的前缀 `prefix` 和后缀 `suffix`，例如把结果包在 `[` 与 `]` 中。
+- `StringJoiner add(CharSequence newElement)`：加入一个元素 `newElement`，元素之间自动插入分隔符，返回当前对象。
+- `StringJoiner merge(StringJoiner other)`：把另一个拼接器 `other` 的元素接到当前拼接器后面，返回当前对象。
+- `String toString()`：得到拼接后的字符串，无参数。
+- `int length()`：返回当前拼接结果的字符数，无参数。
 
 ## 六、枚举是什么
 
@@ -185,14 +178,10 @@ public class EnumDemo {
 
 ## 七、枚举常用方法
 
-```java
-public final String name()
-public final int ordinal()
-public static EmployeeStatus valueOf(String name)
-public static EmployeeStatus[] values()
-```
-
-`ordinal()` 返回枚举声明顺序，从 0 开始。不建议在业务逻辑中依赖 `ordinal()`，因为调整枚举顺序会影响结果。
+- `String name()`：返回枚举常量在代码中声明的名称，无参数，例如 `"ACTIVE"`。
+- `int ordinal()`：返回声明顺序编号，无参数，从 0 开始。不建议把它保存为业务状态，因为调整枚举顺序会影响编号。
+- `static EmployeeStatus valueOf(String name)`：按名称 `name` 查找枚举常量，必须与声明名称完全一致；找不到会抛出异常。
+- `static EmployeeStatus[] values()`：返回该枚举的全部常量数组，无参数；可以用于遍历。
 
 ```java
 public class EnumMethodDemo {

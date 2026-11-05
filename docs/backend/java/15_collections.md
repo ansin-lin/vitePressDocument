@@ -54,19 +54,19 @@ Map（接口）
 
 ### Collection常用方法说明
 
-- `public boolean add(E e)`：向集合添加一个元素。
-- `public boolean addAll(Collection<? extends E> c)`：将指定集合的所有元素添加到当前集合。
+- `public boolean add(E e)`：添加元素 `e`；集合因本次调用发生变化时返回 `true`。
+- `public boolean addAll(Collection<? extends E> c)`：添加集合 `c` 中的所有元素；当前集合发生变化时返回 `true`。
 - `public void clear()`：清空集合中的所有元素。
-- `public boolean contains(Object o)`：判断集合是否包含指定对象。
-- `public boolean containsAll(Collection<?> c)`：判断集合是否包含指定集合中的所有元素。
+- `public boolean contains(Object o)`：判断是否包含对象 `o`。
+- `public boolean containsAll(Collection<?> c)`：判断是否包含集合 `c` 的全部元素；`c` 为空时返回 `true`。
 - `public boolean isEmpty()`：判断集合是否为空。
 - `public Iterator<E> iterator()`：返回一个用于遍历集合的迭代器。
-- `public boolean remove(Object o)`：从集合中删除指定的对象。
-- `public boolean removeAll(Collection<?> c)`：从集合中删除指定集合的所有元素。
-- `public boolean retainAll(Collection<?> c)`：仅保留集合中与指定集合共有的元素。
+- `public boolean remove(Object o)`：删除一个与 `o` 相等的元素；成功删除时返回 `true`。
+- `public boolean removeAll(Collection<?> c)`：删除当前集合中也出现在 `c` 里的元素；内容变化时返回 `true`。
+- `public boolean retainAll(Collection<?> c)`：只保留当前集合中也出现在 `c` 里的元素；内容变化时返回 `true`。
 - `public int size()`：返回集合中元素的数量。
 - `public Object[] toArray()`：返回包含所有元素的数组。
-- `public <T> T[] toArray(T[] a)`：返回一个指定类型的数组。
+- `public <T> T[] toArray(T[] a)`：把元素放入与数组 `a` 相同类型的数组并返回；`a` 足够大时可能直接复用，否则新建数组。
 
 ---
 
@@ -80,12 +80,12 @@ Map（接口）
 
 ### List 接口常用方法
 
-- `public E get(int index)`：根据索引返回元素。
-- `public E set(int index, E element)`：替换指定位置的元素。
-- `public void add(int index, E element)`：在指定索引位置插入元素。
-- `public int indexOf(Object o)`：返回元素首次出现的位置。
-- `public int lastIndexOf(Object o)`：返回元素最后出现的位置。
-- `public List<E> subList(int fromIndex, int toIndex)`：返回指定范围的子列表。
+- `public E get(int index)`：返回下标 `index` 处的元素，下标从 0 开始。
+- `public E set(int index, E element)`：用 `element` 替换下标 `index` 处的元素，返回旧元素。
+- `public void add(int index, E element)`：在下标 `index` 处插入 `element`，后面的元素依次后移。
+- `public int indexOf(Object o)`：返回 `o` 首次出现的下标，找不到返回 `-1`。
+- `public int lastIndexOf(Object o)`：返回 `o` 最后一次出现的下标，找不到返回 `-1`。
+- `public List<E> subList(int fromIndex, int toIndex)`：返回从 `fromIndex`（包含）到 `toIndex`（不包含）的子列表；它通常是原列表的视图，修改会相互影响。
 
 ### 常用实现类
 
@@ -99,12 +99,12 @@ Map（接口）
 ### ArrayList 常用方法
 
 - `public boolean add(E e)`：添加元素到列表末尾。
-- `public void ensureCapacity(int minCapacity)`：增加底层数组容量。
+- `public void ensureCapacity(int minCapacity)`：保证内部数组容量至少为 `minCapacity`；不会改变列表元素个数。
 - `public void trimToSize()`：缩减底层数组容量以匹配当前元素数量。
-- `public E remove(int index)`：删除指定位置的元素。
+- `public E remove(int index)`：删除下标 `index` 处的元素并返回它，后面的元素依次前移。
 - `public void clear()`：清空所有元素。
 - `public boolean contains(Object o)`：判断是否存在指定元素。
-- `public Object clone()`：浅拷贝当前 ArrayList。
+- `public Object clone()`：浅拷贝当前 `ArrayList`；新列表与原列表仍共享元素对象。
 
 ### LinkedList 常用方法
 
@@ -114,8 +114,8 @@ Map（接口）
 - `public E getLast()`：返回最后一个元素。
 - `public E removeFirst()`：删除第一个元素。
 - `public E removeLast()`：删除最后一个元素。
-- `public E peek()`：获取但不移除第一个元素。
-- `public E poll()`：获取并移除第一个元素。
+- `public E peek()`：查看第一个元素但不删除；链表为空时返回 `null`。
+- `public E poll()`：取出并删除第一个元素；链表为空时返回 `null`。
 
 ### Vector 常用方法
 
@@ -123,7 +123,7 @@ Map（接口）
 - `public synchronized E elementAt(int index)`：返回指定索引处的元素。
 - `public synchronized void removeElementAt(int index)`：删除指定位置的元素。
 - `public synchronized int capacity()`：返回当前容量。
-- `public synchronized void setElementAt(E obj, int index)`：设置指定索引处的元素。
+- `public synchronized void setElementAt(E obj, int index)`：用 `obj` 替换下标 `index` 处的元素；参数顺序是元素在前、下标在后。
 - `public synchronized Enumeration<E> elements()`：返回枚举器遍历元素。
 
 ### 示例
@@ -158,19 +158,19 @@ list.remove("Java");
 
 ### HashSet 常用方法
 
-- `public boolean add(E e)`：添加元素，如果存在则不添加。
-- `public boolean remove(Object o)`：删除指定元素。
-- `public boolean contains(Object o)`：判断是否存在指定元素。
+- `public boolean add(E e)`：添加元素 `e`；已有相等元素时不添加并返回 `false`。
+- `public boolean remove(Object o)`：删除对象 `o`；存在且删除成功时返回 `true`。
+- `public boolean contains(Object o)`：判断是否包含对象 `o`。
 - `public Iterator<E> iterator()`：返回迭代器。
 - `public int size()`：返回元素个数。
 
 ### TreeSet 常用方法
 
-- `public boolean add(E e)`：按自然顺序或比较器顺序添加。
+- `public boolean add(E e)`：按自然顺序或指定比较器的顺序添加 `e`；已有等价元素时返回 `false`。
 - `public E first()`：返回第一个（最小）元素。
 - `public E last()`：返回最后一个（最大）元素。
-- `public SortedSet<E> headSet(E toElement)`：返回小于指定元素的子集。
-- `public SortedSet<E> tailSet(E fromElement)`：返回大于或等于指定元素的子集。
+- `public SortedSet<E> headSet(E toElement)`：返回小于 `toElement` 的子集，不包含边界值。
+- `public SortedSet<E> tailSet(E fromElement)`：返回大于或等于 `fromElement` 的子集，包含边界值。
 
 ### 示例
 
@@ -194,16 +194,16 @@ System.out.println(set); // [1, 2, 3]
 
 ### Queue 接口常用方法
 
-- `public boolean offer(E e)`：添加元素到队列尾部。
-- `public E poll()`：获取并删除队首元素。
-- `public E peek()`：获取但不删除队首元素。
+- `public boolean offer(E e)`：尝试把 `e` 加到队尾，成功返回 `true`；容量受限的队列可能返回 `false`。
+- `public E poll()`：取出并删除队首元素；队列为空时返回 `null`。
+- `public E peek()`：查看队首元素但不删除；队列为空时返回 `null`。
 - `public E remove()`：获取并删除队首元素（为空抛异常）。
 - `public E element()`：查看队首元素（为空抛异常）。
 
 ### Deque 常用方法
 
-- `public void addFirst(E e)`：添加元素到队列头部。
-- `public void addLast(E e)`：添加元素到队列尾部。
+- `public void addFirst(E e)`：把 `e` 加到队列头部。
+- `public void addLast(E e)`：把 `e` 加到队列尾部。
 - `public E removeFirst()`：删除队列头元素。
 - `public E removeLast()`：删除队列尾元素。
 - `public E peekFirst()`：查看头部元素。
@@ -232,11 +232,11 @@ System.out.println(q);        // [2, 3]
 
 ### Map 接口常用方法
 
-- `public V put(K key, V value)`：添加或更新键值对。
-- `public V get(Object key)`：根据键返回值。
-- `public V remove(Object key)`：删除指定键对应的键值对。
-- `public boolean containsKey(Object key)`：判断是否包含指定键。
-- `public boolean containsValue(Object value)`：判断是否包含指定值。
+- `public V put(K key, V value)`：把键 `key` 对应的值设为 `value`，返回旧值；原先没有映射时通常返回 `null`。
+- `public V get(Object key)`：返回键 `key` 对应的值；无映射时返回 `null`。
+- `public V remove(Object key)`：删除键 `key` 对应的映射并返回旧值；无映射时返回 `null`。
+- `public boolean containsKey(Object key)`：判断是否存在键 `key`。
+- `public boolean containsValue(Object value)`：判断是否存在值 `value`。
 - `public Set<K> keySet()`：返回键集合。
 - `public Collection<V> values()`：返回值集合。
 - `public Set<Map.Entry<K,V>> entrySet()`：返回键值对集合。
@@ -254,17 +254,17 @@ System.out.println(q);        // [2, 3]
 
 ### HashMap 常用方法
 
-- `public V putIfAbsent(K key, V value)`：仅当键不存在时才添加键值对。
-- `public V replace(K key, V value)`：替换指定键对应的值。
-- `public V getOrDefault(Object key, V defaultValue)`：获取值或默认值。
-- `public void forEach(BiConsumer<? super K,? super V> action)`：遍历所有键值对。
+- `public V putIfAbsent(K key, V value)`：键 `key` 无映射或当前值为 `null` 时设置 `value`，返回设置前的值。
+- `public V replace(K key, V value)`：仅当键 `key` 已存在时替换为 `value`，返回旧值；否则返回 `null`。
+- `public V getOrDefault(Object key, V defaultValue)`：键 `key` 无映射时返回 `defaultValue`；若键存在且值为 `null`，仍返回 `null`。
+- `public void forEach(BiConsumer<? super K, ? super V> action)`：对每组键值调用 `action`，它接收键和值两个参数。
 
 ### TreeMap 常用方法
 
 - `public K firstKey()`：返回第一个键。
 - `public K lastKey()`：返回最后一个键。
-- `public SortedMap<K,V> headMap(K toKey)`：返回小于指定键的部分映射。
-- `public SortedMap<K,V> tailMap(K fromKey)`：返回大于等于指定键的部分映射。
+- `public SortedMap<K,V> headMap(K toKey)`：返回键小于 `toKey` 的部分映射，不包含边界键。
+- `public SortedMap<K,V> tailMap(K fromKey)`：返回键大于或等于 `fromKey` 的部分映射，包含边界键。
 - `public Comparator<? super K> comparator()`：返回用于排序的比较器。
 
 ### 示例
@@ -286,14 +286,14 @@ for (Map.Entry<String, Integer> e : map.entrySet()) {
 
 ### 常用静态方法
 
-- `public static <T extends Comparable<? super T>> void sort(List<T> list)`：对列表进行排序。
-- `public static void reverse(List<?> list)`：反转列表顺序。
-- `public static void shuffle(List<?> list)`：随机打乱列表元素。
-- `public static <T> T max(Collection<? extends T> coll)`：返回最大值。
-- `public static <T> T min(Collection<? extends T> coll)`：返回最小值。
-- `public static <T> int frequency(Collection<?> c, Object o)`：统计出现次数。
-- `public static <T> void copy(List<? super T> dest, List<? extends T> src)`：将源列表内容复制到目标列表。
-- `public static <T> List<T> synchronizedList(List<T> list)`：返回线程安全的列表。
+- `public static <T extends Comparable<? super T>> void sort(List<T> list)`：按元素的自然顺序排列 `list`，会直接修改传入的列表。
+- `public static void reverse(List<?> list)`：原地反转 `list` 的元素顺序。
+- `public static void shuffle(List<?> list)`：原地随机打乱 `list` 的元素顺序，每次结果可能不同。
+- `public static <T extends Comparable<? super T>> T max(Collection<? extends T> coll)`：按自然顺序返回集合 `coll` 中的最大元素；空集合会抛出异常。
+- `public static <T extends Comparable<? super T>> T min(Collection<? extends T> coll)`：按自然顺序返回集合 `coll` 中的最小元素；空集合会抛出异常。
+- `public static int frequency(Collection<?> c, Object o)`：统计对象 `o` 在集合 `c` 中出现的次数。
+- `public static <T> void copy(List<? super T> dest, List<? extends T> src)`：把 `src` 的元素按下标覆盖到 `dest`；`dest` 必须已有至少同样数量的元素。
+- `public static <T> List<T> synchronizedList(List<T> list)`：把 `list` 包装为同步列表并返回；遍历时仍需自行同步。
 
 ### 示例
 
