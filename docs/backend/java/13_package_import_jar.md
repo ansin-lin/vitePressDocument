@@ -166,7 +166,40 @@ java -jar learning-demo.jar
 
 如果只是把类和资源归档为供其他程序使用的库，可以创建没有 `Main-Class` 的 JAR；这种 JAR 不能直接用 `java -jar` 作为应用启动。
 
-## 五、JAR 和 WAR 的区别
+## 五、WAR 是什么，怎样打包
+
+WAR（Web Application Archive）是 **Java Web 应用的部署包**。它把网页文件、编译后的类和应用依赖等按 Web 应用的目录约定放在一起，方便交给 Tomcat 等 Servlet 容器部署。部署后，由容器接收 HTTP 请求并调用应用代码；这与上一节从 `main` 启动的普通 Java 示例是不同的使用场景。
+
+一个传统 Web 项目打包后的常见结构如下：
+
+```text
+example.war
+├── index.jsp
+└── WEB-INF/
+    ├── classes/    # 编译后的类和资源
+    └── lib/        # 应用依赖的 JAR
+```
+
+`WEB-INF` 是 Web 应用的内部目录。传统项目也可能有 `WEB-INF/web.xml`，但不是每个项目都必须编写这个文件。
+
+**怎样打包：**在一个已经配置好 Web 功能和依赖的 Maven 项目中，把 `pom.xml` 的打包类型设为 `war`：
+
+```xml
+<groupId>com.example</groupId>
+<artifactId>employee-web</artifactId>
+<version>1.0</version>
+<packaging>war</packaging>
+```
+
+在项目根目录（`pom.xml` 所在目录）执行：
+
+```bash
+mvn package
+```
+
+Maven 会调用 WAR 打包插件，通常在 `target/` 下生成 `employee-web-1.0.war`。传统 Web 项目的网页文件通常放在 `src/main/webapp/`。生成 WAR 后，还需要将它部署到与项目兼容的 Servlet 容器中；**仅把普通 Java 类改成 `<packaging>war</packaging>`，不会自动变成可处理 HTTP 请求的 Web 应用**。Maven 的完整项目配置将在第 20 章介绍。打包方式可参见 [Apache Maven WAR Plugin 官方说明](https://maven.apache.org/plugins/maven-war-plugin/usage.html)。
+
+## 六、JAR 和 WAR 的区别
 
 | 对比 | JAR | WAR |
 | --- | --- | --- |
