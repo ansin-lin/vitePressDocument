@@ -238,11 +238,11 @@ public interface EmployeeInfo extends Identifiable, Named {
 
 接口可以声明嵌套类型，例如内部接口、类、枚举；入门阶段先掌握上表中的常量和方法。接口不能声明普通实例字段、构造方法、静态初始化块，也不能用实例方法保存每个对象各自的状态。
 
-**常量：**接口中的字段隐含 `public static final`，声明时必须赋值，之后不能修改。因此 `int MAX_RETRIES = 3;` 等同于 `public static final int MAX_RETRIES = 3;`。接口不适合充当无关常量的集合。
+**常量**：接口中的字段隐含 `public static final`，声明时必须赋值，之后不能修改。因此 `int MAX_RETRIES = 3;` 等同于 `public static final int MAX_RETRIES = 3;`。接口不适合充当无关常量的集合。
 
-**抽象方法：**没有方法体，以分号结束。普通方法声明隐含 `public abstract`，例如 `void save(Employee employee);`。实现类实现该方法时必须使用 `public`，不能缩小可见范围。接口里的方法不能声明为 `protected`。
+**抽象方法**：没有方法体，以分号结束。普通方法声明隐含 `public abstract`，例如 `void save(Employee employee);`。实现类实现该方法时必须使用 `public`，不能缩小可见范围。接口里的方法不能声明为 `protected`。
 
-**带方法体的方法：**必须明确写 `default`、`static` 或 `private` 等合适的修饰符；不能直接把类中的普通实例方法原样放进接口。`default` 方法给实现类提供可继承的行为，`static` 方法属于接口本身，`private` 方法只用于接口内部复用。接口没有实例字段，所以默认方法不能读写接口自身的“对象状态”。
+**带方法体的方法**：必须明确写 `default`、`static` 或 `private` 等合适的修饰符；不能直接把类中的普通实例方法原样放进接口。`default` 方法给实现类提供可继承的行为，`static` 方法属于接口本身，`private` 方法只用于接口内部复用。接口没有实例字段，所以默认方法不能读写接口自身的“对象状态”。
 
 下面把这几类成员放在同一个接口里观察：
 
