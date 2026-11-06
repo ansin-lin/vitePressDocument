@@ -1,6 +1,6 @@
 # 技术研习室
 
-VitePress 站点。当前收录 Web 前端、SQL、Java、MyBatis 和 Spring Boot 课程。教材以 `LearnDocument` 为参考，参考目录未修改。
+VitePress 站点。当前收录 Web 前端、SQL、PL/SQL、Java、MyBatis、Spring Boot、Git、Linux 和 Shell 课程。教材以 `LearnDocument` 为参考，参考目录未修改。
 
 ## 本地运行
 
@@ -13,7 +13,7 @@ npm run typecheck
 npm run build
 ```
 
-前端页面位于 `docs/frontend/`，SQL 位于 `docs/database/sql/`，Java、MyBatis、Spring Boot 位于 `docs/backend/`。课程入口在 `docs/courses/index.md`；综合练习位于 `docs/exercises/`。
+前端页面位于 `docs/frontend/`，SQL 与 PL/SQL 位于 `docs/database/`，Java、MyBatis、Spring Boot 位于 `docs/backend/`，Git、Linux、Shell 位于 `docs/tools/`。课程入口在 `docs/courses/index.md`；综合练习位于 `docs/exercises/`。
 
 ## GitHub Pages
 
@@ -30,3 +30,5 @@ Vue 与 React 课程的概念章节加入可展开的在线练习。Vue 使用 V
 示例集中在 `docs/.vitepress/theme/vueLiveExamples.ts` 和 `reactLiveExamples.ts`。在 Markdown 中使用 `<VueLiveDemo example="ref" />` 或 `<ReactLiveDemo example="state" />` 引用现有示例，新增示例时先为目录增加键和完整代码，再在首次讲解该知识点的位置引用。参考教材目录未修改。
 
 MyBatis 与 Spring Boot 的流程演示使用可复用的 `<BackendFlowDemo>` 组件，逐步解释调用路径，并明确标为教学模拟。它不会在浏览器中运行 Java、MyBatis、Spring Boot 或 MySQL；课程中的代码按章节在本地工程执行。附录中指向 Java、SQL 等源码的链接会打开参考仓库中的对应文件。
+
+Git、Linux、Shell 的首次流程练习使用 `<CommandFlowDemo>`，演示命令和状态变化，但不会操作学员电脑或服务器。PL/SQL 需要 Oracle 练习环境，本站不将 SQLite 演示描述为 Oracle 执行。

@@ -24,6 +24,16 @@
 
 [Spring Boot 教程](../backend/springboot/index.md) 在 Java、HTTP、SQL 和 MyBatis 基础之后学习员工管理后端 API；附录与企业扩展可按需阅读。
 
+## 开发工具与数据库编程
+
+[PL/SQL 教程](../database/plsql/index.md) 在 SQL 基础之后学习 Oracle 数据库中的过程化编程，运行需要 Oracle 练习环境。
+
+[Git 教程](../tools/git/index.md) 从本地提交、分支和远程协作学到冲突处理与恢复。
+
+[Linux 教程](../tools/linux/index.md) 学习目录、权限、日志、进程和网络调查。
+
+[Shell 教程](../tools/shell/index.md) 在 Linux 基础之后，完成销售数据日次导入的脚本练习。
+
 ## 数据库
 
 [SQL 知识课程](../database/sql/index.md)从数据库基本概念开始，逐步进入数据操作、查询与视图。进入课程后可用左侧目录切换章节。

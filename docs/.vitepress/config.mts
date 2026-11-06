@@ -16,7 +16,13 @@ export default defineConfig({
         { text: '网页编辑室', link: '/frontend/playground' }
       ] },
       { text: '数据库', activeMatch: '/database/', items: [
-        { text: 'SQL 课程', link: '/database/sql/' }
+        { text: 'SQL 课程', link: '/database/sql/' },
+        { text: 'PL/SQL 教程', link: '/database/plsql/' }
+      ] },
+      { text: '开发工具', activeMatch: '/tools/|/exercises/tools/', items: [
+        { text: 'Git 教程', link: '/tools/git/' },
+        { text: 'Linux 教程', link: '/tools/linux/' },
+        { text: 'Shell 教程', link: '/tools/shell/' }
       ] },
       { text: '后端开发', activeMatch: '/backend/|/exercises/backend/', items: [
         { text: 'Java 基础教程', link: '/backend/java/' },
@@ -387,6 +393,88 @@ export default defineConfig({
           { text: '第21章 Java JDBC 数据库连接', link: '/backend/java/21_jdbc' },
           { text: '第22章 JUnit 测试', link: '/backend/java/22_junit_basics' },
           { text: '综合练习', link: '/backend/java/training' }
+        ] }
+      ],
+      '/database/plsql/': [
+        { text: 'PL/SQL 章节目录', link: '/database/plsql/', items: [
+          { text: '1. 入门与环境配置', link: '/database/plsql/01_environment' },
+          { text: '2. 基本语法', link: '/database/plsql/02_basic_syntax' },
+          { text: '3. 数据类型', link: '/database/plsql/03_data_types' },
+          { text: '4. 变量、常量与文字', link: '/database/plsql/04_variables_constants' },
+          { text: '5. 运算符', link: '/database/plsql/05_operators' },
+          { text: '6. 流程控制', link: '/database/plsql/06_control_flow' },
+          { text: '7. 异常处理（Exception Handling）', link: '/database/plsql/07_exception' },
+          { text: '8. 存储过程与函数', link: '/database/plsql/08_procedures_and_functions' },
+          { text: '9. 游标（Cursor）', link: '/database/plsql/09_cursors' },
+          { text: '10. 触发器（Trigger）', link: '/database/plsql/10_triggers' },
+          { text: '11. 包（PACKAGE）', link: '/database/plsql/11_package' },
+          { text: '12. 复合数据类型（数组、记录、集合）', link: '/database/plsql/12_composite_data_types' },
+          { text: '13. 批量处理与性能优化', link: '/database/plsql/13_bulk_processing_and_performance' },
+          { text: '14. 动态 SQL（EXECUTE IMMEDIAT…', link: '/database/plsql/14_dynamic_sql' },
+          { text: '15. 批处理与定时作业', link: '/database/plsql/15_batch_and_scheduler' },
+          { text: '16. 与 Java / Spring 的协作模式', link: '/database/plsql/16_java_spring_integration' },
+          { text: '17. 新人注意事项、常见错误与面试问题', link: '/database/plsql/17_common_pitfalls_and_interview' },
+        ] }
+      ],
+      '/tools/git/': [
+        { text: 'Git 章节目录', link: '/tools/git/', items: [
+          { text: '1. 安装与初始配置', link: '/tools/git/01_install_and_config' },
+          { text: '2. 基本概念与工作原理', link: '/tools/git/02_basic_concepts' },
+          { text: '3. 基本命令与日常提交', link: '/tools/git/03_common_commands' },
+          { text: '4. 分支、合并与冲突', link: '/tools/git/04_branches_and_merge' },
+          { text: '5. 远程仓库与同步', link: '/tools/git/05_remote_repo' },
+          { text: '6. 团队协作与代码评审', link: '/tools/git/06_teamwork_and_conflicts' },
+          { text: '7. 撤销与恢复', link: '/tools/git/07_undo_and_reset' },
+          { text: '8. 标签与版本发布', link: '/tools/git/08_tags_and_release' },
+          { text: '9. 常用高级操作', link: '/tools/git/09_advanced_operations' },
+          { text: '10. Git 新人综合实战', link: '/exercises/tools/git/10_comprehensive_practice' },
+          { text: 'Git 速查表', link: '/tools/git/cheatsheet' },
+        ] }
+      ],
+      '/tools/linux/': [
+        { text: 'Linux 章节目录', link: '/tools/linux/', items: [
+          { text: '1. Linux 基础认识与环境准备', link: '/tools/linux/01_linux_intro' },
+          { text: '2. Linux 目录结构与基础文件操作', link: '/tools/linux/02_file_dir_command' },
+          { text: '3. 用户、用户组与文件权限', link: '/tools/linux/03_user_permission' },
+          { text: '4. 文本处理、日志查看与 Shell 基础', link: '/tools/linux/04_text_log_shell_basic' },
+          { text: '5. 进程管理与系统服务', link: '/tools/linux/05_process_system' },
+          { text: '6. Linux 网络、SSH 与远程服务器操作', link: '/tools/linux/06_network_ssh' },
+          { text: '7. 软件安装、运行环境与 Spring Boot …', link: '/tools/linux/07_java_deployment' },
+          { text: '8. Linux 综合实战与常见故障排查', link: '/exercises/tools/linux/08_integrated_troubleshooting' },
+          { text: 'Linux 命令速查表', link: '/tools/linux/linux_command_cheatsheet' },
+          { text: '定时任务选学', link: '/tools/linux/crontab_scheduler_optional' },
+        ] }
+      ],
+      '/tools/shell/': [
+        { text: 'Shell 章节目录', link: '/tools/shell/', items: [
+          { text: '1. Shell 基础与脚本执行', link: '/tools/shell/01_shell_basic' },
+          { text: '2. 变量、参数与环境变量', link: '/tools/shell/02_variables_arguments' },
+          { text: '3. 条件判断、循环与函数', link: '/tools/shell/03_control_functions' },
+          { text: '4. 文件、文本与输入输出', link: '/tools/shell/04_file_text_processing' },
+          { text: '5. Shell 与 Java Batch 联动', link: '/tools/shell/05_batch_execution' },
+          { text: '6. 返回码、日志与异常处理', link: '/tools/shell/06_error_logging' },
+          { text: '7. Job 调度与日本项目运用', link: '/tools/shell/07_job_scheduling' },
+          { text: '8. 销售数据日次导入 Batch 综合实战', link: '/exercises/tools/shell/08_batch_project_practice' },
+          { text: 'Shell 速查表', link: '/tools/shell/shell_quick_reference' },
+          { text: '日志调查附录', link: '/tools/shell/appendix/check_log' },
+        ] }
+      ],
+      '/exercises/tools/git/': [
+        { text: 'Git 课程', link: '/tools/git/', items: [
+          { text: '返回章节目录', link: '/tools/git/' },
+          { text: '综合练习', link: '/exercises/tools/git/10_comprehensive_practice' }
+        ] }
+      ],
+      '/exercises/tools/linux/': [
+        { text: 'Linux 课程', link: '/tools/linux/', items: [
+          { text: '返回章节目录', link: '/tools/linux/' },
+          { text: '综合练习', link: '/exercises/tools/linux/08_integrated_troubleshooting' }
+        ] }
+      ],
+      '/exercises/tools/shell/': [
+        { text: 'Shell 课程', link: '/tools/shell/', items: [
+          { text: '返回章节目录', link: '/tools/shell/' },
+          { text: '综合练习', link: '/exercises/tools/shell/08_batch_project_practice' }
         ] }
       ],
       '/database/sql/': [

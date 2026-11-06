@@ -8,6 +8,7 @@ import AsyncExecutionTrace from './AsyncExecutionTrace.vue'
 import VueLiveDemo from './VueLiveDemo.vue'
 import ReactLiveDemo from './ReactLiveDemo.vue'
 import BackendFlowDemo from './BackendFlowDemo.vue'
+import CommandFlowDemo from './CommandFlowDemo.vue'
 import './style.css'
 export default { extends: DefaultTheme, enhanceApp({ app }) {
   app.component('MermaidDiagram', MermaidDiagram)
@@ -18,4 +19,5 @@ export default { extends: DefaultTheme, enhanceApp({ app }) {
   app.component('VueLiveDemo', VueLiveDemo)
   app.component('ReactLiveDemo', ReactLiveDemo)
   app.component('BackendFlowDemo', BackendFlowDemo)
+  app.component('CommandFlowDemo', CommandFlowDemo)
 } } satisfies Theme

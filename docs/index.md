@@ -3,7 +3,7 @@ layout: home
 hero:
   name: TECH / COURSE
   text: 从阅读开始，建立扎实基础。
-  tagline: 现已收录 Web 前端、Java、MyBatis、Spring Boot 与 SQL 课程。
+  tagline: 现已收录 Web 前端、Java、数据库编程与开发工具课程。
   actions:
     - theme: brand
       text: 学习 HTML →
@@ -29,6 +29,10 @@ hero:
     <a class="path-card path-flow" href="./backend/mybatis/"><span class="path-icon">M</span><span class="path-meta">DATA ACCESS</span><strong>MyBatis 教程</strong><span>学习 Mapper、SQL 映射、参数与结果处理，理解数据库访问流程。</span><em>进入 MyBatis 课程 ↗</em></a>
     <a class="path-card path-flow" href="./backend/springboot/"><span class="path-icon">SB</span><span class="path-meta">BACKEND API</span><strong>Spring Boot 教程</strong><span>从第一个接口到员工管理后端，学习分层、测试、事务与部署。</span><em>进入 Spring Boot 课程 ↗</em></a>
     <a class="path-card path-sql" href="./database/sql/"><span class="path-icon">S</span><span class="path-meta">DATABASE</span><strong>SQL 知识课程</strong><span>从数据库基础与建表开始，逐步学习数据操作、查询和视图。</span><em>进入 SQL 课程 ↗</em></a>
+    <a class="path-card path-sql" href="./database/plsql/"><span class="path-icon">P</span><span class="path-meta">ORACLE</span><strong>PL/SQL 教程</strong><span>学习 Oracle 中的过程、函数、游标与批量处理。</span><em>进入 PL/SQL 课程 ↗</em></a>
+    <a class="path-card path-flow" href="./tools/git/"><span class="path-icon">G</span><span class="path-meta">VERSION CONTROL</span><strong>Git 教程</strong><span>练习提交、分支、协作和撤销操作。</span><em>进入 Git 课程 ↗</em></a>
+    <a class="path-card path-flow" href="./tools/linux/"><span class="path-icon">L</span><span class="path-meta">SYSTEM BASICS</span><strong>Linux 教程</strong><span>学习文件、权限、进程、网络和日志调查。</span><em>进入 Linux 课程 ↗</em></a>
+    <a class="path-card path-flow" href="./tools/shell/"><span class="path-icon">SH</span><span class="path-meta">BATCH SCRIPT</span><strong>Shell 教程</strong><span>从 Bash 基础走向业务 Batch 脚本练习。</span><em>进入 Shell 课程 ↗</em></a>
   </div>
   <div class="home-note"><span>READ → PRACTICE → REVIEW</span><p>阅读章节、完成练习，再回到相关知识点查漏补缺。</p></div>
 </div>
