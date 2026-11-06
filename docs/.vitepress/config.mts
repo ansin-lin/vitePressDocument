@@ -24,6 +24,9 @@ export default defineConfig({
         { text: 'Linux 教程', link: '/tools/linux/' },
         { text: 'Shell 教程', link: '/tools/shell/' }
       ] },
+      { text: '云计算', activeMatch: '/cloud/|/exercises/cloud/', items: [
+        { text: 'AWS 教程', link: '/cloud/aws/' }
+      ] },
       { text: '后端开发', activeMatch: '/backend/|/exercises/backend/', items: [
         { text: 'Java 基础教程', link: '/backend/java/' },
         { text: 'MyBatis 教程', link: '/backend/mybatis/' },
@@ -32,6 +35,31 @@ export default defineConfig({
       ] }
     ],
     sidebar: {
+      '/cloud/aws/': [
+        { text: 'AWS 章节目录', link: '/cloud/aws/', items: [
+          { text: '0. 云计算预备知识', link: '/cloud/aws/00_prerequisites' },
+          { text: '1. IAM 账号与权限', link: '/cloud/aws/01_iam_fundamentals' },
+          { text: '2. EC2 与 SSH', link: '/cloud/aws/02_ec2_ssh' },
+          { text: '3. S3 对象存储', link: '/cloud/aws/03_s3_storage' },
+          { text: '4. CloudFront 与 CDN', link: '/cloud/aws/04_cloudfront_cdn' },
+          { text: '5. RDS 数据库', link: '/cloud/aws/05_rds' },
+          { text: '6. VPC 网络', link: '/cloud/aws/06_vpc_network' },
+          { text: '7. ALB 与自动扩缩容', link: '/cloud/aws/07_alb_auto_scaling' },
+          { text: '8. CloudWatch 监控', link: '/cloud/aws/08_cloudwatch_monitoring' },
+          { text: '9. HTTPS 与 ACM', link: '/cloud/aws/09_https_acm' },
+          { text: '10. CloudWatch 日志', link: '/cloud/aws/10_cloudwatch_logs' },
+          { text: '11. Lambda 与 Serverless', link: '/cloud/aws/11_lambda_serverless' },
+          { text: '12. Serverless 综合练习', link: '/exercises/cloud/aws/12_serverless_practice' },
+          { text: '13. 架构对比', link: '/cloud/aws/13_architecture_comparison' },
+          { text: '14. 常用服务总览', link: '/cloud/aws/14_common_services_overview' }
+        ] }
+      ],
+      '/exercises/cloud/aws/': [
+        { text: 'AWS 课程', link: '/cloud/aws/', items: [
+          { text: '返回章节目录', link: '/cloud/aws/' },
+          { text: 'Serverless 综合练习', link: '/exercises/cloud/aws/12_serverless_practice' }
+        ] }
+      ],
       '/frontend/NodeJS/': [
         { text: 'Node.js 与 npm 基础', link: '/frontend/NodeJS/', items: [
           { text: '1. Node.js 与运行环境', link: '/frontend/NodeJS/01_nodejs_runtime_basics' },

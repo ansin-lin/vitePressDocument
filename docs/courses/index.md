@@ -34,6 +34,10 @@
 
 [Shell 教程](../tools/shell/index.md) 在 Linux 基础之后，完成销售数据日次导入的脚本练习。
 
+## 云计算
+
+[AWS 教程](../cloud/aws/index.md) 从部署基础、IAM、EC2、S3 和网络入门，学习监控、Serverless 与架构选择。云资源实操需要个人练习账号，并先核对费用。
+
 ## 数据库
 
 [SQL 知识课程](../database/sql/index.md)从数据库基本概念开始，逐步进入数据操作、查询与视图。进入课程后可用左侧目录切换章节。

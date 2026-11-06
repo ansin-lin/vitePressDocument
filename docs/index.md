@@ -3,7 +3,7 @@ layout: home
 hero:
   name: TECH / COURSE
   text: 从阅读开始，建立扎实基础。
-  tagline: 现已收录 Web 前端、Java、数据库编程与开发工具课程。
+  tagline: 现已收录 Web 前端、Java、数据库、开发工具与 AWS 课程。
   actions:
     - theme: brand
       text: 学习 HTML →
@@ -33,6 +33,7 @@ hero:
     <a class="path-card path-flow" href="./tools/git/"><span class="path-icon">G</span><span class="path-meta">VERSION CONTROL</span><strong>Git 教程</strong><span>练习提交、分支、协作和撤销操作。</span><em>进入 Git 课程 ↗</em></a>
     <a class="path-card path-flow" href="./tools/linux/"><span class="path-icon">L</span><span class="path-meta">SYSTEM BASICS</span><strong>Linux 教程</strong><span>学习文件、权限、进程、网络和日志调查。</span><em>进入 Linux 课程 ↗</em></a>
     <a class="path-card path-flow" href="./tools/shell/"><span class="path-icon">SH</span><span class="path-meta">BATCH SCRIPT</span><strong>Shell 教程</strong><span>从 Bash 基础走向业务 Batch 脚本练习。</span><em>进入 Shell 课程 ↗</em></a>
+    <a class="path-card path-flow" href="./cloud/aws/"><span class="path-icon">A</span><span class="path-meta">CLOUD</span><strong>AWS 教程</strong><span>学习云部署、IAM、EC2、S3、VPC、监控与 Serverless。</span><em>进入 AWS 课程 ↗</em></a>
   </div>
   <div class="home-note"><span>READ → PRACTICE → REVIEW</span><p>阅读章节、完成练习，再回到相关知识点查漏补缺。</p></div>
 </div>
