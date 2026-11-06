@@ -99,6 +99,8 @@ const title = '员工管理';
 
 ### 2.4 UI 框架或组件库负责现成的视觉组件
 
+需要动手比较 Bootstrap 与 Vue 的 Vuetify 时，可在掌握本章技术分层后阅读[前端扩展：UI 路线](../extensions/ui.md)。
+
 “UI 框架”在企业前端中通常指提供现成样式和组件的工具，例如：
 
 - Bootstrap：提供布局、样式和常见 UI 组件，可用于普通网页。

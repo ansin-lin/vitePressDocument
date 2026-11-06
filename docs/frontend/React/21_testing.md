@@ -1,5 +1,7 @@
 # 第 21 章 React 测试
 
+本章使用 Vitest 与 React Testing Library。接手 Jest 旧项目时，可在掌握本章测试观点后查看[前端测试工具衔接](../extensions/testing.md)，避免混用两套配置。
+
 ## 本章目标
 
 - 区分单元、组件、集成、E2E 和手动打鍵测试。

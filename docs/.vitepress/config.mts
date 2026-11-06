@@ -13,6 +13,7 @@ export default defineConfig({
         { text: 'TypeScript 教程', link: '/frontend/TypeScript/' },
         { text: 'Vue 3 教程', link: '/frontend/Vue/' },
         { text: 'React 教程', link: '/frontend/React/' },
+        { text: '前端扩展选学', link: '/frontend/extensions/' },
         { text: '网页编辑室', link: '/frontend/playground' }
       ] },
       { text: '数据库', activeMatch: '/database/', items: [
@@ -35,6 +36,15 @@ export default defineConfig({
       ] }
     ],
     sidebar: {
+      '/frontend/extensions/': [
+        { text: '前端扩展选学', link: '/frontend/extensions/', items: [
+          { text: '学习路线与内容去重', link: '/frontend/extensions/' },
+          { text: 'Vite、Next.js 与 Nuxt', link: '/frontend/extensions/frameworks' },
+          { text: '常用库选择速查', link: '/frontend/extensions/libraries' },
+          { text: 'Bootstrap 与 Vuetify', link: '/frontend/extensions/ui' },
+          { text: '测试工具衔接', link: '/frontend/extensions/testing' }
+        ] }
+      ],
       '/cloud/aws/': [
         { text: 'AWS 章节目录', link: '/cloud/aws/', items: [
           { text: '0. 云计算预备知识', link: '/cloud/aws/00_prerequisites' },

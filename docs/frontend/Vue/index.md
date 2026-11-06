@@ -4,6 +4,8 @@
 
 创建项目之前，还应完成[Node.js 与 npm 基础课程](../NodeJS/index.md)，了解依赖安装、`package.json` 和项目脚本。
 
+Bootstrap、Vuetify、其他常用库与 Jest 旧项目识读属于[前端扩展选学](../extensions/index.md)，可在完成对应的 Vue 正课章节后按项目需要查阅。
+
 ## 1. 最终成果
 
 学员先通过任务列表、表单和接口等小型示例逐步掌握Vue的核心能力，再把HTML、CSS、JavaScript阶段完成的“有給休暇申請システム”重构为Vue项目。综合项目会连接Router、Axios API层、Pinia、表单校验和自动化测试，并使用课程提供的Node.js + MySQL后台保存业务数据。

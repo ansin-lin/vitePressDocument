@@ -16,6 +16,8 @@
 
 [React 教程](../frontend/React/index.md)从 JSX、Props 和 State，学到业务页面、请求、路由、状态管理与测试。
 
+[前端扩展选学](../frontend/extensions/index.md)将常用库、Vite / Next.js / Nuxt、Bootstrap / Vuetify 与测试工具整理为按需查阅的专题，避免重复学习 Vue / React 正课内容。
+
 ## Java
 
 [Java 基础教程](../backend/java/index.md)从第 1 章入门，依次覆盖语法、面向对象、集合、文件、Maven、JDBC 和 JUnit。进入课程后可用左侧目录切换章节。

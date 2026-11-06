@@ -15,6 +15,8 @@ npm run build
 
 前端页面位于 `docs/frontend/`，SQL 与 PL/SQL 位于 `docs/database/`，Java、MyBatis、Spring Boot 位于 `docs/backend/`，Git、Linux、Shell 位于 `docs/tools/`，AWS 位于 `docs/cloud/aws/`。课程入口在 `docs/courses/index.md`；综合练习位于 `docs/exercises/`。
 
+前端参考资料中的库、UI 和测试专题已整理为 `docs/frontend/extensions/`。Vue / React 正课仍负责路由、状态与组件测试的具体教学；扩展专题只补充工具选择、Bootstrap / Vuetify 接入差异及 Jest 旧项目识读。Python、AI、Docker 与参考目录的其他练习未加入本站。
+
 ## GitHub Pages
 
 推送到 `main` 后，GitHub Actions 自动检查类型、构建并部署。仓库站点自动设置 `/vitePressDocument/` 基础路径。站点地址：https://ansin-lin.github.io/vitePressDocument/
