@@ -33,14 +33,14 @@ React UI
 
 浏览器不能安全地直接连接业务数据库。数据库账号、SQL 和最终权限判断应留在后端。
 
-<ReactLiveDemo example="asyncState" />
+先理解请求从页面到后端、再回到 State 的路径。第 6 节学习四种页面状态后，可操作本章的模拟异步练习。
 
 ## 2. 一次 HTTP 请求包含什么
 
 以读取员工列表为例：
 
 ```text
-GET /api/employees?department=SALES
+GET /api/employees?department=开发部
 Accept: application/json
 ```
 
@@ -56,7 +56,7 @@ Content-Type: application/json
   {
     "id": 1001,
     "name": "田中太郎",
-    "department": "SALES",
+    "department": "开发部",
     "status": "ACTIVE"
   }
 ]
@@ -94,7 +94,7 @@ npm install --save-exact axios@1.20.0
 
 ## 4. 建立 Axios 共用实例
 
-本章和第 11 章的员工 CRUD 可以先使用[员工练习用模拟 API](examples/employee-api-mock.mjs)。从课程仓库复制该文件到 Vite 项目根目录，打开另一个终端运行 `node employee-api-mock.mjs`，保持它运行；浏览器访问 `http://localhost:8080/api/employees` 应看到员工 JSON 数组。模拟服务只把数据存在内存中，重启后恢复初始数据；仅供员工列表与 CRUD 练习，不提供认证、权限或数据库持久化。第 15 章的登录与权限练习需要符合其 API 契约的独立后端，不能假定这个模拟服务支持登录。
+本章和第 11 章的员工 CRUD 使用[课堂员工接口准备](10_employee_api_mock.md)中的模拟 API。先复制完整程序到 Vite 项目根目录，运行 `node employee-api-mock.mjs`；浏览器访问 `http://localhost:8080/api/employees` 应看到员工 JSON 数组。模拟服务只把数据存在内存中，重启后恢复初始数据；仅供员工列表与 CRUD 练习。第 15 章的登录与权限练习需要符合其 API 契约的独立后端。
 
 开发服务器使用 `http://localhost:5173` 时，模拟 API 已允许该来源跨域访问；如果 Vite 改用其他端口，需要同时调整模拟服务中的允许来源。8080 端口被占用时，先关闭占用进程或调整模拟服务端口以及下方 `VITE_API_BASE_URL`。
 
@@ -179,6 +179,10 @@ success  请求成功，并有数据
 ```
 
 空数据不是错误。后端正常返回 `[]` 时，应显示“没有数据”，而不是“系统异常”。
+
+下面的在线练习只用浏览器内的定时器模拟等待，用来观察加载状态；它不会调用上面的员工 API。完成练习后，在第 7 节把状态处理连接到真实的本地模拟接口。
+
+<ReactLiveDemo example="asyncState" />
 
 ## 7. 在 Effect 中读取员工列表
 

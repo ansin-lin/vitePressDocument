@@ -30,8 +30,6 @@ flowchart LR
 
 数据向下传递，事件意图向上报告，这是 React 常见的单向数据流。
 
-<ReactLiveDemo example="communication" />
-
 ## 2. 父组件向子组件传递数据
 
 第三章已经学习数据 Props：
@@ -130,6 +128,8 @@ onSelect(employee);
 ```
 
 不要把子组件内部 DOM 结构暴露给父组件，例如要求父组件从按钮文字或 DOM 属性猜测员工 ID。回调参数应直接表达业务含义。
+
+<ReactLiveDemo example="communication" />
 
 ## 4. 让列表中的子组件报告操作
 

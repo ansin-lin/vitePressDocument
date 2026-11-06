@@ -28,8 +28,6 @@
 | 修改 | `PUT` | `/employees/{id}` | 修改后的员工 |
 | 删除 | `DELETE` | `/employees/{id}` | 通常无 Body |
 
-<ReactLiveDemo example="crud" />
-
 ## 2. 先确认 API 契约
 
 API 契约就是请求要传什么、响应会返回什么。分页查询条件示例：
@@ -64,6 +62,10 @@ const query = {
 ```
 
 新增时不传数据库 ID。成功后使用后端返回的完整对象，不要由前端猜测新 ID。
+
+先用下面的浏览器内本地 State 练习观察新增与删除。它不会发送 HTTP 请求，也不会持久保存；掌握数据变化后，再按本章 Service 示例连接[课堂员工接口](10_employee_api_mock.md)。
+
+<ReactLiveDemo example="crud" />
 
 ## 3. Employee Service
 

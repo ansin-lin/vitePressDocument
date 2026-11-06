@@ -30,8 +30,6 @@
 开发者：保留 Status、traceId 等调查线索
 ```
 
-<ReactLiveDemo example="errorState" />
-
 ## 2. Axios 请求失败时发生了什么
 
 ```js
@@ -189,6 +187,8 @@ export function ErrorPanel({ error, onRetry }) {
 }
 ```
 
+<ReactLiveDemo example="errorState" />
+
 ## 5. DevTools Network 调查
 
 假设用户点击“保存”，页面只显示“保存失败”。不要马上修改代码或猜测 Backend 问题，先按以下顺序调查：
@@ -256,6 +256,8 @@ Click → saving=true → Button disabled → API → finally → saving=false
 ```
 
 UI 防护能减少误操作，但网络重试、双标签页或恶意请求仍可能重复到达。创建付款、订单等关键写入还应采用后端幂等策略。
+
+**幂等性**是指同一操作执行多次与执行一次具有相同的预期效果。假设新增员工的 `POST` 已写入数据库，但响应在途中丢失；前端误以为失败并立即重发，可能创建第二名相同员工。按钮禁用和 Ref 锁只能限制当前页面里的重复触发，无法判断第一次请求是否已在后端生效。结果不明时，不应自动重试写入；关键写入需要与后端约定唯一请求标识或其他去重规则。
 
 只写 `if (saving) return` 可以改善一般操作，但 State 更新会在 React 后续渲染中生效；同一瞬间快速触发的两个事件可能都读取到旧的 `saving=false`。因此需要严格阻止同一组件内重复进入时，可以用 Ref 保存立即变化的锁。
 

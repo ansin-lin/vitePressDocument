@@ -97,8 +97,6 @@ function pageHeader() {
 
 组件使用大驼峰命名法，例如 `PageHeader`、`EmployeeTable`、`LoginForm`。
 
-<ReactLiveDemo example="jsx" />
-
 ## 3. JSX 的基本书写规则
 
 JSX 看起来像 HTML，但它位于 JavaScript 中，因此有几条必须遵守的规则。
@@ -257,6 +255,8 @@ return (
   </main>
 );
 ```
+
+<ReactLiveDemo example="jsx" />
 
 ## 5. 组件如何组成页面
 

@@ -38,8 +38,6 @@ const [saving, setSaving] = useState(false);
 const [serverError, setServerError] = useState('');
 ```
 
-<ReactLiveDemo example="form" />
-
 ## 2. 什么是受控组件
 
 输入框的显示值由 React State 决定，并通过 `onChange` 更新 State，这种写法称为受控组件：
@@ -71,6 +69,8 @@ setForm
 ```
 
 只写 `value` 不写 `onChange`，输入框会变成只读。只写 `onChange` 而不绑定 `value`，值由 DOM 自己保存，属于非受控方式。本课程业务表单主线使用受控组件。
+
+<ReactLiveDemo example="form" />
 
 ## 3. 使用通用 change 处理函数
 

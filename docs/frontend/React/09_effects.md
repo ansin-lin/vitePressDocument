@@ -31,8 +31,6 @@ React 提交 UI
 
 Effect 在 React 把画面提交给浏览器之后运行，不应在 Render 阶段直接执行外部操作。
 
-<ReactLiveDemo example="effect" />
-
 ## 2. 三类代码放在哪里
 
 ### 2.1 渲染代码
@@ -214,6 +212,8 @@ flowchart TD
 ```
 
 cleanup 不只在最终卸载时执行，也会在下一次 Effect 重新同步前执行。
+
+<ReactLiveDemo example="effect" />
 
 ## 6. 根据参数读取数据
 

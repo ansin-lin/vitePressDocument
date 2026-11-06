@@ -21,8 +21,8 @@ function Clock() { const [seconds, setSeconds] = useState(0); useEffect(() => { 
 export default function App() { const [show, setShow] = useState(true); return <div><button onClick={() => setShow(!show)}>{show ? '停止' : '启动'}</button>{show && <Clock />}</div> }`),
   asyncState: example('异步请求状态', '模拟本地异步数据，观察加载和结果状态。', '修改延迟时间或返回的数据。', `import { useState } from 'react';
 export default function App() { const [status, setStatus] = useState('待加载'); async function load() { setStatus('加载中…'); await new Promise(resolve => setTimeout(resolve, 800)); setStatus('已加载：React 课程') } return <div><button onClick={load}>加载</button><p>{status}</p></div> }`),
-  crud: example('列表增删', '在本地 state 中添加和删除项目。', '尝试增加去重逻辑。', `import { useState } from 'react';
-export default function App() { const [text, setText] = useState(''); const [items, setItems] = useState(['学习 React']); return <div><input value={text} onChange={e => setText(e.target.value)} /><button onClick={() => { if (text.trim()) { setItems([...items, text.trim()]); setText('') } }}>添加</button><ul>{items.map((item, i) => <li key={i}>{item} <button onClick={() => setItems(items.filter((_, n) => n !== i))}>删除</button></li>)}</ul></div> }`),
+  crud: example('员工列表本地增删', '先用本地 State 理解列表变化；本练习没有调用员工 API。', '新增一名员工，再删除一名员工。', `import { useState } from 'react';
+export default function App() { const [name, setName] = useState(''); const [items, setItems] = useState([{ id: 1, name: '田中太郎', department: '开发部' }]); return <div><input value={name} onChange={e => setName(e.target.value)} placeholder="员工姓名" /><button onClick={() => { if (name.trim()) { setItems([...items, { id: Date.now(), name: name.trim(), department: '未分配' }]); setName('') } }}>添加</button><ul>{items.map(item => <li key={item.id}>{item.name}（{item.department}）<button onClick={() => setItems(items.filter(row => row.id !== item.id))}>删除</button></li>)}</ul></div> }`),
   refs: example('ref 操作 DOM', '点击按钮让输入框获得焦点。', '增加清空输入内容的操作。', `import { useRef } from 'react';
 export default function App() { const input = useRef(null); return <div><input ref={input} placeholder="输入内容" /><button onClick={() => input.current.focus()}>聚焦</button></div> }`),
   context: example('跨层传值', '深层组件读取 Context。', '修改主题颜色。', `import { createContext, useContext } from 'react';
@@ -30,11 +30,14 @@ const Theme = createContext('blue');
 function Button() { const color = useContext(Theme); return <button style={{ color }}>主题按钮</button> }
 function Toolbar() { return <div><Button /></div> }
 export default function App() { return <Theme.Provider value="tomato"><Toolbar /></Theme.Provider> }`),
-  errorState: example('错误状态', '请求失败时展示可重试提示。', '把失败改成成功状态。', `import { useState } from 'react';
-export default function App() { const [error, setError] = useState(''); return <div><button onClick={() => setError('加载失败，请重试')}>模拟失败</button>{error && <p role="alert">{error} <button onClick={() => setError('')}>重试</button></p>}</div> }`),
-  search: example('搜索过滤', '输入关键字筛选列表。', '增加一门课程并搜索它。', `import { useState } from 'react';
-const courses = ['Java', 'JavaScript', 'React', 'Vue'];
-export default function App() { const [keyword, setKeyword] = useState(''); return <div><input value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="搜索课程" /><ul>{courses.filter(item => item.toLowerCase().includes(keyword.toLowerCase())).map(item => <li key={item}>{item}</li>)}</ul></div> }`),
+  errorState: example('失败后重新请求', '本练习模拟异步请求；重试会重新执行请求，首次失败、第二次成功。', '点击读取，再点击重试；修改 attempts 的判断观察连续失败。', `import { useRef, useState } from 'react';
+export default function App() { const attempts = useRef(0); const [status, setStatus] = useState('idle'); async function load() { setStatus('loading'); await new Promise(resolve => setTimeout(resolve, 500)); attempts.current += 1; setStatus(attempts.current === 1 ? 'error' : 'success') } return <div><button onClick={load} disabled={status === 'loading'}>读取员工</button>{status === 'loading' && <p role="status">正在读取…</p>}{status === 'error' && <p role="alert">读取失败 <button onClick={load}>重试</button></p>}{status === 'success' && <p>已读取：田中太郎</p>}</div> }`),
+  search: example('员工本地搜索过滤', '用本地员工数组观察关键字过滤；正式页面还要与 Service 和分页条件连接。', '输入姓名或部门，观察列表变化。', `import { useState } from 'react';
+const employees = [{ id: 1, name: '田中太郎', department: '开发部' }, { id: 2, name: '山田花子', department: '营业部' }];
+export default function App() { const [keyword, setKeyword] = useState(''); const visible = employees.filter(item => (item.name + item.department).includes(keyword.trim())); return <div><input value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="搜索姓名或部门" /><ul>{visible.map(item => <li key={item.id}>{item.name}（{item.department}）</li>)}</ul></div> }`),
+  portal: example('Portal 弹窗位置', '弹窗由 App 控制，但 DOM 放在预览文档的 body 下。', '打开弹窗并查看 DOM 父元素；再修改弹窗内容。', `import { useState } from 'react';
+import { createPortal } from 'react-dom';
+export default function App() { const [open, setOpen] = useState(false); return <div><button onClick={() => setOpen(true)}>打开弹窗</button>{open && createPortal(<div role="dialog" aria-modal="true" style={{ position: 'fixed', top: '20%', left: '20%', background: 'white', color: 'black', border: '2px solid teal', padding: 20 }}>员工详情弹窗<p>DOM 父元素：BODY</p><button onClick={() => setOpen(false)}>关闭</button></div>, document.body)}</div> }`),
   router: example('React Router 页面导航', '真实运行 React Router；预览使用内存路由，站点地址不会改变。', '添加 /about 页面，或修改员工详情编号。', `import { MemoryRouter, Link, Routes, Route, useParams, useLocation } from 'react-router-dom';
 function Location() { const location = useLocation(); return <p>当前路径：{location.pathname}</p> }
 function Detail() { const { id } = useParams(); return <h2>员工详情：{id}</h2> }
@@ -49,7 +52,7 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 const counterSlice = createSlice({ name: 'counter', initialState: { count: 0 }, reducers: { increase: state => { state.count += 1 }, reset: state => { state.count = 0 } } });
 const store = configureStore({ reducer: { counter: counterSlice.reducer } });
 function Counter() { const count = useSelector(state => state.counter.count); const dispatch = useDispatch(); return <div><p>当前数值：{count}</p><button onClick={() => dispatch(counterSlice.actions.increase())}>+1</button><button onClick={() => dispatch(counterSlice.actions.reset())}>重置</button></div> }
-export default function App() { return <Provider store={store}><Counter /></Provider> }`, { '@reduxjs/toolkit': '2.11.2', 'react-redux': '9.2.0' })
+export default function App() { return <Provider store={store}><Counter /></Provider> }`, { '@reduxjs/toolkit': '2.12.0', 'react-redux': '9.3.0' })
 } as const
 
 export type ReactExampleKey = keyof typeof reactExamples

@@ -30,8 +30,6 @@
 
 事件负责发起变化，State 负责保存变化后的数据。
 
-<ReactLiveDemo example="state" />
-
 ## 2. React 事件的基本写法
 
 React 事件属性采用 camelCase，例如 `onClick`、`onChange`、`onSubmit`。
@@ -284,6 +282,8 @@ const [open, setOpen] = useState(false);
 const [keyword, setKeyword] = useState('');
 const [selectedId, setSelectedId] = useState(null);
 ```
+
+<ReactLiveDemo example="state" />
 
 ## 8. State 是当前渲染的一张快照
 

@@ -27,8 +27,6 @@ E001     | 张三 | 开发 | 有效 | 编辑 删除
 
 这一张页面已经组合了 Form、Input、Select、Table、Search、Filter、Sort、Pagination、Loading、Empty、Error、Dialog、Toast 和按钮状态。本章先分别掌握，再把它们连接成一个 CRUD 流程。
 
-<ReactLiveDemo example="search" />
-
 ## 2. Form 与 Controlled Component
 
 React 中常用 State 同步管理输入值，这类输入称为 Controlled Component：
@@ -440,6 +438,8 @@ const query = { keyword, department, status, page, size, sort };
 输入框草稿和已提交查询条件不要混为一份 State。用户输入尚未提交时，不应每按一个字符就改变 URL，除非规格明确要求即时搜索并已处理防抖与请求取消。
 
 部门和状态变化后，通常把 `page` 重置为 `1`。清除按钮应删除 `keyword`、`department` 和 `status`，同时保留项目明确要求继续使用的其他参数。
+
+<ReactLiveDemo example="search" />
 
 ## 8. Pagination
 

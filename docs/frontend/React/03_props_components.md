@@ -62,8 +62,6 @@ React 组成 Props 对象 { count: 12 }
 
 Props 是 Properties（属性）的简称。父组件负责提供值，子组件负责根据收到的值显示内容。
 
-<ReactLiveDemo example="props" />
-
 ## 2. Props 实际上是一个对象
 
 下面的调用传入三个 Props：
@@ -243,6 +241,8 @@ function EmployeeCard({ employee }) {
 - 不要同时传 `employee` 又重复传 `name={employee.name}`，否则出现两份来源。
 
 函数也可以作为 Prop 传递，用于把子组件操作通知父组件。这个用法会在第七章“组件通信与状态提升”中详细讲解。
+
+<ReactLiveDemo example="props" />
 
 ## 4. 可省略的 Props 与默认值
 

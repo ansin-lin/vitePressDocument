@@ -44,8 +44,6 @@ Setter 接收新值
 React 安排重新渲染
 ```
 
-<ReactLiveDemo example="immutable" />
-
 ## 2. 更新对象 State
 
 ```jsx
@@ -225,6 +223,8 @@ setEmployees((previous) =>
 ```
 
 不要只根据前端输入猜测服务器最终结果；服务端可能补充更新时间、默认值或规范化后的字段。
+
+<ReactLiveDemo example="immutable" />
 
 ## 4. 排序与反转
 

@@ -82,6 +82,7 @@ export default defineConfig({
           { text: '8. 表单与校验', link: '/frontend/React/08_forms_validation' },
           { text: '9. useEffect', link: '/frontend/React/09_effects' },
           { text: '10. REST API 与异步 UI', link: '/frontend/React/10_api_async_ui' },
+          { text: '10A. 课堂员工接口准备', link: '/frontend/React/10_employee_api_mock' },
           { text: '11. 员工 CRUD 数据流', link: '/frontend/React/11_crud' },
           { text: '12. Router 与导航', link: '/frontend/React/12_router_navigation' },
           { text: '13. useRef 与自定义 Hook', link: '/frontend/React/13_refs_custom_hooks' },

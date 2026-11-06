@@ -26,8 +26,6 @@
 3. 很深的不同区域都需要：考虑 Context。
 4. 变化和业务 Action 较复杂：再评估第 16 章的 Store。
 
-<ReactLiveDemo example="context" />
-
 ## 2. Context 解决什么问题
 
 ```text
@@ -200,6 +198,8 @@ export function useAuth() {
 这里在 `finally` 清除前端身份，是本课程选择的退出策略：即使退出 API 暂时失败，也不继续把当前浏览器画面当作已登录。它不是所有系统的通用答案。采用服务端 Session、可撤销 Token 或离线策略时，应根据威胁模型、后端返回和产品要求决定是否重试、是否保留提示，以及怎样使服务器凭据真正失效；前端清空 State 本身不能撤销服务端会话。
 
 `getCurrentUser(signal)` 是认证 Service：有效会话返回包含 `id`、`name`、`permissions` 的用户对象，无会话返回 `null`；网络失败则抛出错误并显示重试，不会被误判成 anonymous。Provider 之下的组件可读取值。Context 更新会让读取该 Context 的组件重新渲染。Context 是传递机制，不自动提供复杂 Action、时间旅行、缓存或持久化。
+
+<ReactLiveDemo example="context" />
 
 ## 3. useReducer：集中相关状态变化
 
