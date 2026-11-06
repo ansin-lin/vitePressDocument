@@ -1,6 +1,6 @@
 # 技术研习室
 
-VitePress 站点。当前收录从 `LearnDocument/docs/frontend/HTML`、`CSS`、`JavaScript` 复制的 Web 基础课程，以及从 `LearnDocument/docs/database/sql` 复制的 SQL 课程、从 `LearnDocument/docs/backend/java` 复制的 Java 基础教程和对应综合练习。参考目录未修改。
+VitePress 站点。当前收录 Web 前端、SQL、Java、MyBatis 和 Spring Boot 课程。教材以 `LearnDocument` 为参考，参考目录未修改。
 
 ## 本地运行
 
@@ -13,7 +13,7 @@ npm run typecheck
 npm run build
 ```
 
-HTML、CSS、JavaScript 页面位于 `docs/frontend/`；SQL 页面位于 `docs/database/sql/`，Java 页面位于 `docs/backend/java/`，课程入口在 `docs/courses/index.md`。Java 的 `06_arrays.md` 对未加代码围栏的泛型签名做了 VitePress 转义。JavaScript 的逐章审核、演示判断和图解清单见 `JS-REVIEW.md`。
+前端页面位于 `docs/frontend/`，SQL 位于 `docs/database/sql/`，Java、MyBatis、Spring Boot 位于 `docs/backend/`。课程入口在 `docs/courses/index.md`；综合练习位于 `docs/exercises/`。
 
 ## GitHub Pages
 
@@ -28,3 +28,5 @@ Vue 与 React 课程的概念章节加入可展开的在线练习。Vue 使用 V
 路由章节另外提供 Vue Router 和 React Router 的真实导航练习。在线预览使用内存历史，不改变教材网站 URL；本地项目按教材配置 Web History 或 BrowserRouter。状态管理章节提供 Pinia、Zustand 和 Redux Toolkit 的真实 Store 练习，演示数据只保存在当前浏览器预览内。Vue Router 与 Pinia 需要从公共 CDN 加载模块；React Router、Zustand、Redux Toolkit 由 Sandpack 的公共打包服务加载。
 
 示例集中在 `docs/.vitepress/theme/vueLiveExamples.ts` 和 `reactLiveExamples.ts`。在 Markdown 中使用 `<VueLiveDemo example="ref" />` 或 `<ReactLiveDemo example="state" />` 引用现有示例，新增示例时先为目录增加键和完整代码，再在首次讲解该知识点的位置引用。参考教材目录未修改。
+
+MyBatis 与 Spring Boot 的流程演示使用可复用的 `<BackendFlowDemo>` 组件，逐步解释调用路径，并明确标为教学模拟。它不会在浏览器中运行 Java、MyBatis、Spring Boot 或 MySQL；课程中的代码按章节在本地工程执行。附录中指向 Java、SQL 等源码的链接会打开参考仓库中的对应文件。

@@ -1,0 +1,81 @@
+# 02 Spring Batch 核心架构与第一次运行
+
+## 本章学习目标
+
+读懂 Job、Step、JobInstance、JobExecution、StepExecution 的关系，完成第一次有持久化执行记录的运行。
+
+## 前置知识
+
+完成 [第 01 章](01_batch_overview.md)，能区分普通 Service 与 Spring Batch；准备独立数据库和 Java 17 兼容的 Maven 工程。执行前核对 [README 的初始化步骤](../README.md)。
+
+## 实际业务场景
+
+一次指定日期的考勤汇总要先校验、再汇总、再导出、最后记录结果。任务中途失败时，新进程也需要知道原先哪些阶段已完成。
+
+## 核心概念
+
+`Job` 与 `Step` 是**定义**。`JobInstance` 由 Job 名与标识性参数确定，例如 `attendanceSummaryJob + businessDate=2026-10-19`。每次尝试是一个 `JobExecution`；失败后用同一参数重启会产生新的 Execution，仍属于同一 Instance。每个 Step 的一次尝试是 `StepExecution`，有状态、读写件数和异常。`ExecutionContext` 保存可恢复的读取位置。`JobRepository` 把这些元数据存到 `BATCH_*` 表；业务汇总仍存 `attendance_daily_summary`，两类表不能混用。
+
+`JobLauncher` 发起执行，不决定业务计算；`Tasklet` 负责一次性阶段，`Chunk` 负责分块处理。`COMPLETED`、`FAILED`、`STOPPED` 是执行状态，不直接证明业务表正确。
+
+## 执行流程图
+
+```text
+手动或定时触发 → JobLauncher → attendanceSummaryJob
+                               ├─ validateStep
+                               ├─ summarizeStep
+                               ├─ csvStep
+                               └─ resultStep
+                      ↘ JobRepository → BATCH_* 元数据
+                       ↘ Mapper → 考勤与汇总业务表
+```
+
+## 关键类与接口说明
+
+本工程使用 Boot 4.1.1 的 `spring-boot-starter-batch-jdbc`，由它配置 JDBC 仓库；仅加基础 `spring-boot-starter-batch` 得到的无资源仓库不保存所需执行历史。`JobBuilder`、`StepBuilder` 采用 Batch 6 API，不使用旧的 `JobBuilderFactory`、`StepBuilderFactory`。`spring.batch.job.enabled=false` 防止应用启动时自动运行所有 Job，改由明确参数触发。
+
+## 代码示例
+
+这是 [BatchConfig.java](../examples/attendance-batch/src/main/java/com/example/attendance/BatchConfig.java) 的 **Job 定义片段**，省略 Bean 方法签名和 import；可运行的完整类在链接中：
+
+```java
+return new JobBuilder("attendanceSummaryJob", repository)
+        .start(validateStep)
+        .next(summarizeStep)
+        .next(csvStep)
+        .next(resultStep)
+        .build();
+```
+
+`repository` 来自 JDBC 自动配置；`next` 保证按顺序执行，前一步失败时后续步骤不会继续。完整 POM 在 [工程文件](../examples/attendance-batch/pom.xml)。
+
+## 逐步操作
+
+1. 在个人 MySQL 8 数据库执行业务 [schema.sql](../sql/schema.sql) 与 [sample_data.sql](../sql/sample_data.sql)。
+2. 首次仅在空库用 `spring.batch.jdbc.initialize-schema=always` 初始化当前 Batch 6.0.5 附带的 MySQL 元数据脚本；成功后恢复 `never`。
+3. 在工程目录执行 `mvn test`、`mvn package`，按 README 的命令用 `businessDate=2026-10-19` 启动。
+4. 用 [运行手册](../runbook.md) 的只读 SQL 查看 Job/Step 记录，再查业务汇总表。
+
+## 运行结果
+
+在已初始化的 25 条样例数据上，预期 Job 状态 `COMPLETED`、汇总 25 行、CSV 26 行。H2 自动化测试已覆盖该路径；MySQL 路径须在你的独立库验证，不能拿 H2 测试替代。
+
+## 常见错误
+
+`BATCH_*` 表不存在：确认依赖是 `spring-boot-starter-batch-jdbc`、连接的是专用库，并仅在空库执行初始化。找不到 Job：确认没有误加 `@EnableBatchProcessing` 使 Boot 自动配置退出，确认扫描范围与 Bean 名称。
+
+## 实际项目中的注意事项
+
+生产元数据表应由受控迁移创建；不要每次启动自动重建。持久化仓库与业务表使用同一测试数据库时，数据库账号必须具备各自所需权限。参考 [Boot Batch 官方文档](https://docs.spring.io/spring-boot/reference/io/spring-batch.html) 与 [Batch 6 JobRepository 文档](https://docs.spring.io/spring-batch/reference/job/configuring-repository.html)。
+
+## 学员练习
+
+运行一次固定日期，记录 Job 名、Instance ID、Execution ID、四个 Step 的状态和汇总表件数；把 `resultStep` 暂时置于 `summarizeStep` 前的**工程副本**中观察日志顺序，再恢复原配置。
+
+## 本章验收标准
+
+能够指出 Job 定义与一次执行记录不同，能用执行 ID 查 `BATCH_JOB_EXECUTION`，并解释元数据表与业务表各自存什么。
+
+## 本章总结
+
+Batch 的第一个价值是给批量工作可持久化的身份和执行历史；后面章节才逐步让每个 Step 真正可靠。

@@ -1,0 +1,79 @@
+# 07 Spring Scheduling：先独立观察定时触发
+
+## 本章学习目标
+
+能配置 fixedRate、fixedDelay、initialDelay 与日本时间 cron，观察任务超过间隔或抛异常时的行为，不把调度当成 Batch。
+
+## 前置知识
+
+会运行 Spring Boot 工程并读日志。本章的固定间隔实验**不启动 Batch Job**，与 [第 06 章](06_job_parameters_execution_management.md)的执行历史分开观察。
+
+## 实际业务场景
+
+应用要周期性检查是否有待执行的任务，也要在日本时间凌晨 2 点尝试触发前日汇总。调度只决定“何时调用方法”，不能自动保证这次调用的业务成功。
+
+## 核心概念
+
+`@EnableScheduling` 在配置类上开启 Spring 的调度处理；`@Scheduled` 在无参数、返回 `void` 的方法上声明触发规则。`fixedRate` 以相邻启动时刻计算间隔，`fixedDelay` 从上次完成后计算，`initialDelay` 控制首次等待。Spring cron 有秒、分、时、日、月、周六段；`0 0 2 * * *` 是每天 02:00，`zone="Asia/Tokyo"` 固定解释时区。`@Scheduled` 不是 JobRepository，不存持久化执行历史，也不会在应用停机期间补跑错过的时刻。
+
+## 执行流程图
+
+```text
+Spring 调度器 → 到点调用方法 → 方法开始 → 执行或抛异常 → 记录结果
+       fixedRate：按计划开始间隔
+       fixedDelay：上次结束 + 间隔
+```
+
+## 关键类与接口说明
+
+[FixedRateLab.java](../examples/attendance-batch/src/main/java/com/example/attendance/FixedRateLab.java) 和 [FixedDelayLab.java](../examples/attendance-batch/src/main/java/com/example/attendance/FixedDelayLab.java) 是两个互斥实验模式，`app.schedule.lab-mode=rate` 或 `delay` 只选择一个；不会触发真实考勤 Job。两种任务都睡眠 3 秒、间隔设 2 秒，日志打印线程名和起止时间。默认调度执行器的线程数与配置有关，不应声称同一任务必然并发。
+
+## 代码示例
+
+以下是 **完整方法片段**，类级的 `@Configuration`、`@EnableScheduling`、条件注解和 import 见上述源文件：
+
+```java
+@Scheduled(fixedDelay = 2000, initialDelay = 1000)
+public void tick() {
+    log.info("fixedDelay start thread={}", Thread.currentThread().getName());
+    // 实验中睡眠 3000 毫秒；完整异常处理见 FixedDelayLab.java。
+}
+```
+
+`2000` 与 `1000` 默认单位为毫秒。每天日本时间 02:00 的真实配置在 [AttendanceScheduler.java](../examples/attendance-batch/src/main/java/com/example/attendance/AttendanceScheduler.java) 使用 `@Scheduled(cron = "...", zone = "Asia/Tokyo")`；本章先不打开它。
+
+## 逐步操作
+
+在工程目录构建后，分别执行以下命令，每次观察至少三轮日志，再按 Ctrl+C 停止。无需人工 Batch 日期，需有能连接的独立测试数据库让应用启动：
+
+```powershell
+java -jar target/attendance-batch-1.0.0.jar --app.schedule.lab-mode=rate
+java -jar target/attendance-batch-1.0.0.jar --app.schedule.lab-mode=delay
+java -jar target/attendance-batch-1.0.0.jar --app.schedule.lab-mode=delay --app.schedule.lab-fail-once=true
+```
+
+第三条第一次抛教学异常，检查下一次是否仍触发；实际日志是现场证据，不把代码推演写成已运行结果。不要同时启动多个实验进程，否则会混淆时间线。
+
+## 运行结果
+
+预期 `fixedDelay` 的下一次开始晚于上一次结束约 2 秒；`fixedRate` 的计划间隔是 2 秒，但任务运行 3 秒且执行器资源有限时，实际开始时间可能推迟，不能简单断言并发。异常应被日志记录；是否继续执行需要实际观察与测试，不把一次方法被调用当成“成功”。
+
+## 常见错误
+
+写成五段 Linux cron 会被 Spring 的六段解析拒绝；未指定 `zone` 时会受默认时区影响；应用停机时不会调度。异常被吞掉并打印“成功”会误导运维。
+
+## 实际项目中的注意事项
+
+多实例部署会在每个实例触发，Spring Scheduling 本身不提供分布式唯一调度。Linux cron 在操作系统层启动命令，Spring Scheduling 在应用进程内运行；两者都不能单独提供批处理断点。长期任务应规划线程池、重叠触发和停机策略，不能凭默认单线程假设制定生产方案。参考 [Spring Scheduling 官方文档](https://docs.spring.io/spring-framework/reference/integration/scheduling.html)。
+
+## 学员练习
+
+改变睡眠为 1 秒与 3 秒各运行一次，记录 rate/delay 的至少三个起止时间和线程名；再开启 `lab-fail-once`，区分“触发、执行、失败、下次触发”四个事件。
+
+## 本章验收标准
+
+能正确写出六段 cron、Asia/Tokyo 与每天 02:00 的含义，并用日志而非猜测说明超时和异常观察结果。
+
+## 本章总结
+
+Scheduling 负责定时触发；持久化历史、恢复和业务幂等性要由 Batch 与业务设计承担。

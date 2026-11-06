@@ -1,0 +1,81 @@
+# 04 Chunk：25 条考勤按 10/10/5 处理
+
+## 本章学习目标
+
+能沿 Reader→Processor→Writer 追踪一条数据，并用事务与数据库结果证明 25 条按 10/10/5 分块。
+
+## 前置知识
+
+完成 [第 03 章](03_tasklet_processing.md)，熟悉 MyBatis Mapper 和事务。保持工程的 `businessDate` 参数、表名与样例数据不变。
+
+## 实际业务场景
+
+一次读取全部考勤会占用大量内存；逐条提交又增加数据库开销。这里每读取、处理、写出至多 10 条形成一个 Chunk，提交成功后继续下一组。25 条产生三组：10、10、5。
+
+## 核心概念
+
+`ItemReader.read()` 每次返回一条，结束时返回 `null`；`ItemProcessor.process()` 校验并转换；`ItemWriter.write(Chunk)` 接收本组结果。`chunk(10)` 是提交间隔，不是总数据量限制。每个 Chunk 使用独立事务；前两组成功后第 13 条失败，通常前 10 条已提交，第二组回滚。[第 05 章](05_transaction_failure_recovery.md)实际验证。
+
+本工程 Reader 用 MyBatis 的 `findNext(date, lastId)` 做 keyset 查询，按唯一 `id` 递增；一次最多持有当前 Chunk，不一次加载 100 万条。`ItemStreamReader.update(ExecutionContext)` 在提交检查点保存最后读取 ID；重启时 `open` 取回。源数据若在运行期间新增、修改或删除，单靠最后 ID **不能保证快照一致**；正式项目需定义截断边界或先冻结输入。
+
+## 执行流程图
+
+```text
+findNext → process → 累积 10 条 → write 10 条 → 提交与保存 lastId
+findNext → process → 累积 10 条 → write 10 条 → 提交与保存 lastId
+findNext → process → 累积  5 条 → write  5 条 → 提交与保存 lastId
+findNext → null    → Step 结束
+```
+
+## 关键类与接口说明
+
+`AttendanceRecord` 是输入 record，`DailySummary` 是输出 record。Processor 计算 `ChronoUnit.MINUTES.between(startAt, endAt) - breakMinutes`，超过 480 分钟的部分为加班。Writer 通过 MyBatis `upsertSummary` 写到员工+日期唯一键。完整实现分别见 [Reader](../examples/attendance-batch/src/main/java/com/example/attendance/AttendanceReader.java)、[Processor](../examples/attendance-batch/src/main/java/com/example/attendance/AttendanceProcessor.java)、[Writer](../examples/attendance-batch/src/main/java/com/example/attendance/AttendanceWriter.java) 和 [Mapper](../examples/attendance-batch/src/main/java/com/example/attendance/AttendanceMapper.java)。
+
+`chunk(int)`、`transactionManager(...)` 是 Batch 6 的 Builder API；旧版 `chunk(10, tx)` 已标为弃用。Reader/Processor/Writer 的接口在 Batch 6 位于 `org.springframework.batch.infrastructure.item` 包。
+
+## 代码示例
+
+这是 [BatchConfig.java](../examples/attendance-batch/src/main/java/com/example/attendance/BatchConfig.java) 的 **Step Bean 关键片段**，参数 Bean 与 import 请看完整文件：
+
+```java
+return new StepBuilder("summarizeStep", repository)
+        .<AttendanceRecord, DailySummary>chunk(10)
+        .reader(reader)
+        .processor(processor)
+        .writer(writer)
+        .transactionManager(transactionManager)
+        .build();
+```
+
+`repository` 保存执行状态，`transactionManager` 管理每组业务写入。MyBatis-Spring 的 Mapper 在同一个 Spring 事务中参与写入，不应在 Writer 内自己打开独立 SqlSession。
+
+## 逐步操作
+
+1. 查 `attendance_records`，确认 2026-10-19 有 25 条、`id` 连续 1～25。
+2. 执行 `mvn -q -Dtest=AttendanceBatchIntegrationTest test`；该测试实际启动 Job，断言 `writeCount=25` 与汇总 25 行。
+3. 在工程副本中给 Writer 每次 `write` 增加**只记录件数**的临时日志，应观察 10、10、5；不要记录姓名或原始考勤明细。验证后撤销这条实验日志。
+4. 用 [运行手册](../runbook.md) 的 SQL 对照源数、汇总数和 StepExecution。
+
+## 运行结果
+
+25 条标准输入生成 25 行汇总与 26 行 CSV。每行工作 480 分钟、加班 0；CSV 表头不计入 `writeCount`。`readCount`、`writeCount` 来自 Batch 元数据，仍应与业务表核对。
+
+## 常见错误
+
+`read()` 永远不返回 `null` 会无限读；只按非唯一字段排序会在重启时遗漏或重复；Writer 自己开新事务使 Chunk 回滚不能覆盖业务写入。修正时先查 Reader 的最后 ID、Mapper SQL 排序与事务管理器。
+
+## 实际项目中的注意事项
+
+游标读取可减少单条查询次数，分页读取便于分段，但都需要稳定顺序和状态保存；本专题用 keyset 避免同时引入第二种 Reader。Chunk Size 要结合事务时间、锁与内存实测，不是越大越好。源表若被在线业务持续改写，应在规格中定义输入冻结或截止 ID。
+
+## 学员练习
+
+在单独副本把第 13 条 `break_minutes` 改为 600，运行同日期的新测试库 Job，记录 Reader 已取到哪条、Writer 已提交几条、Step 状态；第 05 章再完成修复与重启。
+
+## 本章验收标准
+
+能画出 10/10/5 的读写提交序列，指出 `null` 结束条件、ExecutionContext 的位置，以及 MyBatis Writer 如何参与 Chunk 事务。
+
+## 本章总结
+
+Chunk 把大量数据划分为可提交的单位；真正可靠还需要失败策略、可恢复的 Reader 和业务幂等性。

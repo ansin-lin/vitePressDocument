@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+app:
+  security:
+    jwt:
+      secret-base64: ${EMPLOYEE_JWT_SECRET_BASE64}
+      issuer: employee-management
+      audience: employee-api
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/employee_db?useUnicode=true&characterEncoding=UTF-8&connectionTimeZone=Asia/Tokyo}
+    username: ${DB_USERNAME:employee_app}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.employee.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 10
+
+logging:
+  level:
+    root: INFO
+    com.example.employee: INFO
+    com.example.employee.service.impl.EmployeeServiceImpl: ${APP_SERVICE_LOG_LEVEL:INFO}
+    com.example.employee.mapper: INFO
+  file:
+    name: logs/employee-api.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: "${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz"
+      max-file-size: 10MB
+      max-history: 7
+      total-size-cap: 100MB
+      clean-history-on-start: false
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%thread] [%X{requestId:-no-request}] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%thread] [%X{requestId:-no-request}] %logger{36} - %msg%n"

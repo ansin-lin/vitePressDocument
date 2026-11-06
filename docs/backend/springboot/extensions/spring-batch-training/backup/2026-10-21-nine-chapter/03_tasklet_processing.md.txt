@@ -1,0 +1,80 @@
+# 03 Tasklet：一次性检查与结束记录
+
+## 本章学习目标
+
+能独立定义两个按顺序运行的 Tasklet Step，并解释执行时机与事务边界。
+
+## 前置知识
+
+完成 [第 02 章](02_spring_batch_architecture.md)，知道 Job、Step 和 JobRepository。继续沿用相同工程与数据库，不新建第二套业务表。
+
+## 实际业务场景
+
+考勤汇总前应确认 `businessDate` 存在、格式正确，并记录该日输入件数；结束后记录汇总件数。检查与收尾是“一次执行一项工作”，适合 Tasklet。
+
+## 核心概念
+
+`Tasklet.execute(StepContribution, ChunkContext)` 由 Step 调用，返回 `RepeatStatus.FINISHED` 表示这次工作结束；返回 `CONTINUABLE` 表示需要再次调用，若误用可能反复执行。抛出异常使 Step 失败。Tasklet Step 使用显式的 `PlatformTransactionManager`；其中的数据库操作受该 Step 事务保护，但写文件、调用外部 API 不随事务回滚。Tasklet 不适合逐条处理大量考勤——那应交给 [Chunk](04_chunk_processing.md)。
+
+## 执行流程图
+
+```text
+Job 启动
+  → validateStep.execute：读取 businessDate、解析、统计源件数
+  → summarizeStep / csvStep
+  → resultStep.execute：记录汇总件数
+```
+
+## 关键类与接口说明
+
+`StepBuilder("validateStep", repository)` 创建 Step 定义；`tasklet(tasklet, transactionManager)` 指定工作和事务管理器；`ChunkContext.getStepContext().getJobParameters()` 读取启动参数，不从静态变量读取。`AttendanceMapper.countRecords` 返回该日源数据数；0 行可以是正常空日，是否失败应由规格决定。本例允许空日。
+
+## 代码示例
+
+下面是 [BatchConfig.java](../examples/attendance-batch/src/main/java/com/example/attendance/BatchConfig.java) 的 **Bean 方法片段**；完整 import 与其他 Step 见源文件：
+
+```java
+@Bean
+Step validateStep(JobRepository repository, PlatformTransactionManager tx,
+                  AttendanceMapper mapper) {
+    Tasklet tasklet = (contribution, context) -> {
+        String raw = (String) context.getStepContext()
+                .getJobParameters().get("businessDate");
+        if (raw == null) throw new IllegalArgumentException("businessDate is required");
+        LocalDate date = LocalDate.parse(raw);
+        log.info("validate businessDate={} sourceCount={}", date, mapper.countRecords(date));
+        return RepeatStatus.FINISHED;
+    };
+    return new StepBuilder("validateStep", repository).tasklet(tasklet, tx).build();
+}
+```
+
+`RepeatStatus` 的 Batch 6 import 是 `org.springframework.batch.infrastructure.repeat.RepeatStatus`，不是旧版 `org.springframework.batch.repeat`。`LocalDate.parse` 只接受 ISO 日期格式；格式错误抛出异常，JobExecution 应标为 `FAILED`。
+
+## 逐步操作
+
+先运行 `mvn -q -Dtest=AttendanceBatchIntegrationTest test`。从日志找 `validateStep`、`resultStep` 的先后。然后在工程副本中将启动参数改为不存在的日期，观察源数与汇总数均为 0；不要删除现有样例数据来模拟空日。
+
+## 运行结果
+
+样例日期显示 `sourceCount=25` 与 `summaryCount=25`。缺少 `businessDate` 的直接 JobLauncher 测试、格式错误测试均得到 `FAILED`；通过手动命令输入非法日期时，`ManualBatchRunner` 在调用 JobLauncher 前解析失败，可能没有 JobExecution，调查时要区分两条路径。
+
+## 常见错误
+
+只记录异常后返回 `FINISHED` 会把失败误报为成功。若参数错误需要阻止后续处理，就让异常向外传播。若把逐条数据库写入放进单个 Tasklet，长事务与断点恢复问题又回到普通循环。
+
+## 实际项目中的注意事项
+
+检查步骤不要打印真实员工信息、密码或连接串。文件导出的 `csvStep` 也是 Tasklet，但文件系统不参与数据库事务；其恢复策略见 [第 09 章](09_comprehensive_practice.md)。
+
+## 学员练习
+
+在副本中增加一个单独的“执行前检查”规则：禁止未来业务日期。编写“昨天成功、明天失败”的测试，确认失败时汇总表无新增；实验后恢复原代码。
+
+## 本章验收标准
+
+能创建并运行包含两个 Tasklet 的 Job，解释 `FINISHED`、异常与 Step 状态，保留日志和元数据两类证据。
+
+## 本章总结
+
+Tasklet 适合参数校验、资源准备和收尾；大量逐条数据处理交给 Chunk。

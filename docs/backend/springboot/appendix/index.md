@@ -1,0 +1,104 @@
+# Spring Boot附录学习入口
+
+01～18章是Employee Management教学主线，第19章是与Vue对接的独立结业任务。A开头的附录与主线章号对应，没有专属附录的章号直接跳过；同一章有多个附录时使用 `A03-1`、`A03-2` 这样的子编号。B01～B06是既存项目与实战专题，B07是可单独学习的跨域基础；注解速查是按需查阅的参考手册。附录实验代码不要求永久加入主线工程。
+
+附录继续使用主线技术基线：Java 17、Spring Boot 4.1.x（示例POM固定4.1.1）、MyBatis Starter与Test Starter 4.1.0。既存项目附录会同时展示Boot 2或Boot 3写法，看到旧写法时应先确认项目版本，不能直接复制到Boot 4主线。
+
+## 一、先按当前任务选择路线
+
+| 路线 | 适合什么任务 | 建议附录 |
+| --- | --- | --- |
+| 接口与数据表达扩展 | 调用外部API、调整JSON、读取Header/Cookie、上传文件、返回HTML、使用校验分组、处理日期时间或独立MyBatis配置 | B05、A03-1、A05、A06、A08、A09-1、A09-2 |
+| 既存项目识读与Spring机制 | 接手陌生项目、识别旧结构、阅读Lombok/JPA、查注解、多Bean排错、判断共通处理放在哪一层 | B01～B04、注解速查、A04 |
+| 质量保证、开发效率与故障排查 | 调整日志、辨认请求处理时机、使用AOP记录方法耗时、补充测试断言、比较H2与MySQL测试、使用JUnit生命周期与参数化测试、使用本地开发辅助工具，或根据现象定位构建、HTTP、数据库、安全及部署问题 | A03-2、A11-1、A11-2、A11-3、A12-1、A12-2、A12-3、B06 |
+| 跨域基础 | 用不登录的独立接口识别浏览器同源限制与CORS配置 | B07 |
+| 事务与并发控制 | 调查多步写入、隔离现象、丢失更新、锁等待和死锁，选择约束、原子UPDATE、乐观锁或悲观锁 | A13-1～A13-3、B06 |
+| 配置、交付与运维识读 | 调查配置覆盖、检查构建产物、阅读Linux部署手顺、识别Actuator和数据库迁移组件 | A17、A18-1、A18-2 |
+
+同一个现场任务可能跨越多条路线。例如“服务器上的更新接口返回403”应先用B06确定是Security还是部署问题，再回到第15～16章检查Bearer认证、角色与本人权限；只有证据指向服务器配置时才进入A17和A18-1。
+
+## 二、附录知识点与完成成果
+
+| 附录 | 建议前置 | 核心知识点 | 学完后应能完成 |
+| --- | --- | --- | --- |
+| [A03-1 使用@Controller返回HTML页面](A03_01_spring_mvc_html_views.md) | 第3～7章 | `@Controller`、`@ResponseBody`、视图名、`Model`、Thymeleaf | 返回静态内容与带模型数据的HTML页面，并区分视图和JSON响应 |
+| [A03-2 使用DevTools加快本地开发](A03_02_devtools_local_development.md) | 第3章 | DevTools依赖、开发期默认设置、Eclipse自动编译、自动重启、双类加载器、生产边界 | 完成一次代码修改后的自动重启，并区分编译、重启和接口验证问题 |
+| [A04 多个Bean候选的选择与排错](A04_multiple_bean_candidates.md) | 第4章 | Bean名称、`@Qualifier`、`@Primary`、候选不唯一异常 | 复现并修复多个同类型Bean导致的注入失败，实验后恢复主线 |
+| [A05 Jackson字段映射与输出规则](A05_jackson_json_mapping.md) | 第5～7章 | Jackson 3边界、`@JsonProperty`、`@JsonIgnore`、`@JsonInclude`、`@JsonFormat` | 判断JSON字段为何改名、缺失或改变格式，并保持Response DTO边界 |
+| [A06 Header、Cookie与文件上传](A06_http_headers_cookies_file_upload.md) | 第6、8章 | `@RequestHeader`、`@CookieValue`、`multipart/form-data`、`@RequestPart`、`MultipartFile` | 用Postman验证三类HTTP输入，并限制文件大小、类型和保存边界 |
+| [A08 使用@Validated选择校验分组](A08_validated_validation_groups.md) | 第8章 | `@Valid`与`@Validated`、分组接口、约束groups、类级方法校验 | 对同一DTO按草稿和提交阶段执行不同校验，并解释适用边界 |
+| [A09-1 Java Web项目中的日期时间与时区](A09_01_java_web_datetime.md) | 第5、6、9章 | `LocalDateTime`、`OffsetDateTime`、`Instant`、UTC、ZoneId、MySQL `DATETIME`/`TIMESTAMP` | 从浏览器、JSON、Java到MySQL追踪时间语义，发现丢失的时区信息 |
+| [A09-2 Spring Boot怎样读取独立MyBatis配置](A09_02_springboot_mybatis_config.md) | 第9章 | `config-location`、核心配置XML、Mapper XML、YAML设置冲突、Spring管理的数据源和事务 | 在可恢复实验中切换独立配置文件，并定位配置未读取或重复定义问题 |
+| [A11-1 Spring Boot日志配置进阶](A11_logging_configuration_advanced.md) | 第11章 | 日志处理链、有效等级、Console/File输出、滚动、MDC格式、环境覆盖、结构化日志和Logback XML边界 | 完成一次可回退的日志配置改修，并用验证矩阵解释日志为什么出现或缺失 |
+| [A11-2 Filter、OncePerRequestFilter与RequestLoggingFilter的执行时机](A11_2_filter_execution_timing.md) | 第11章 | Filter继承关系、Servlet分派、注册顺序、Security/MVC异常路径、MDC线程清理 | 根据200、400、404、401、403和500证据判断请求实际到达的位置 |
+| [A11-3 使用AOP统一记录方法日志](A11_3_aop_method_logging.md) | 第11章、A11-2 | Aspect、Join Point、Pointcut、Advice、代理、自定义注解、方法耗时和安全边界 | 为明确标记的Service方法记录成功、失败和慢调用，同时保持原返回、异常和事务语义 |
+| [A12-1 常用测试断言库与断言方法](A12_01_testing_assertions_reference.md) | 第12章各层案例后按需查阅 | JUnit、AssertJ、MockMvc结果匹配器、Mockito交互验证与Hamcrest识读 | 为正常系和异常系选择足够精确的断言，读懂expected/actual与HTTP测试失败 |
+| [A12-2 使用H2完成独立数据库测试实验](A12_02_h2_test_database.md) | 第12章MySQL Mapper案例后 | H2独立profile、脚本、数据库保护、正常系与异常系Mapper测试及MySQL对照 | 实际运行H2四个场景，并说明它不能替代MySQL测试 |
+| [A12-3 JUnit Jupiter常用注解与方法](A12_03_junit_jupiter_annotations_methods.md) | 第12章 | JUnit生命周期、断言、参数化测试和Spring测试注解的边界 | 独立运行JUnit练习，并为各层正常系与异常系选择准确断言 |
+| [A13-1 事务原理与Spring事务机制](A13_01_transaction_spring_mechanisms.md) | 第13章 | 事务边界、ACID、`@Transactional`默认值、属性与传播方式 | 识别业务事务边界及异常处理风险 |
+| [A13-2 并发更新与锁](A13_02_concurrent_updates_locks.md) | 第13章 | 唯一约束、原子UPDATE、乐观锁、悲观锁、锁等待与死锁 | 根据业务不变量选择并发控制机制，并用两个会话验证结果 |
+| [A13-3 隔离级别与MVCC](A13_03_isolation_mvcc.md) | 第13章 | 并发读取现象、隔离级别、快照读与当前读 | 解释多个事务读取同一数据时的可见结果 |
+| [A17 配置、构建与交付进阶](A17_configuration_build_delivery_advanced.md) | 第17章 | 配置覆盖调查、`@ConfigurationProperties`、产物摘要、外部配置模板、交付清单 | 确认最终生效配置和构建来源，整理不含秘密的交付资料 |
+| [A18-1 Linux部署与运维手顺参考](A18_01_linux_deployment_operations_reference.md) | 第18章及Linux基础 | systemd、目录权限、发布检查、切り戻し、端口/日志调查、反向代理与HTTPS边界 | 阅读和执行受控部署手顺，保留发布、验证和回退记录 |
+| [A18-2 常见运行与数据库迁移组件识读](A18_02_operations_components_reading.md) | 第9、17、18章 | Actuator、Flyway、Liquibase、管理端点安全、迁移历史与职责冲突 | 在既存项目中找到监控和迁移入口，说明当前组件及其替代流程 |
+| [B01 Spring共通处理机制](B01_spring_common_processing_mechanisms.md) | 第7、11、13、16章 | Filter、Security Filter Chain、Interceptor、Controller Advice、AOP与Spring Proxy | 根据处理位置选择共通机制，并通过实验确认执行边界 |
+| [B02 如何阅读一个陌生的Spring项目](B02_existing_project_reading.md) | 完成主线或至少第1～12章 | README、POM、启动入口、配置来源、纵向业务链、横向共通机制、测试证据 | 输出一份带文件位置和调用关系的既存项目调查记录 |
+| [B03 Lombok与Spring Data JPA识读](B03_lombok_jpa_reading.md) | 第2、4、5、9章及B02 | Lombok生成代码、构造器注入、JPA Entity、Repository、持久化上下文、N+1 | 读懂使用Lombok/JPA的既存代码，并指出可能发生的SQL |
+| [B04 日本既存Spring项目的新旧结构识读](B04_legacy_spring_project_reading.md) | B02 | Boot 2/3/4差异、`javax`与`jakarta`、JAR/WAR、外部Tomcat、XML与Java Config | 根据版本证据识别旧结构，不进行危险的机械迁移 |
+| [B05 Spring Boot调用外部REST API](B05_external_api_restclient.md) | 第4、6、7、11、12章 | `RestClient`、配置、超时、Header与JSON、错误分类、Mock测试 | 在员工业务中组合本地数据与HR状态并提交测试证据 |
+| [B06 Spring Boot常见问题与排查索引](B06_troubleshooting_review_index.md) | 完成相关主线章节及B01～B05 | 构建、启动、HTTP、数据库、安全、外部API、部署的分阶段排查 | 从最早错误和可重复现象定位根因并提交回归结果 |
+| [B07 Spring Boot跨域问题与解决方案](B07_spring_boot_cors_basics.md) | 第3～4章及HTTP基础 | 同源、Origin、局部/全局CORS配置、OPTIONS预检、浏览器验证 | 为指定前端来源开放不登录的实验API并排查预检；带Session的跨源配置不在此基础实验内 |
+| [Spring项目常见注解速查手册](Appendix_spring_annotation_reference.md) | 遇到陌生注解时使用 | Bean、配置、MVC、Validation、异常、事务、安全、JSON、测试和生命周期注解 | 根据import、位置、处理者和触发时机查阅，再回到对应主线章节 |
+
+## 三、三条常用组合路线
+
+### 1. 接口改修路线
+
+```text
+A05 JSON边界
+  → A06 HTTP扩展输入 / A08校验分组 / A09-1时间语义
+  → B05外部API 或 A03-1 HTML视图 或 A09-2 MyBatis配置
+  → A12-1补充断言 / A12-2比较H2测试
+```
+
+只选择改修实际涉及的分支。例如新增CSV上传不需要同时学习HTML视图和独立MyBatis配置。
+
+### 2. 既存项目调查路线
+
+```text
+B01理解共通机制
+  → B02建立调查顺序
+  → B03识别Lombok/JPA
+  → B04确认版本与部署结构
+  → 按需查注解速查手册或A04
+```
+
+调查成果应包含文件位置、依赖证据和调用关系。只写“使用了Spring Security”“这里有AOP”不能作为影响调查结论。
+
+### 3. 发布与故障调查路线
+
+```text
+A11-1确认日志证据
+  → A11-2区分请求处理时机
+  → A11-3按需调查方法级AOP日志
+  → A17确认配置与产物
+  → A18-1确认服务器运行状态
+  → A18-2确认监控与迁移组件
+  → B06按失败阶段汇总调查
+```
+
+生产环境操作必须以项目批准的手顺和权限为准。附录中的命令与目录用于教学和识读，不能自动成为实际项目的发布标准。
+
+## 四、附录实验的统一边界
+
+- 附录中的独立实验从已通过主线验收的工程副本开始。
+- 修改前记录目标文件和开始状态；完成后验证结果，并按附录说明恢复或保留变更。
+- 既存项目识读任务默认只读，不因看到旧写法就立即升级依赖或批量替换import。
+- 凭据、Token、Session ID、CSRF令牌和生产连接信息不能写入源码、讲义示例或日志。
+- 一项知识只在主要附录完整说明；其他附录通过链接回顾，避免复制形成互相矛盾的版本。
+
+## 五、完成标准
+
+完成当前任务需要的附录后，你应能说明为什么选择该附录、它依赖哪些主线知识，并提交至少一种可检查成果：运行结果、Postman证据、自动化测试、日志、配置来源调查、调用图、Review指摘或部署检查记录。
+
+完成既存项目综合调查时，还应能从README和构建文件确认技术基线，找到启动和配置入口，沿一个URL追踪Controller、Service、Mapper/Repository/API Client，识别Security、Validation、Transaction和异常处理位置，并根据改修票整理確認事項、影響範囲、自测证据和改修报告。

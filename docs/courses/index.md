@@ -20,6 +20,10 @@
 
 [Java 基础教程](../backend/java/index.md)从第 1 章入门，依次覆盖语法、面向对象、集合、文件、Maven、JDBC 和 JUnit。进入课程后可用左侧目录切换章节。
 
+[MyBatis 教程](../backend/mybatis/index.md) 在 Java、Maven 和 SQL 之后学习 Mapper、SQL 映射、动态 SQL 与执行流程。
+
+[Spring Boot 教程](../backend/springboot/index.md) 在 Java、HTTP、SQL 和 MyBatis 基础之后学习员工管理后端 API；附录与企业扩展可按需阅读。
+
 ## 数据库
 
 [SQL 知识课程](../database/sql/index.md)从数据库基本概念开始，逐步进入数据操作、查询与视图。进入课程后可用左侧目录切换章节。

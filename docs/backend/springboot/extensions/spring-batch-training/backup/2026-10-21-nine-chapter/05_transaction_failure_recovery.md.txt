@@ -1,0 +1,79 @@
+# 05 事务、异常、Skip/Retry 与失败恢复
+
+## 本章学习目标
+
+在第 13 条故障实验中分清已提交 Chunk 与回滚 Chunk，修复后用同一 JobInstance 重启，并正确选择 Skip 或 Retry。
+
+## 前置知识
+
+完成 [第 04 章](04_chunk_processing.md)，使用独立 H2 测试或可重建的 MySQL 练习库；不要在共享库注入故障。
+
+## 实际业务场景
+
+25 条记录、Chunk Size 10。把第 13 条休息时间改为 600 分钟，而当日 09:00～18:00 仅 540 分钟。Processor 抛 `InvalidAttendanceException`：这是确定性坏数据，不会因再试几次变好。
+
+## 核心概念
+
+`commit` 使当前 Chunk 的业务写入与读取检查点生效；`rollback` 撤销当前 Chunk 的数据库写入。第 13 条在第二组失败时，第一组 10 条保留，第二组不提交，Job/Step 是 `FAILED`。**Restart** 是同一个 Job 名+标识参数的失败实例再执行，新建 JobExecution 并读取保存的 ExecutionContext；改一个随机参数是新的 JobInstance，不叫重启。
+
+`Skip` 只在业务允许“部分成功且有异常清单”时使用；`Retry` 只针对暂时性问题，次数必须有限。本例在 `skip-invalid=true` 实验模式下最多跳过 2 条 `InvalidAttendanceException`，对 `TransientDataAccessException` 最多尝试 3 次；正式考勤汇总默认不跳过。`Error`、格式错误不应泛化成无限重试。
+
+幂等性：同一输入重复执行，业务结果不应重复增加。本例汇总表以员工+业务日期为主键，Mapper 的 MySQL UPSERT 写回同一值；源数据稳定仍是前提。CSV 文件不参与数据库事务；写入临时文件后原子替换，失败后可安全重做该 Step，但仍需检查文件与元数据不一致的短暂窗口。
+
+## 执行流程图
+
+```text
+第 1 Chunk：1～10 → 提交，lastId=10
+第 2 Chunk：11、12、13(异常) → 回滚，Job FAILED
+修复第 13 条 → 同一 businessDate 重启 → 从已提交检查点继续
+                 → 11～20、21～25 → CSV → COMPLETED
+```
+
+## 关键类与接口说明
+
+`ChunkOrientedStepBuilder.faultTolerant()` 启用容错；`skip(异常类).skipLimit(n)` 控制可跳过错误，`retry(异常类).retryLimit(n)` 控制重试。`AttendanceReader.open/update` 恢复 `lastId`；`JobRepository` 保存状态。完整配置见 [BatchConfig.java](../examples/attendance-batch/src/main/java/com/example/attendance/BatchConfig.java)，故障测试见 [两个集成测试](../examples/attendance-batch/src/test/java/com/example/attendance/AttendanceBatchIntegrationTest.java) 与 [Skip/Retry 测试](../examples/attendance-batch/src/test/java/com/example/attendance/FaultToleranceIntegrationTest.java)。
+
+## 代码示例
+
+这是配置类中的 **条件化片段**；默认 `skipInvalid=false`，只在实验打开：
+
+```java
+if (skipInvalid) {
+    builder.faultTolerant()
+            .skip(InvalidAttendanceException.class).skipLimit(2)
+            .retry(TransientDataAccessException.class).retryLimit(3);
+}
+```
+
+`skipLimit(2)` 不是“每条可跳两次”，而是该 Step 允许的跳过上限。`retryLimit(3)` 为有限尝试；暂时性数据库错误也可能需要退避与运维协作，本例不把它当作生产重试策略。
+
+## 逐步操作
+
+1. 使用 [测试数据](../examples/attendance-batch/src/test/resources/data.sql) 的独立 H2 库；集成测试先复制 25 条到第二个业务日期，再把第 13 条改坏。
+2. 运行 `mvn -q -Dtest=AttendanceBatchIntegrationTest test`，观察失败执行的状态和业务汇总数 10；修复行后用**相同**日期启动，观察 25 行、`COMPLETED`。
+3. 运行 `mvn -q -Dtest=FaultToleranceIntegrationTest test`，观察另一测试库中跳过 1 条、汇总 24 条，以及 Writer 的一次暂时性故障被有限重试。
+4. 阅读 [CSV 故障测试](../examples/attendance-batch/src/test/java/com/example/attendance/CsvFailureIntegrationTest.java)：数据库已有 25 行但输出路径不可写时 Job 失败，排除文件问题后只重做未完成阶段。
+
+## 运行结果
+
+测试断言故障首跑汇总 10 行，修复后 25 行；容错实验汇总 24 行、`processSkipCount=1`；CSV 故障首跑状态 `FAILED`、业务行 25，恢复后 `COMPLETED`。这些是本机 H2 的实测，MySQL 仍需在独立环境复核。
+
+## 常见错误
+
+把所有异常设为可 Skip 会隐瞒数据损坏；把所有错误设为可 Retry 会拖长故障。若 Reader 不在提交点保存状态，重启可能从头读；若 Writer 无唯一键或幂等逻辑，重放会重复写。外部 API、文件写入与 DB rollback 不联动，不可仅看事务注解。
+
+## 实际项目中的注意事项
+
+若允许跳过，应保存被跳记录 ID、原因、上限和人工修复路径，不能只报 `COMPLETED`。恢复前先比对 Batch 元数据、业务表、CSV 文件及输入数据是否变化；源数据被在线改写时不能机械地按 `lastId` 继续。
+
+## 学员练习
+
+在工程副本复现第 13 条故障，提交首跑/重启两次 JobExecution ID、StepExecution 的 read/write/skip 状态、SQL 件数及 CSV 状态；再评审“坏日期可否 Skip、短暂连接错误可否 Retry”，写出理由与回退方案。
+
+## 本章验收标准
+
+能准确指出已提交的 1～10、回滚的 11～13、同参数重启与新实例的区别，并证明最终没有重复业务行。
+
+## 本章总结
+
+Batch 元数据帮助恢复位置；正确的事务边界、稳定输入和幂等业务写入共同决定恢复是否可信。

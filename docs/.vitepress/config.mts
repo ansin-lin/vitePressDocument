@@ -18,8 +18,10 @@ export default defineConfig({
       { text: '数据库', activeMatch: '/database/', items: [
         { text: 'SQL 课程', link: '/database/sql/' }
       ] },
-      { text: 'Java', activeMatch: '/backend/java/|/exercises/backend/java/', items: [
+      { text: '后端开发', activeMatch: '/backend/|/exercises/backend/', items: [
         { text: 'Java 基础教程', link: '/backend/java/' },
+        { text: 'MyBatis 教程', link: '/backend/mybatis/' },
+        { text: 'Spring Boot 教程', link: '/backend/springboot/' },
         { text: 'Java 综合练习', link: '/backend/java/training' }
       ] }
     ],
@@ -243,6 +245,93 @@ export default defineConfig({
           { text: '11. 过渡、动画与可访问性', link: '/frontend/CSS/11_transition_animation_accessibility' },
           { text: '12. CSS 属性速查表', link: '/frontend/CSS/12_css_properties_reference' },
           { text: '综合练习', link: '/exercises/frontend/CSS/12_css_project' }
+        ] }
+      ],
+      '/backend/mybatis/': [
+        { text: 'MyBatis 章节目录', link: '/backend/mybatis/', items: [
+          { text: '1. MyBatis 简介与使用场景', link: '/backend/mybatis/01_mybatis_overview' },
+          { text: '2. 第一个 MyBatis 程序', link: '/backend/mybatis/02_mybatis_hello_world' },
+          { text: '3. MyBatis 配置文件', link: '/backend/mybatis/03_mybatis_config_file' },
+          { text: '4. Mapper 接口与 XML 映射', link: '/backend/mybatis/04_mapper_interface_xml' },
+          { text: '5. 核心对象与执行流程', link: '/backend/mybatis/05_core_objects_execution_flow' },
+          { text: '6. 查询与结果映射', link: '/backend/mybatis/06_select_result_mapping' },
+          { text: '7. INSERT、UPDATE、DELETE', link: '/backend/mybatis/07_insert_update_delete' },
+          { text: '8. 参数映射', link: '/backend/mybatis/08_parameter_mapping' },
+          { text: '9. 动态 SQL', link: '/backend/mybatis/09_dynamic_sql' },
+          { text: '10. 关联查询与 ResultMap', link: '/backend/mybatis/10_association_resultmap' },
+          { text: '11. 缓存机制', link: '/backend/mybatis/11_cache_mechanism' },
+          { text: '12. MyBatis 综合练习', link: '/backend/mybatis/12_comprehensive_practice' },
+        ] }
+      ],
+      '/backend/springboot/': [
+        { text: 'Spring Boot 主线', link: '/backend/springboot/', items: [
+          { text: '1. 一个后端系统需要完成什么', link: '/backend/springboot/mainline/01_springboot_overview' },
+          { text: '2. 为什么需要三层架构', link: '/backend/springboot/mainline/02_three_layer_architecture' },
+          { text: '3. 创建并运行一个Spring Boot工程', link: '/backend/springboot/mainline/03_create_project_and_first_api' },
+          { text: '4. Spring怎样创建并连接各层对象', link: '/backend/springboot/mainline/04_spring_objects_dependency_injection' },
+          { text: '5. 接口规格与数据对象为什么要分开', link: '/backend/springboot/mainline/05_api_spec_and_data_objects' },
+          { text: '6. 把HTTP请求连接到Java方法', link: '/backend/springboot/mainline/06_http_request_to_java_method' },
+          { text: '7. 成功与失败怎样返回', link: '/backend/springboot/mainline/07_success_and_failure_response' },
+          { text: '8. 输入校验与业务规则', link: '/backend/springboot/mainline/08_validation_and_business_rules' },
+          { text: '9. 数据库记录怎样成为接口响应', link: '/backend/springboot/mainline/09_database_and_mybatis' },
+          { text: '10. 完成员工增删改查', link: '/backend/springboot/mainline/10_employee_crud' },
+          { text: '11. 用日志定位接口故障', link: '/backend/springboot/mainline/11_logging_and_diagnosis' },
+          { text: '12. 员工CRUD的分层测试与接口验证', link: '/backend/springboot/mainline/12_automated_testing_and_regression' },
+          { text: '13. 用事务保证多步写入一致', link: '/backend/springboot/mainline/13_transaction_and_consistency' },
+          { text: '14. 前后端分离项目中的REST列表查询、筛选、排序与分页', link: '/backend/springboot/mainline/14_search_sort_pagination' },
+          { text: '15. Spring Security：数据库注册与JWT Bearer认证', link: '/backend/springboot/mainline/15_session_login' },
+          { text: '16. JWT角色授权与本人数据范围', link: '/backend/springboot/mainline/16_authorization_and_data_scope' },
+          { text: '17. 多环境配置与打包', link: '/backend/springboot/mainline/17_profiles_configuration_packaging' },
+          { text: '18. 部署与运行检查', link: '/backend/springboot/mainline/18_deployment_operations_check' },
+          { text: '19. 前后端综合练习', link: '/exercises/backend/springboot/mainline/19_paid_leave_vue_backend_practice' }
+        ] },
+        { text: '附录与扩展', collapsed: true, items: [
+          { text: '附录学习入口', link: '/backend/springboot/appendix/' },
+          { text: 'A03-1 使用@Controller返回HTML页面', link: '/backend/springboot/appendix/A03_01_spring_mvc_html_views' },
+          { text: 'A03-2 使用DevTools加快本地开发', link: '/backend/springboot/appendix/A03_02_devtools_local_development' },
+          { text: 'A04 多个Bean候选的选择与排错', link: '/backend/springboot/appendix/A04_multiple_bean_candidates' },
+          { text: 'A05 Jackson字段映射与输出规则', link: '/backend/springboot/appendix/A05_jackson_json_mapping' },
+          { text: 'A06 Header、Cookie与文件上传', link: '/backend/springboot/appendix/A06_http_headers_cookies_file_upload' },
+          { text: 'A08 使用@Validated选择校验分组', link: '/backend/springboot/appendix/A08_validated_validation_groups' },
+          { text: 'A09-1 Java Web项目中的日期时间与时区', link: '/backend/springboot/appendix/A09_01_java_web_datetime' },
+          { text: 'A09-2 Spring Boot怎样读取独立MyBatis配置', link: '/backend/springboot/appendix/A09_02_springboot_mybatis_config' },
+          { text: 'A11-2 Filter 执行时机', link: '/backend/springboot/appendix/A11_2_filter_execution_timing' },
+          { text: 'A11-3 使用AOP统一记录方法日志', link: '/backend/springboot/appendix/A11_3_aop_method_logging' },
+          { text: 'A11-1 Spring Boot日志配置进阶', link: '/backend/springboot/appendix/A11_logging_configuration_advanced' },
+          { text: 'A12-1 常用测试断言库与断言方法', link: '/backend/springboot/appendix/A12_01_testing_assertions_reference' },
+          { text: 'A12-2 使用H2完成独立数据库测试实验', link: '/backend/springboot/appendix/A12_02_h2_test_database' },
+          { text: 'A12-3 JUnit Jupiter常用注解与方法', link: '/backend/springboot/appendix/A12_03_junit_jupiter_annotations_methods' },
+          { text: 'A13-1 从旧页面覆盖认识事务与Spring事务机制', link: '/backend/springboot/appendix/A13_01_transaction_spring_mechanisms' },
+          { text: 'A13-2 从旧页面覆盖到悲观锁、乐观锁与双请求验证', link: '/backend/springboot/appendix/A13_02_concurrent_updates_locks' },
+          { text: 'A13-3 用MVCC解释读写并发：隔离级别与快照', link: '/backend/springboot/appendix/A13_03_isolation_mvcc' },
+          { text: 'A17 配置、构建与交付进阶', link: '/backend/springboot/appendix/A17_configuration_build_delivery_advanced' },
+          { text: 'A18-1 Linux部署与运维手顺参考', link: '/backend/springboot/appendix/A18_01_linux_deployment_operations_reference' },
+          { text: 'A18-2 常见运行与数据库迁移组件识读', link: '/backend/springboot/appendix/A18_02_operations_components_reading' },
+          { text: 'Spring项目常见注解速查手册', link: '/backend/springboot/appendix/Appendix_spring_annotation_reference' },
+          { text: 'B01 Spring 共通处理机制', link: '/backend/springboot/appendix/B01_spring_common_processing_mechanisms' },
+          { text: 'B02 如何阅读一个陌生的Spring项目', link: '/backend/springboot/appendix/B02_existing_project_reading' },
+          { text: 'B03 Lombok与Spring Data JPA识读', link: '/backend/springboot/appendix/B03_lombok_jpa_reading' },
+          { text: 'B04 日本既存Spring项目的新旧结构识读', link: '/backend/springboot/appendix/B04_legacy_spring_project_reading' },
+          { text: 'B05 Spring Boot调用外部REST API', link: '/backend/springboot/appendix/B05_external_api_restclient' },
+          { text: 'B06 Spring Boot常见问题与排查索引', link: '/backend/springboot/appendix/B06_troubleshooting_review_index' },
+          { text: 'B07 Spring Boot 跨域问题与解决方案', link: '/backend/springboot/appendix/B07_spring_boot_cors_basics' },
+          { text: '企业扩展入口', link: '/backend/springboot/extensions/' },
+          { text: 'Redis 扩展', link: '/backend/springboot/extensions/redis' },
+          { text: 'Spring Batch 专题', link: '/backend/springboot/extensions/spring-batch-training/README' },
+          { text: '账票专题', link: '/backend/springboot/extensions/01_report_overview' }
+        ] }
+      ],
+      '/exercises/backend/mybatis/': [
+        { text: 'MyBatis 课程', link: '/backend/mybatis/', items: [
+          { text: '返回章节目录', link: '/backend/mybatis/' },
+          { text: '12. 综合练习', link: '/exercises/backend/mybatis/12_comprehensive_practice' }
+        ] }
+      ],
+      '/exercises/backend/springboot/': [
+        { text: 'Spring Boot 课程', link: '/backend/springboot/', items: [
+          { text: '返回主线目录', link: '/backend/springboot/' },
+          { text: '19. 前后端综合练习', link: '/exercises/backend/springboot/mainline/19_paid_leave_vue_backend_practice' },
+          { text: '企业扩展', link: '/backend/springboot/extensions/' }
         ] }
       ],
       '/backend/java/': [

@@ -1,0 +1,112 @@
+# 09 综合实战：勤怠日次集計・CSV連携バッチ
+
+## 本章学习目标
+
+独立完成员工考勤日次汇总与 CSV 联携，交付可重建工程、运行证据、测试结果及一份可复核的障害調査报告。
+
+## 前置知识
+
+完成 [01～08 章](../README.md)的核心操作。使用 [独立实验工程](../examples/attendance-batch/pom.xml) 和专用 MySQL 8 数据库，不能修改 Spring Boot Employee Management 主线。先复核 [运行手册](../runbook.md)。
+
+## 实际业务场景
+
+业务票：每天日本时间 02:00 汇总前一日的虚构员工考勤，并向下游交付一份 `attendance-YYYY-MM-DD.csv`。运营也可指定日期人工执行。日次汇总以“员工+业务日期”唯一；同一日期已完成时不得无意重生成，失败后可以调查并恢复。
+
+| 输入/输出 | 规格 |
+| --- | --- |
+| 输入参数 | 必填 `businessDate`，ISO `YYYY-MM-DD`；调度入口取日本时间前一天 |
+| 输入表 | `employees` 与 `attendance_records`；本实验每人每天至多一条考勤 |
+| 计算 | `worked = end-start-break` 分钟；`overtime=max(0, worked-480)` |
+| 输出表 | `attendance_daily_summary`，主键 `(employee_id,business_date)` |
+| 文件 | UTF-8 CSV，第一行 `employee_id,business_date,worked_minutes,overtime_minutes`，按 employee_id 升序 |
+| 运行证据 | `BATCH_*` 元数据、脱敏日志、业务表件数、CSV 行数 |
+
+本例不处理跨日班、复杂休假、法定加班规则或 CSV 中的个人姓名。真实日本项目须以规格书确认这些边界，不应把“超过 480 分钟”误称为通用劳动法规则。
+
+## 核心概念
+
+日次 Job 的四个阶段分别是参数检查、Chunk 汇总、CSV 输出、结果记录。Batch 元数据与业务表分离；`businessDate` 是标识性 Job 参数。默认遇到不合法考勤就失败，不悄悄跳过；实验 `skip-invalid=true` 只用于观察 Skip。数据库写入在 Chunk 事务内；CSV 在数据库事务外，采用同目录临时文件+原子替换。文件输出失败时 Job 失败，已完成的汇总 Step 不重做，恢复时重做 CSV Step。
+
+## 执行流程图
+
+```text
+手动 businessDate / 日本时间前日的定时触发
+  → validateStep：格式、日期、源件数
+  → summarizeStep：MyBatis Reader → Processor → Writer（10/10/5 提交）
+  → csvStep：读取已提交汇总 → 临时 CSV → 原子替换正式文件
+  → resultStep：记录汇总件数
+  → JobExecution 最终状态 + SQL/文件双重核对
+```
+
+## 关键类与接口说明
+
+| 文件 | 本项目职责 | 检查要点 |
+| --- | --- | --- |
+| `BatchConfig.java` | 定义 Job、四个 Step、Chunk 事务 | 顺序、参数、事务管理器 |
+| `AttendanceReader.java` | 按日期与最后 ID 读取并保存检查点 | 排序键唯一、重启位置 |
+| `AttendanceProcessor.java` | 校验并计算工时 | 错误不能被当成正常值 |
+| `AttendanceWriter.java`、`AttendanceMapper.java` | MyBatis UPSERT | 主键与事务参与 |
+| `CsvExportTasklet.java` | 导出纯数值 CSV 并原子替换 | 文件目录、重启覆盖、失败清理 |
+| `BatchTrigger.java`、`AttendanceScheduler.java` | 手动/定时共用触发 | 日期、最终状态、重复启动 |
+
+完整源文件在 [examples/attendance-batch/src/main/java/com/example/attendance](../examples/attendance-batch/src/main/java/com/example/attendance/BatchConfig.java) 中；不要把此表当成省略实现的伪代码。MySQL 表定义与虚构数据分别在 [schema.sql](../sql/schema.sql)、[sample_data.sql](../sql/sample_data.sql)。`attendance_records` 的唯一键限制员工+日期，`idx_attendance_day_id` 支持本例按日期、ID 递增读取。
+
+## 代码示例
+
+这是 [CsvExportTasklet.java](../examples/attendance-batch/src/main/java/com/example/attendance/CsvExportTasklet.java) 的 **核心片段**；完整类包含导入、异常清理和路径来源：
+
+```java
+Path target = outputDirectory.resolve("attendance-" + date + ".csv");
+Path temporary = Files.createTempFile(outputDirectory, "attendance-" + date + "-", ".tmp");
+try {
+    Files.write(temporary, lines, StandardCharsets.UTF_8);
+    Files.move(temporary, target, StandardCopyOption.ATOMIC_MOVE,
+            StandardCopyOption.REPLACE_EXISTING);
+} finally {
+    Files.deleteIfExists(temporary);
+}
+```
+
+`lines` 只含表头与数值、日期，不需要通用 CSV 引号处理；若以后增加姓名或逗号文本，必须换成经过验证的 CSV 编码器。`ATOMIC_MOVE` 不被目标文件系统支持时应失败并调查，不静默退化为可能露出半成品的覆盖方式。
+
+## 逐步操作
+
+1. 核对所选数据库是个人 `attendance_batch_training`；执行一次业务建表与样例数据，确认源表 25 行。Batch 元数据只在首次空库初始化，之后关闭自动建表。
+2. 在工程目录运行 `mvn test`、`mvn package`。测试用独立 H2 数据库；若要宣称 MySQL 成功，必须另在个人 MySQL 实际执行以下步骤。
+3. 设置本机数据库环境变量及个人输出目录，按 [README 命令](../README.md)运行 `--app.batch.business-date=2026-10-19`。
+4. 查看 JobExecution 为 `COMPLETED`、四个 Step 状态；SQL 查源 25、汇总 25；核对 CSV 共 26 行，抽查员工 1001：`worked_minutes=480`、`overtime_minutes=0`。
+5. 同参数再运行，应被“已完成实例”拒绝，业务表仍为 25 行。换空日期运行应成功，CSV 只有表头。
+6. 在**可重建副本**中改坏第 13 条；观察第一个 Chunk 10 行提交、Job `FAILED`，修复数据后同参数重启，确认汇总 25、无重复。最后用文件路径故障测试 CSV 失败与恢复。
+7. 在受控测试环境短暂开启调度；观察触发、JobExecution 与最终业务结果三处证据。停止后关闭 `app.schedule.enabled`，不要将“每秒 cron”带到正式配置。
+
+## 运行结果
+
+当前自动化测试在 JDK 21/H2 下验证：正常 25、空日 0、参数缺失/格式错误、同参数重复拒绝、第 13 条失败后恢复、Skip/Retry、CSV 路径失败后恢复和定时创建执行记录。这里不声称已在 Java 17 或 MySQL 实测；详见 [验证报告](../verification_report.md)。对于正式 MySQL，按 [运行手册](../runbook.md)逐项留下实际记录后才可签收。
+
+## 常见错误
+
+| 现象 | 首先确认 | 修正边界 |
+| --- | --- | --- |
+| 启动即报 `BATCH_*` 不存在 | 是否用 JDBC Starter、是否初始化当前库 | 仅在独立空库按当前版本初始化 |
+| Job `FAILED`、汇总已有 10 行 | 第 13 条与 Step 失败记录 | 修正源数据后同参数重启，不能随机加参数 |
+| Job 失败、汇总 25 行但无 CSV | `csvStep`、目标目录权限与临时文件 | 修复路径后同参数恢复，不删汇总表 |
+| 同日期再次运行被拒绝 | 原 Instance 是否 `COMPLETED` | 这是重复防护；改业务日期或按批准的订正流程 |
+| 下游收到文件却 Job 标成失败 | 文件替换与元数据提交之间的故障窗口 | 对照文件内容/时间与 Execution ID，按交接规则处理 |
+
+## 实际项目中的注意事项
+
+`On Duplicate Key Update` 保证该汇总键幂等，但不会自动处理源数据中途变化或跨实例不同库运行。若数据在读的过程中改写，应引入冻结快照、截止 ID 或受控重跑规格。CSV 的临时文件和正式文件必须在同一文件系统以支持原子移动；输出目录限定在专用测试路径，不写生产共享目录。日志只留日期、Job/Step/Execution ID、件数和异常摘要，不输出个人信息或密码。
+
+日本项目交接材料至少包含：対象ジョブ、業務日付、実行ID、処理件数、異常件数、CSV 路径、確認事項、再実行可否、影響範囲与测试证据。样例 [障害調査报告](../exercises/instructor_answers.md) 在教师资料中。
+
+## 学员练习
+
+按 [学员任务书](../exercises/assignments.md)独立完成综合票：加入一条合法加班记录并更新预期，注入一次无效休息时间，完成失败与重启，提交文件/数据库/元数据对照和日文风格报告。教师核对方法在独立答案文件，学员练习正文不包含答案。
+
+## 本章验收标准
+
+功能可运行、参数与日期正确、25 条基线及改修数据均可核对；重复运行不新增业务行；失败重启后无重复；定时触发与 Job 完成分别有证据；测试和障害調査报告可供另一位开发者复核。理论得分高但核心实操无法运行不通过。
+
+## 本章总结
+
+一份可交付的 Batch 不只是“夜里算出 CSV”，还要能解释输入、结果、事务、恢复、重复控制、调度和现场调查证据。

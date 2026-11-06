@@ -1,0 +1,80 @@
+# 08 定时触发 Batch：调度成功不等于处理成功
+
+## 本章学习目标
+
+能让日本时间凌晨 2 点触发前一天的 Job，区分调度调用、Job 启动与最终 `COMPLETED`，并解释重复部署风险。
+
+## 前置知识
+
+完成 [第 06 章](06_job_parameters_execution_management.md) 与 [第 07 章](07_spring_scheduling.md)。继续使用同一个 `attendanceSummaryJob`，不把汇总计算写进 Scheduler。
+
+## 实际业务场景
+
+每天 02:00 的触发应将前一日本业务日期转成标识性参数，交给 JobLauncher。若某天已经完成，下一次误触发应记录“已完成跳过”；若 Job 失败，要保留失败执行 ID，交由人工调查并用**同参数**恢复。
+
+## 核心概念
+
+Scheduler 只负责时间与调用，`BatchTrigger` 负责构造 `JobParameters`、启动与结果判断，`Job/Step` 负责业务，`JobRepository` 负责元数据。`JobLauncher.run` 被调用不代表 Job 成功；必须检查 `JobExecution.getStatus()`。手动与定时使用同一触发服务与同一日期规则，所以不会形成两套互相矛盾的业务逻辑。
+
+## 执行流程图
+
+```text
+日本时间 02:00 → AttendanceScheduler
+                 → BatchTrigger(businessDate = 昨天)
+                 → JobLauncher → attendanceSummaryJob
+                   → validate → summarize → csv → result
+                 → JobRepository / 业务表 / CSV
+                 → 检查最终状态，失败时报警与调查
+```
+
+## 关键类与接口说明
+
+`@Scheduled(cron="0 0 2 * * *", zone="Asia/Tokyo")` 在定时点调用无参方法；`LocalDate.now(ZoneId.of("Asia/Tokyo")).minusDays(1)` 计算前一天。`BatchTrigger.launch` 使用标识参数并核对最终状态。`JobInstanceAlreadyCompleteException` 表示同日期已完成，本项目 Scheduler 以信息日志跳过；其他启动或执行异常仍记录错误。完整代码见 [AttendanceScheduler.java](../examples/attendance-batch/src/main/java/com/example/attendance/AttendanceScheduler.java) 和 [BatchTrigger.java](../examples/attendance-batch/src/main/java/com/example/attendance/BatchTrigger.java)。
+
+## 代码示例
+
+以下是 Scheduler 的 **方法片段**；完整类包含条件启用和 Logger：
+
+```java
+@Scheduled(cron = "${app.schedule.cron:0 0 2 * * *}", zone = "Asia/Tokyo")
+public void launchYesterday() {
+    LocalDate date = LocalDate.now(ZoneId.of("Asia/Tokyo")).minusDays(1);
+    try {
+        trigger.launch(date);
+    } catch (JobInstanceAlreadyCompleteException ex) {
+        log.info("scheduled batch already completed for businessDate={}", date);
+    } catch (Exception ex) {
+        log.error("scheduled batch failed for businessDate={}", date, ex);
+    }
+}
+```
+
+`app.schedule.enabled` 默认 `false`，只有获批启用才定时运行；`app.schedule.cron` 可在专用测试中覆盖，正式值仍为每天 02:00。
+
+## 逐步操作
+
+运行 `mvn -q -Dtest=ScheduledLaunchIntegrationTest test`：测试用独立 H2 库把 cron 临时设为每秒，等待 JDBC 元数据出现 JobExecution；这是**测试配置**，不能提交到正式配置。再运行 `AttendanceSchedulerTest` 验证日本时区“昨天”参数。人工手动执行路径由 `ManualBatchRunner` 的 `--app.batch.business-date=...` 触发。
+
+## 运行结果
+
+集成测试实测定时创建 JobExecution；日志显示 Job 从启动到 `COMPLETED` 的独立阶段。测试只证明单进程的短周期触发，不能证明多实例部署下全局唯一。某日第二次触发被同参数检查拦下，不生成第二份汇总。
+
+## 常见错误
+
+在 `@Scheduled` 方法中复制整个批量循环会失去 Batch 恢复能力；捕获异常后无日志会误报成功；使用 `LocalDate.now()` 默认时区可能把凌晨的业务日期算错。定时任务超过间隔时，不应假设默认调度器必然同时执行相同 Job。
+
+## 实际项目中的注意事项
+
+多实例可能同时触发。共享 JDBC JobRepository 对同一 JobInstance 有并发创建控制，业务表唯一键再保护同日结果，但这不等于完整的集群调度策略；应有单一调度责任、外部协调或受控运维方案。进程关闭/重启期间错过的触发不会自动补跑，人工补跑需先检查状态。长任务跨越下一触发时间时，先评估并发、数据竞争与告警。
+
+## 学员练习
+
+在测试副本将 cron 改为每秒，保留第一轮“触发→运行→完成”和第二轮“已完成跳过”的脱敏证据；设计一个“第 13 条失败后人工补跑”的手顺，注明如何避免随机参数创建新实例。
+
+## 本章验收标准
+
+能区分触发、启动和完成三件事，能指出 Scheduler 的职责边界、多实例重复触发及停机漏跑的处理方向。
+
+## 本章总结
+
+定时触发只是 Job 的入口；是否完成、能否再执行由 Batch 元数据和业务状态共同决定。

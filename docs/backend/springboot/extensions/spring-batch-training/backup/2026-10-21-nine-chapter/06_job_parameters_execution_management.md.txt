@@ -1,0 +1,74 @@
+# 06 JobParameters、执行历史与再执行控制
+
+## 本章学习目标
+
+能用业务日期识别 JobInstance，按执行历史判断首次执行、重复启动、失败重启与新日期执行。
+
+## 前置知识
+
+完成 [第 05 章](05_transaction_failure_recovery.md)，可以查询测试库的 `BATCH_*` 元数据表。
+
+## 实际业务场景
+
+运营要求“补跑 2026-10-19 的考勤汇总”。在操作前必须知道：这一天是否已完成、是否失败、是否有残留 CSV；不能随手加当前时间参数让它重新生成。
+
+## 核心概念
+
+`JobParameters` 是执行输入。**标识性**参数决定 JobInstance 的身份；本项目只有 `businessDate`，其值为 ISO 日期文本，如 `2026-10-19`。`non-identifying` 参数不参与 Instance 身份，可用于不改变业务实例的运行说明，但不能用它偷偷改变处理范围。`JobExecution` 是一次尝试，`StepExecution` 是其中的 Step 尝试；`ExecutionContext` 保存 `attendanceReader.lastId` 等恢复状态。`COMPLETED` 不可用同一标识参数再启动；`FAILED` 或 `STOPPED` 能否恢复仍要看 Job 设计与现场状态。
+
+## 执行流程图
+
+```text
+businessDate=2026-10-19 → JobInstance A
+  ├─ Execution 1：FAILED，第 1 Chunk 已提交
+  └─ Execution 2：同参数 Restart → COMPLETED
+businessDate=2026-10-20 → JobInstance B（新业务日期）
+```
+
+## 关键类与接口说明
+
+`JobParametersBuilder.addString(name, value, true)` 把 `businessDate` 设为标识性参数；`JobLauncher.run(job, parameters)` 启动并返回 `JobExecution`。`JobRepository` 存执行历史，`BatchTrigger` 在执行返回后检查状态，不把“已触发”写成“成功”。完整实现见 [BatchTrigger.java](../examples/attendance-batch/src/main/java/com/example/attendance/BatchTrigger.java)。
+
+## 代码示例
+
+这是 **方法片段**，完整导入、日志与错误处理见源文件：
+
+```java
+JobParameters parameters = new JobParametersBuilder()
+        .addString("businessDate", businessDate.toString(), true)
+        .toJobParameters();
+JobExecution execution = launcher.run(job, parameters);
+if (execution.getStatus() != BatchStatus.COMPLETED) {
+    throw new IllegalStateException("batch failed: jobExecutionId=" + execution.getId());
+}
+```
+
+`businessDate` 来自手动命令或日本时间前一天的调度计算，类型为 `LocalDate`；缺失或格式错误应停止，不能改用系统当天日期“凑数”。
+
+## 逐步操作
+
+在独立测试库按顺序观察四种情况：首次执行 2026-10-19；同参数再次执行；故障副本的 2026-10-20 首跑失败后修复同参数恢复；空日 2026-10-21 作为新实例。`mvn -q -Dtest=AttendanceBatchIntegrationTest test` 已把四种情况写成断言。用 [运行手册](../runbook.md) 查询 Instance、Execution、Step 与业务表。
+
+## 运行结果
+
+同参数已完成时抛 `JobInstanceAlreadyCompleteException`，不是新增执行；失败后同参数会新增 Execution，并可继续未完成 Step。新日期产生新 Instance；空日会有 0 行汇总和只有表头的 CSV。
+
+## 常见错误
+
+把 `run.id=当前时间戳` 每次加入标识参数，会让重复日期变成不同实例，掩盖业务重复。只看日志的“Job launched”也会误报成功，必须看最终状态和数据。
+
+## 实际项目中的注意事项
+
+人工再执行前记录确认者、原因、原 Execution ID、源数据是否变动、文件是否已经外发。若需要“同日订正版”，应有明确业务版本或申请号及覆盖规则，而不是偷偷改 Job 名或参数。
+
+## 学员练习
+
+给出历史：日期 A 首次 `COMPLETED`；日期 B 首次 `FAILED`；日期 C 尚无记录。分别写出同日期再请求时的预期，以及每种情况必须查的业务表/CSV 证据；用 H2 集成测试核对其中一种判断。
+
+## 本章验收标准
+
+能从执行历史指出哪些是同一 Instance、哪些是新的 Execution，且不会用随机参数绕过重复执行检查。
+
+## 本章总结
+
+业务日期是任务的业务身份；执行次数是恢复轨迹。两者设计清楚，后续调度才不会重复生成结果。

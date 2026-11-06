@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: ${TEST_DB_URL:jdbc:mysql://localhost:3306/employee_test_db?useUnicode=true&characterEncoding=UTF-8&connectionTimeZone=Asia/Tokyo}
+    username: ${DB_USERNAME:employee_app}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+
+# 仅供隔离测试库使用的固定测试密钥；开发和部署必须用随机环境变量。
+app:
+  security:
+    jwt:
+      secret-base64: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+      issuer: employee-management
+      audience: employee-api
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.employee.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 10
+
+logging:
+  file:
+    name: target/test-logs/employee-api.log
+  level:
+    root: WARN
+    com.example.employee: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%X{requestId:-no-request}] %logger{36} - %msg%n"
+    file: "%d{HH:mm:ss.SSS} %-5level [%X{requestId:-no-request}] %logger{36} - %msg%n"
