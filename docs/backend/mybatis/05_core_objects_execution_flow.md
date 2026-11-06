@@ -16,8 +16,10 @@ MyBatis 常见核心对象：
 ## 二、SqlSessionFactoryBuilder
 
 ```java
-InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
-SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+SqlSessionFactory sqlSessionFactory;
+try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
+    sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+}
 ```
 
 `SqlSessionFactoryBuilder` 用完即可丢弃。
@@ -31,6 +33,8 @@ SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(input
 ```java
 SqlSession sqlSession = sqlSessionFactory.openSession();
 ```
+
+这行只展示创建方法；实际查询和写入都应像下一节那样用 `try-with-resources` 关闭会话。
 
 在普通 Java 项目中，`SqlSessionFactory` 通常创建一次，重复使用。
 
@@ -69,10 +73,12 @@ try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 语法：
 
 ```java
-int count = sqlSession.insert("SQL语句ID", 参数对象);
-int count = sqlSession.update("SQL语句ID", 参数对象);
-int count = sqlSession.delete("SQL语句ID", 参数对象);
+int inserted = sqlSession.insert("com.example.mybatis.mapper.EmployeeMapper.insert", employee);
+int updated = sqlSession.update("com.example.mybatis.mapper.EmployeeMapper.update", employee);
+int deleted = sqlSession.delete("com.example.mybatis.mapper.EmployeeMapper.deleteById", employee.getId());
 ```
+
+这里提前识读第 7 章才会建立的三个映射语句；当前章节不用复制运行。三行分别演示方法签名，不表示应在同一次操作中连续新增、修改、删除。第一个参数是已注册映射语句的标识（`namespace.id`），不是 SQL 文本；第二个参数是该语句所需的值或对象。返回值是受影响的行数。写操作后还要按事务边界决定提交或回滚。
 
 说明：
 

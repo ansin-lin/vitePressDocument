@@ -40,23 +40,40 @@ mybatis-basic
 
 ## 三、Maven 依赖
 
-`pom.xml`：
+在项目根目录建立完整的 `pom.xml`。第 3 章以后只展示需要改动的依赖或配置片段；本章首次建项目时请使用完整文件：
 
 ```xml
-<dependencies>
-    <dependency>
-        <groupId>org.mybatis</groupId>
-        <artifactId>mybatis</artifactId>
-        <version>3.5.15</version>
-    </dependency>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>mybatis-basic</artifactId>
+    <version>1.0.0</version>
 
-    <dependency>
-        <groupId>com.mysql</groupId>
-        <artifactId>mysql-connector-j</artifactId>
-        <version>8.4.0</version>
-    </dependency>
-</dependencies>
+    <properties>
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.15</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.4.0</version>
+        </dependency>
+    </dependencies>
+</project>
 ```
+
+`groupId`、`artifactId` 和 `version` 标识这个练习项目；`maven.compiler.release` 指定用 Java 17 编译。导入 Maven 项目后先确认依赖下载成功，再继续建立数据库和 Java 文件。
 
 ## 四、准备数据库
 
@@ -101,8 +118,10 @@ VALUES
 driver=com.mysql.cj.jdbc.Driver
 url=jdbc:mysql://localhost:3306/mybatis_training?serverTimezone=Asia/Tokyo
 username=root
-password=password
+password=replace_with_local_password
 ```
+
+这里的密码是占位文字，运行前必须替换。建议使用仅能访问个人练习库的 MySQL 账号；`db.properties` 包含本机凭据，不要提交到公开仓库。若沿用本章示例的 `root`，只限个人隔离的本地实验环境。
 
 ## 六、MyBatis 主配置文件
 
@@ -255,8 +274,10 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSessionFactory sqlSessionFactory;
+        try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        }
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             EmployeeMapper employeeMapper = sqlSession.getMapper(EmployeeMapper.class);
@@ -271,6 +292,8 @@ public class Main {
 ```
 
 ## 十一、运行流程
+
+在 IDE 中运行 `Main.main()`，观察控制台是否输出开头给出的两条员工记录。MyBatis 配置输入流在建立工厂后关闭；每次查询使用的 `SqlSession` 在 `try-with-resources` 结束时关闭。这两个资源的用途和生命周期不同。
 
 1. 读取 `mybatis-config.xml`。
 2. 创建 `SqlSessionFactory`。

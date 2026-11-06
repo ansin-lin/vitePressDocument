@@ -17,6 +17,8 @@
 11. [缓存机制](11_cache_mechanism.md)
 12. [综合练习](12_comprehensive_practice.md)
 
+完成综合练习后，可按需阅读[附录：项目中的 SQL 调用与排错](appendix/A01_project_sql_call_pitfalls.md)。它扩展 N+1、批量处理等项目问题，不作为前 12 章的前置内容。
+
 ## 运行方式
 
 MyBatis 示例需要在本地 Java 项目中连接 MySQL，网页只展示教材和执行流程。图解属于教学示意，不会在浏览器里真实执行 Java、MyBatis 或数据库操作。每完成一章，先在本地运行对应代码，再对照控制台输出和数据库结果。

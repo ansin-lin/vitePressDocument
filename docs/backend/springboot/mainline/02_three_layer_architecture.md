@@ -317,7 +317,7 @@ com/example/employee/
 
 如果创建了这三个目录，却把部门判断和SQL全写在Controller里，职责仍然混在一起。反过来，按员工、部门等业务分包，也可以在每个业务包里保持清楚的分层。
 
-Spring Boot不强制使用某一种代码布局；官方示例也展示了按业务分组的方式。目录命名是组织选择，不是框架自动赋予业务职责的开关。[Spring Boot代码组织说明](https://docs.spring.io/spring-boot/3.5/reference/using/structuring-your-code.html)
+Spring Boot不强制使用某一种代码布局；官方示例也展示了按业务分组的方式。目录命名是组织选择，不是框架自动赋予业务职责的开关。[Spring Boot代码组织说明](https://docs.spring.io/spring-boot/reference/using/structuring-your-code.html)
 
 并非每个请求都要机械地调用三层：例如只返回服务状态的接口可能不访问Mapper。分层的判断标准是职责清楚、规则没有被绕过，而不是每次请求都出现三个类。
 

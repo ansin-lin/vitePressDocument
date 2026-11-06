@@ -261,6 +261,7 @@ export default defineConfig({
           { text: '10. 关联查询与 ResultMap', link: '/backend/mybatis/10_association_resultmap' },
           { text: '11. 缓存机制', link: '/backend/mybatis/11_cache_mechanism' },
           { text: '12. MyBatis 综合练习', link: '/backend/mybatis/12_comprehensive_practice' },
+          { text: '附录：项目中的 SQL 调用与排错', link: '/backend/mybatis/appendix/A01_project_sql_call_pitfalls' },
         ] }
       ],
       '/backend/springboot/': [

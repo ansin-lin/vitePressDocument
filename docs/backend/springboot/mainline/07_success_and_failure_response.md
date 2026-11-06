@@ -1171,7 +1171,7 @@ ResponseEntity
 | `body(body)` | 与目标泛型一致的对象 | 可以被消息转换器写入响应的对象 | 设置正文并完成构建 |
 | `build()` | 无 | 无参数 | 不提供正文，完成构建 |
 
-Spring Framework 6.2中的方法签名可参考[ResponseEntity官方API](https://docs.spring.io/spring-framework/docs/6.2.x/javadoc-api/org/springframework/http/ResponseEntity.html)。
+本课程使用 Spring Framework 7；方法签名可参考[ResponseEntity 官方 API](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html)。
 
 #### 6. 独立用法示例
 
@@ -1283,7 +1283,7 @@ public ResponseEntity<ApiResponse<Void>> handleRuntime(
 2. 处理方法参数尽量声明具体异常类型；
 3. 多Advice时必须检查优先级和包装异常，不凭类名猜测。
 
-匹配规则可对照[Spring `@ControllerAdvice` API](https://docs.spring.io/spring-framework/docs/6.2.x/javadoc-api/org/springframework/web/bind/annotation/ControllerAdvice.html)。
+匹配规则可对照[Spring `@ControllerAdvice` API](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ControllerAdvice.html)。
 
 #### 3. 注解属性怎样识读
 
@@ -1312,7 +1312,7 @@ public ResponseEntity<ApiResponse<Void>> handleRuntime(
 
 多个非空选择条件之间按“或”匹配。实际项目通常选择一种稳定方式，不会为了展示属性把所有条件堆在一起。
 
-Spring Framework 6.2中的 `@ExceptionHandler` 属性包括：
+本课程使用的 Spring Framework 7 中，`@ExceptionHandler` 可识读的属性包括：
 
 | 属性 | 可接受的值 | 默认值或作用 |
 | --- | --- | --- |
@@ -1327,7 +1327,7 @@ Spring Framework 6.2中的 `@ExceptionHandler` 属性包括：
         produces = "application/json")
 ```
 
-`produces` 与 `exception` 是Spring Framework 6.2提供的属性。主线使用更简单的 `@ExceptionHandler(EmployeeNotFoundException.class)`。
+`produces` 与 `exception` 从 Spring Framework 6.2 开始提供，当前课程的 Framework 7 中仍可使用；见[官方 API](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ExceptionHandler.html)。主线使用更简单的 `@ExceptionHandler(EmployeeNotFoundException.class)`。
 
 多个Advice需要明确顺序时，可以使用：
 

@@ -26,8 +26,10 @@ MyBatis 配置文件用于告诉 MyBatis：
 driver=com.mysql.cj.jdbc.Driver
 url=jdbc:mysql://localhost:3306/mybatis_training?serverTimezone=Asia/Tokyo
 username=root
-password=password
+password=replace_with_local_password
 ```
+
+与第 2 章一致，这里是本地配置示意；请用个人练习库的实际账号和密码替换占位值，不要提交包含凭据的 `db.properties`。
 
 说明：
 
@@ -39,6 +41,8 @@ password=password
 | `password` | 数据库密码 |
 
 ## 三、mybatis-config.xml 基本结构
+
+下面只展示标签的相对位置，`<environments/>` 和 `<mappers/>` 尚未填入可用内容，**不能把此片段直接当成可运行的完整配置**。运行项目时继续使用第 2 章的完整文件。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
