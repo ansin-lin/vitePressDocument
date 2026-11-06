@@ -1,4 +1,4 @@
-const example = (title: string, description: string, task: string, code: string) => ({ title, description, task, code })
+const example = (title: string, description: string, task: string, code: string, dependencies: Record<string, string> = {}) => ({ title, description, task, code, dependencies })
 
 export const reactExamples = {
   intro: example('第一个 React 组件', '修改 JSX，观察页面如何更新。', '修改欢迎语。', `export default function App() { return <h1>你好，React！</h1> }`),
@@ -34,7 +34,22 @@ export default function App() { return <Theme.Provider value="tomato"><Toolbar /
 export default function App() { const [error, setError] = useState(''); return <div><button onClick={() => setError('加载失败，请重试')}>模拟失败</button>{error && <p role="alert">{error} <button onClick={() => setError('')}>重试</button></p>}</div> }`),
   search: example('搜索过滤', '输入关键字筛选列表。', '增加一门课程并搜索它。', `import { useState } from 'react';
 const courses = ['Java', 'JavaScript', 'React', 'Vue'];
-export default function App() { const [keyword, setKeyword] = useState(''); return <div><input value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="搜索课程" /><ul>{courses.filter(item => item.toLowerCase().includes(keyword.toLowerCase())).map(item => <li key={item}>{item}</li>)}</ul></div> }`)
+export default function App() { const [keyword, setKeyword] = useState(''); return <div><input value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="搜索课程" /><ul>{courses.filter(item => item.toLowerCase().includes(keyword.toLowerCase())).map(item => <li key={item}>{item}</li>)}</ul></div> }`),
+  router: example('React Router 页面导航', '真实运行 React Router；预览使用内存路由，站点地址不会改变。', '添加 /about 页面，或修改员工详情编号。', `import { MemoryRouter, Link, Routes, Route, useParams, useLocation } from 'react-router-dom';
+function Location() { const location = useLocation(); return <p>当前路径：{location.pathname}</p> }
+function Detail() { const { id } = useParams(); return <h2>员工详情：{id}</h2> }
+export default function App() { return <MemoryRouter initialEntries={['/']}><nav><Link to="/">首页</Link> | <Link to="/employees">员工列表</Link> | <Link to="/employees/101">员工 101</Link></nav><Location /><Routes><Route path="/" element={<h2>首页</h2>} /><Route path="/employees" element={<h2>员工列表</h2>} /><Route path="/employees/:id" element={<Detail />} /><Route path="*" element={<h2>页面不存在</h2>} /></Routes></MemoryRouter> }`, { 'react-router-dom': '7.18.4' }),
+  zustand: example('Zustand 共享状态', '两个无直接父子关系的组件读写同一个真实 Zustand Store。', '增加减少按钮，观察两处数字同步。', `import { create } from 'zustand';
+const useCounter = create(set => ({ count: 0, increase: () => set(state => ({ count: state.count + 1 })), reset: () => set({ count: 0 }) }));
+function Header() { const count = useCounter(state => state.count); return <h2>顶部计数：{count}</h2> }
+function Controls() { const count = useCounter(state => state.count); const increase = useCounter(state => state.increase); const reset = useCounter(state => state.reset); return <div>操作区计数：{count} <button onClick={increase}>+1</button> <button onClick={reset}>重置</button></div> }
+export default function App() { return <><Header /><Controls /></> }`, { zustand: '5.0.15' }),
+  redux: example('Redux Toolkit 数据流', 'Slice 定义操作，Provider 提供 Store，组件通过 dispatch 更新共享状态。', '增加 decrease reducer 和按钮。', `import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+const counterSlice = createSlice({ name: 'counter', initialState: { count: 0 }, reducers: { increase: state => { state.count += 1 }, reset: state => { state.count = 0 } } });
+const store = configureStore({ reducer: { counter: counterSlice.reducer } });
+function Counter() { const count = useSelector(state => state.counter.count); const dispatch = useDispatch(); return <div><p>当前数值：{count}</p><button onClick={() => dispatch(counterSlice.actions.increase())}>+1</button><button onClick={() => dispatch(counterSlice.actions.reset())}>重置</button></div> }
+export default function App() { return <Provider store={store}><Counter /></Provider> }`, { '@reduxjs/toolkit': '2.11.2', 'react-redux': '9.2.0' })
 } as const
 
 export type ReactExampleKey = keyof typeof reactExamples

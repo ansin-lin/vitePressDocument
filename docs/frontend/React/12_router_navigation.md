@@ -69,6 +69,10 @@ createRoot(document.getElementById('root')).render(<AppRouter />);
 
 启动开发服务器后，访问 `/` 显示“首页”，访问 `/employees` 显示“员工列表”，访问 `/not-found` 显示“页面不存在”。这一段是独立的最小路由示例；接入员工项目时，再把同文件中的临时页面函数替换为实际 Page 组件的导入。
 
+下面使用真正的 React Router 操作导航。在线预览采用 `MemoryRouter`，可以观察路径匹配与页面变化，同时保持教学网站地址不变；本地项目继续使用上面的 `BrowserRouter`。
+
+<ReactLiveDemo example="router" />
+
 ## 2. 共通布局与子路由
 
 当多个页面共用导航时，让父路由渲染布局，让子路由渲染页面。先在最小示例中导入 `Link` 和 `Outlet`：

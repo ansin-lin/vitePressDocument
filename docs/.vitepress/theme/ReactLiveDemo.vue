@@ -16,12 +16,13 @@ let client: Awaited<ReturnType<typeof loadSandpackClient>> | null = null
 let unsubscribe: (() => void) | null = null
 
 function setup() {
+  const dependencies = { react: '19.3.0', 'react-dom': '19.3.0', ...sample.dependencies }
   return {
     template: 'create-react-app' as const,
     entry: '/index.js',
-    dependencies: { react: '19.3.0', 'react-dom': '19.3.0' },
+    dependencies,
     files: {
-      '/package.json': { code: JSON.stringify({ name: 'lesson-demo', version: '1.0.0', main: 'index.js', dependencies: { react: '19.3.0', 'react-dom': '19.3.0' } }) },
+      '/package.json': { code: JSON.stringify({ name: 'lesson-demo', version: '1.0.0', main: 'index.js', dependencies }) },
       '/index.html': { code: '<!doctype html><html><head><meta charset="UTF-8" /></head><body><div id="root"></div></body></html>' },
       '/index.js': { code: `import React from 'react';
 import { createRoot } from 'react-dom/client';

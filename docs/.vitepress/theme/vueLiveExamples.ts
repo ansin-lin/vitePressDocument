@@ -235,7 +235,79 @@ async function load() {
   <p v-if="state === 'loading'">读取中…</p>
   <p v-else-if="state === 'error'">读取失败，请重试</p>
   <ul v-else-if="state === 'success'"><li v-for="item in items" :key="item">{{ item }}</li></ul>
-</template>`)
+</template>`),
+  router: {
+    title: 'Vue Router 页面导航', description: '真实运行 Vue Router；预览使用内存路由，不改变教学网站地址。', task: '增加 /about 页面，或把详情页编号改成 202。', files: {
+      'src/App.vue': `<script setup>
+import { getCurrentInstance } from 'vue'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { router } from './router.js'
+getCurrentInstance().appContext.app.use(router)
+const route = useRoute()
+</script>
+<template>
+  <nav><RouterLink to="/tasks">任务一览</RouterLink> | <RouterLink to="/tasks/101">任务 101</RouterLink></nav>
+  <p>当前路径：{{ route.fullPath }}</p>
+  <RouterView />
+</template>`,
+      'src/router.js': `import { createRouter, createMemoryHistory } from 'vue-router'
+import TaskList from './TaskList.vue'
+import TaskDetail from './TaskDetail.vue'
+import NotFound from './NotFound.vue'
+export const router = createRouter({
+  history: createMemoryHistory(),
+  routes: [
+    { path: '/', redirect: '/tasks' },
+    { path: '/tasks', component: TaskList },
+    { path: '/tasks/:id', component: TaskDetail },
+    { path: '/:pathMatch(.*)*', component: NotFound }
+  ]
+})
+router.push('/tasks')`,
+      'src/TaskList.vue': `<template><h2>任务一览</h2><p>点击导航查看详情。</p></template>`,
+      'src/TaskDetail.vue': `<script setup>
+import { useRoute } from 'vue-router'
+const route = useRoute()
+</script>
+<template><h2>任务详情：{{ route.params.id }}</h2></template>`,
+      'src/NotFound.vue': `<template><h2>页面不存在</h2></template>`,
+      'import-map.json': JSON.stringify({ imports: { 'vue-router': 'https://cdn.jsdelivr.net/npm/vue-router@4.6.4/dist/vue-router.esm-browser.prod.js' } }, null, 2)
+    }
+  },
+  pinia: {
+    title: 'Pinia 共享状态', description: '两个组件使用同一个真实 Pinia Store；数据只在预览会话内保存。', task: '修改初始任务，或为 Store 增加删除 action。', files: {
+      'src/App.vue': `<script setup>
+import { getCurrentInstance } from 'vue'
+import { createPinia } from 'pinia'
+import TaskHeader from './TaskHeader.vue'
+import TaskPanel from './TaskPanel.vue'
+getCurrentInstance().appContext.app.use(createPinia())
+</script>
+<template><TaskHeader /><TaskPanel /></template>`,
+      'src/taskStore.js': `import { ref, computed } from 'vue'
+import { defineStore } from 'pinia'
+export const useTaskStore = defineStore('tasks', () => {
+  const tasks = ref(['准备课程'])
+  const count = computed(() => tasks.value.length)
+  function addTask(title) { if (title.trim()) tasks.value.push(title.trim()) }
+  return { tasks, count, addTask }
+})`,
+      'src/TaskHeader.vue': `<script setup>
+import { useTaskStore } from './taskStore.js'
+const store = useTaskStore()
+</script>
+<template><h2>任务总数：{{ store.count }}</h2></template>`,
+      'src/TaskPanel.vue': `<script setup>
+import { ref } from 'vue'
+import { useTaskStore } from './taskStore.js'
+const store = useTaskStore()
+const title = ref('')
+function add() { store.addTask(title.value); title.value = '' }
+</script>
+<template><input v-model="title" placeholder="任务名称" /><button @click="add">添加任务</button><ul><li v-for="task in store.tasks" :key="task">{{ task }}</li></ul></template>`,
+      'import-map.json': JSON.stringify({ imports: { pinia: 'https://esm.sh/pinia@3.0.4?external=vue' } }, null, 2)
+    }
+  }
 } satisfies Record<string, VueLiveExample>
 
 export type VueExampleKey = keyof typeof vueExamples

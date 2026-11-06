@@ -25,4 +25,6 @@ JavaScript 部分章节提供基于 Web Worker 的真实代码运行示例，可
 
 Vue 与 React 课程的概念章节加入可展开的在线练习。Vue 使用 Vue REPL，可修改单文件组件并即时查看结果；React 使用 Sandpack Client，可编辑 `App.jsx`，点击「运行修改」后查看页面。两种练习均支持重置，首次打开才加载编辑器；Vue 预览依赖公共 CDN，React 预览依赖 CodeSandbox 公共打包服务。涉及真实后端、路由配置或完整工程构建的章节仍以本地项目练习为准，页面中的异步演示会明确标明模拟数据。
 
+路由章节另外提供 Vue Router 和 React Router 的真实导航练习。在线预览使用内存历史，不改变教材网站 URL；本地项目按教材配置 Web History 或 BrowserRouter。状态管理章节提供 Pinia、Zustand 和 Redux Toolkit 的真实 Store 练习，演示数据只保存在当前浏览器预览内。Vue Router 与 Pinia 需要从公共 CDN 加载模块；React Router、Zustand、Redux Toolkit 由 Sandpack 的公共打包服务加载。
+
 示例集中在 `docs/.vitepress/theme/vueLiveExamples.ts` 和 `reactLiveExamples.ts`。在 Markdown 中使用 `<VueLiveDemo example="ref" />` 或 `<ReactLiveDemo example="state" />` 引用现有示例，新增示例时先为目录增加键和完整代码，再在首次讲解该知识点的位置引用。参考教材目录未修改。

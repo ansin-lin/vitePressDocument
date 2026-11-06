@@ -184,6 +184,10 @@ const count = useCounterStore((state) => state.count);
 const store = useCounterStore();
 ```
 
+现在可以在浏览器中修改真实的 Zustand Store，并观察两个组件同步更新。
+
+<ReactLiveDemo example="zustand" />
+
 ## 4. Zustand：管理任务列表
 
 计数器只能说明最小写法。下面用任务列表练习新增、状态切换和删除。
@@ -768,6 +772,10 @@ Selector 结果变化
   ↓
 组件重新渲染
 ```
+
+下面的独立练习使用真实的 Redux Toolkit 和 React Redux。修改 Slice 中的 reducer 后，点击「运行修改」即可重新预览。
+
+<ReactLiveDemo example="redux" />
 
 ## 7. 扩展识读：Redux Toolkit 的同步操作
 

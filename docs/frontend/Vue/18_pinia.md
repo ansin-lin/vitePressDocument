@@ -174,6 +174,10 @@ import TaskCount from '@/components/TaskCount.vue'
 
 上面两段只需**加入现有文件**，不要替换整个`TaskListView.vue`。页面初始显示0条；点击“新增任务”后，列表出现“画面确认”，计数变为1。两个组件都调用`useTaskStore()`，取得的是同一应用中同一个`tasks` Store，因此无需父组件逐层传递数组。基础阶段优先写`taskStore.tasks`，可以清楚看出状态来源。
 
+下面可以直接修改 Store 和两个组件，观察共享状态的变化。示例只操作浏览器内存，不连接 Backend。
+
+<VueLiveDemo example="pinia" />
+
 ## 8. state、getter和action
 
 ### 8.1 state保存原始状态
