@@ -9,7 +9,7 @@
 - `let`、`const`、基本数据类型、条件判断和循环。
 - 函数、箭头函数、数组、对象、解构、剩余参数和展开语法。
 - 类、`try...catch`、ES 模块、`Promise`、`async/await` 和 `fetch`。
-- Node.js、npm 与 `package.json` 的基本作用。第 1 章会带你检查环境并创建独立练习项目。
+- Node.js、npm 与 `package.json` 的基本作用；可先完成[本站 Node.js 与 npm 基础课程](../NodeJS/index.md)。第 1 章会带你检查环境并创建独立练习项目。
 
 DOM 与事件不是 TypeScript 语法的前置条件，但应已在 JavaScript 课程中学过，后续会在 React 或 Vue 中继续使用。
 

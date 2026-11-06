@@ -43,8 +43,6 @@ const task = ref({
 
 子组件不会自动读取父组件的`task`。组件具有独立作用域，必须明确声明并传递公开输入。
 
-<VueLiveDemo example="propsEmits" />
-
 ## 2. 使用defineProps声明输入
 
 ### 2.1 声明第一个Prop
@@ -454,6 +452,8 @@ emit('changeStatus', props.task.id, 'done')
 ```
 
 不要在不同子组件中把同一事件临时改成另一种参数结构。
+
+<VueLiveDemo example="propsEmits" />
 
 ## 16. 为事件参数增加运行时校验
 

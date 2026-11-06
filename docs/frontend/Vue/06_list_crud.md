@@ -14,8 +14,6 @@
 
 手写多个`<li>`会让页面结构与任务数据重复。任务增加、删除或排序后，还要手动同步DOM。`v-for`让Vue根据数组生成重复结构。
 
-<VueLiveDemo example="list" />
-
 ## 2. 最小示例
 
 ```vue
@@ -72,6 +70,8 @@ const tasks = ref([
 稳定ID：Vue知道102仍是原来的任务
 数组下标：新的第0行可能被当成旧的第0行
 ```
+
+<VueLiveDemo example="list" />
 
 ## 4. 任务列表CRUD
 

@@ -3,7 +3,7 @@ layout: home
 hero:
   name: TECH / COURSE
   text: 从阅读开始，建立扎实基础。
-  tagline: 现已收录 HTML、CSS、JavaScript、TypeScript、Vue、React、Java 与 SQL 课程。
+  tagline: 现已收录 HTML、CSS、JavaScript、Node.js/npm、TypeScript、Vue、React、Java 与 SQL 课程。
   actions:
     - theme: brand
       text: 学习 HTML →
@@ -21,6 +21,7 @@ hero:
     <a class="path-card path-react" href="./frontend/HTML/"><span class="path-icon">H</span><span class="path-meta">WEB FOUNDATION</span><strong>HTML 基础教程</strong><span>学习网页结构、文本、链接、图片、表单与语义化标签。</span><em>进入 HTML 课程 ↗</em></a>
     <a class="path-card path-vue" href="./frontend/CSS/"><span class="path-icon">C</span><span class="path-meta">WEB DESIGN</span><strong>CSS 基础教程</strong><span>学习选择器、盒模型、布局、响应式设计与动效。</span><em>进入 CSS 课程 ↗</em></a>
     <a class="path-card path-react" href="./frontend/JavaScript/"><span class="path-icon">JS</span><span class="path-meta">WEB INTERACTION</span><strong>JavaScript 基础教程</strong><span>从变量、函数和对象，学到 DOM、事件、模块与异步请求。</span><em>进入 JavaScript 课程 ↗</em></a>
+    <a class="path-card path-flow" href="./frontend/NodeJS/"><span class="path-icon">N</span><span class="path-meta">FRONTEND TOOLING</span><strong>Node.js 与 npm 基础</strong><span>学习运行环境、依赖安装、项目脚本与团队工作流。</span><em>进入 Node.js 课程 ↗</em></a>
     <a class="path-card path-vue" href="./frontend/TypeScript/"><span class="path-icon">TS</span><span class="path-meta">TYPED JAVASCRIPT</span><strong>TypeScript 基础教程</strong><span>从类型标注、联合与泛型，学到模块、状态建模和外部数据校验。</span><em>进入 TypeScript 课程 ↗</em></a>
     <a class="path-card path-vue" href="./frontend/Vue/"><span class="path-icon">V</span><span class="path-meta">VUE 3</span><strong>Vue 3 教程</strong><span>学习组件、响应式状态、路由、接口和项目测试。</span><em>进入 Vue 课程 ↗</em></a>
     <a class="path-card path-react" href="./frontend/React/"><span class="path-icon">R</span><span class="path-meta">REACT</span><strong>React 教程</strong><span>学习 JSX、状态与组件通信，并完成业务页面和测试。</span><em>进入 React 课程 ↗</em></a>

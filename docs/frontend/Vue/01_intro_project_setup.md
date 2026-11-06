@@ -191,7 +191,7 @@ Vite主要承担两类工作：
 
 ## 4. 创建项目
 
-先确认已安装 Vue 官网当前要求的 Node.js 版本，并完成本仓库的 Node.js/npm 基础课程。在准备保存练习项目的目录执行：
+先确认已安装 Vue 官网当前要求的 Node.js 版本，并完成本站的[Node.js 与 npm 基础课程](../NodeJS/index.md)。在准备保存练习项目的目录执行：
 
 ```bash
 npm create vue@latest

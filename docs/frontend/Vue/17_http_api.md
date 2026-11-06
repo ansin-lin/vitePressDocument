@@ -38,74 +38,7 @@ Vue页面经常需要从服务器读取数据或保存用户输入。本章继�
 
 新增时，前端只发送标题和优先级。`id`由后端生成，`assignee`由当前用户或业务规则决定，`status`初始为`todo`，`dueDate`由后端确定。不能只看页面字段就猜测请求体。
 
-### 运行课堂演示接口
-
-这里的任务接口只用于练习Axios、Pinia和测试，不是另一套综合项目。在Vue练习工程根目录新建`task-api-mock.mjs`，写入下面的完整程序。它只把数据保存在内存中，重启后恢复初始数据；有給休暇正式项目仍使用课程提供的Node.js + MySQL后台。
-
-```js
-import { createServer } from 'node:http'
-
-const tasks = [
-  { id: 1, title: '确认申请画面', assignee: '山田', priority: 'normal', status: 'todo', dueDate: '2026-10-30' },
-]
-
-function send(response, status, data) {
-  response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' })
-  response.end(JSON.stringify(data))
-}
-
-createServer((request, response) => {
-  const path = new URL(request.url, 'http://localhost').pathname
-
-  if (request.method === 'GET' && path === '/api/tasks') {
-    send(response, 200, tasks)
-    return
-  }
-
-  const detailId = /^\/api\/tasks\/(\d+)$/.exec(path)?.[1]
-  if (request.method === 'GET' && detailId) {
-    const task = tasks.find((item) => item.id === Number(detailId))
-    send(response, task ? 200 : 404, task ?? { message: '任务不存在' })
-    return
-  }
-
-  if (request.method !== 'POST' || path !== '/api/tasks') {
-    send(response, 404, { message: '接口不存在' })
-    return
-  }
-
-  let body = ''
-  request.on('data', (chunk) => { body += chunk })
-  request.on('end', () => {
-    try {
-      const input = JSON.parse(body)
-      if (typeof input.title !== 'string' || !input.title.trim()
-          || !['low', 'normal', 'high'].includes(input.priority)) {
-        send(response, 400, { message: '标题或优先级不正确' })
-        return
-      }
-      const task = {
-        id: tasks.at(-1).id + 1,
-        title: input.title.trim(),
-        assignee: '未分配',
-        priority: input.priority,
-        status: 'todo',
-        dueDate: '',
-      }
-      tasks.push(task)
-      send(response, 201, task)
-    } catch {
-      send(response, 400, { message: 'JSON格式不正确' })
-    }
-  })
-}).listen(8080, '127.0.0.1', () => {
-  console.log('Task mock API: http://127.0.0.1:8080/api/tasks')
-})
-```
-
-在一个终端运行`node task-api-mock.mjs`，保留终端窗口；浏览器打开`http://127.0.0.1:8080/api/tasks`，应看到一条初始任务。另一个终端启动Vue开发服务器，并按第10节配置Vite Proxy。请求`/api/tasks`成功时会返回数组；提交空标题会得到400，可用于练习错误显示。结束后按`Ctrl+C`停止模拟接口。
-
-<VueLiveDemo example="asyncState" />
+先确认请求契约，再看下一节的请求分层和第4节的最小 `getTasks()`。准备实际练习时，再打开[课堂任务接口准备](17_task_api_mock.md)运行模拟服务。
 
 ## 2. 为什么需要API层
 
@@ -178,6 +111,8 @@ export async function createTask(input) {
 
 `http.get()`读取数据，`http.post()`通过请求体发送数据。API模块返回页面需要的`response.data`，组件不需要了解Axios响应对象的全部结构。
 
+现在已建立最小 GET 请求。要在本地看到实际响应，按[课堂任务接口准备](17_task_api_mock.md)运行模拟服务；完成后继续下面的页面状态处理。
+
 ## 5. 页面处理四种基本状态
 
 任务一览当前只由一个页面使用，因此先由Component保存状态。第16章的`src/views/TaskListView.vue`原本只显示占位文字；用下面的片段替换该文件的内容，`src/App.vue`仍保留`<RouterView />`，不要把列表写回根组件：
@@ -225,6 +160,8 @@ onMounted(loadTasks)
 
 `try`执行请求，`catch`处理失败。空数据是成功响应后数组为空，不是系统错误。
 
+<VueLiveDemo example="asyncState" />
+
 ## 6. POST请求与防止重复提交
 
 提交顺序应是“校验→进入保存中→发送请求→成功处理→恢复保存状态”。第8章的任务表单原来放在`App.vue`中，并用定时器模拟保存。现在已由Router管理页面：把第8章表单的`form`、`errors`、`touched`、`isSaving`、`submitError`状态，以及`validateForm()`、`clearFieldError()`、`resetForm()`和表单字段、错误提示、按钮搬到上节的`src/views/TaskListView.vue`。**不要复制**只用于课堂演示的`simulateSaveFailure`状态及“模拟保存失败”复选框，也不要复制旧的`submitForm()`或在`App.vue`留下第二份表单。上节已经导入`reactive`、`createTask`，并声明了`tasks`。
@@ -252,7 +189,9 @@ async function submitTask() {
 
 在同一文件的`<template>`中，把第8章表单的开始标签改为`<form novalidate @submit.prevent="submitTask">`，并接在上节列表的后面；业务字段、错误提示和`:disabled="isSaving"`按钮保持原样，不保留“模拟保存失败”复选框。这样表单提交调用的`submitTask()`、脚本中的`form`与模板中的字段名称才是一一对应的。
 
-失败时不要清空表单。前端防重复点击不等于后端接口具有幂等性，写入请求不能在结果不明时自动重试。
+失败时不要清空表单。前端防重复点击只是在当前页面的请求尚未结束时暂时禁用按钮；它不能保证两个已经到达后端的相同请求只执行一次。
+
+**幂等性**是指相同操作执行多次，与执行一次具有相同的预期效果。例如新增任务的第一次 `POST` 已被服务器处理，但响应在途中丢失；前端如果立即重发，可能创建第二条相同任务。除非接口明确提供幂等保证（例如经后端验证的唯一请求标识），结果不明时不要自动重试写入请求。读取请求和写入请求的重试规则应分别设计。
 
 ## 7. API失败时使用Network调查
 

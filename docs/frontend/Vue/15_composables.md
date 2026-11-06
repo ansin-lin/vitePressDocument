@@ -37,8 +37,6 @@ const filteredTasks = computed(() =>
 
 如果多个页面都需要相同筛选逻辑，复制代码会产生多处修改点。即使目前只使用一次，当筛选规则已经是一项可独立说明和测试的职责时，也可以考虑提取。
 
-<VueLiveDemo example="composable" />
-
 ## 2. 什么是Composable
 
 Composable具有以下特点：
@@ -187,6 +185,8 @@ export function useSharedTaskKeyword() {
 ```
 
 这种写法会形成模块级共享状态，并不一定错误，但必须是明确的业务需求。不要因为把`ref`写在错误位置而意外共享。跨页面共享且需要统一操作入口的业务状态，通常交给第18章的Pinia管理。
+
+<VueLiveDemo example="composable" />
 
 ## 7. 带生命周期的useWindowSize
 

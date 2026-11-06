@@ -45,8 +45,6 @@ const linkLabel = '查看规格确认任务'
 
 第三种虽然能运行，但固定值直接写普通HTML属性更清楚。
 
-<VueLiveDemo example="conditional" />
-
 ## 2. 属性表达式可以写什么
 
 属性绑定的值可以是单个JavaScript表达式：
@@ -259,6 +257,8 @@ const status = 'loading'
 `v-if`条件为真时创建DOM，为假时不创建。`v-else-if`和`v-else`必须紧邻前一分支，中间不能插入另一个普通元素。
 
 依次通过事件把`status`改为`idle`、`loading`、`error`和`success`，可以观察每次只有一个分支存在。
+
+<VueLiveDemo example="conditional" />
 
 ## 10. 使用template组合多个元素
 

@@ -35,8 +35,6 @@ App.vue
 
 当前只修改根组件`App.vue`。第10章再学习怎样创建和组合多个组件。
 
-<VueLiveDemo example="template" />
-
 ## 2. 什么是单文件组件
 
 **单文件组件（Single-File Component，简称SFC）**是以`.vue`结尾的组件文件。它把一个组件相关的JavaScript、HTML模板和CSS样式放在同一个文件中。
@@ -246,6 +244,8 @@ const saving = true
 `disabled`属于布尔属性。当绑定结果为真时，按钮包含禁用属性；为假时不禁用。不要写`disabled="false"`，因为HTML只要存在该布尔属性，就可能仍被视为禁用。
 
 当`v-bind`绑定值为`null`或`undefined`时，对应属性通常会从元素上移除。
+
+<VueLiveDemo example="template" />
 
 ## 7. 什么是Vue指令
 

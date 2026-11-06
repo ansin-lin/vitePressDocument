@@ -20,8 +20,6 @@
 某个值变化后执行动作 → watch
 ```
 
-<VueLiveDemo example="watch" />
-
 ## 2. 观察ref
 
 ```vue
@@ -49,6 +47,8 @@ watch(keyword, (newValue, oldValue) => {
 输入v       → newValue="v"，oldValue=""
 继续输入ue  → newValue="vue"，oldValue="v"
 ```
+
+<VueLiveDemo example="watch" />
 
 ## 3. 观察对象属性要使用getter
 

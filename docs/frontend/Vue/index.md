@@ -2,6 +2,8 @@
 
 本课程面向已经完成HTML、CSS、JavaScript、ES6、DOM/Event、Promise、Axios和HTTP基础的学员。第1～20章统一使用Vue 3、Composition API、`<script setup>`、JavaScript和Vite；第21章再集中说明怎样为已掌握的Vue写法增加TypeScript约束。
 
+创建项目之前，还应完成[Node.js 与 npm 基础课程](../NodeJS/index.md)，了解依赖安装、`package.json` 和项目脚本。
+
 ## 1. 最终成果
 
 学员先通过任务列表、表单和接口等小型示例逐步掌握Vue的核心能力，再把HTML、CSS、JavaScript阶段完成的“有給休暇申請システム”重构为Vue项目。综合项目会连接Router、Axios API层、Pinia、表单校验和自动化测试，并使用课程提供的Node.js + MySQL后台保存业务数据。
@@ -51,13 +53,15 @@
 
 [附录：识读 Vue 2 写法与 Vue 3 差异](appendix_vue2.md)
 
+[附录：动态组件与常见内置能力](appendix_common_patterns.md)
+
 ## 3. 学习范围
 
 - 【必须掌握】模板、响应式状态、事件、条件与列表、表单、computed、watch基础、组件职责、Props/Emits、组件v-model、Attributes、基础插槽、生命周期清理、Router、Axios API层、Pinia、测试和交付。
 - 【会使用、能看懂】`reactive`、作用域插槽、provide/inject、Composable中的生命周期和异步状态、嵌套路由及组件内路由守卫。
 - 【会读即可】`useSlots()`、Symbol注入键、完整生命周期顺序、复杂导航守卫。Options API 和 Vue 2 的识读、局部修改集中放在附录。
 
-Render Function、JSX、复杂动画、响应式底层实现等低频高级内容不进入第一阶段主线。Options API 在 Vue 3 中仍受支持；本课程把它用于阅读和局部修改既有项目。Vue 2 附录用于识别版本差异，不把 Vue 2 代码混入 Vue 3 练习环境。
+Render Function、JSX、复杂动画、响应式底层实现等低频高级内容不进入第一阶段主线。动态组件、`KeepAlive`、`Teleport` 和 `defineExpose` 放在选读附录，不要求先学完才能进行综合项目。Options API 在 Vue 3 中仍受支持；本课程把它用于阅读和局部修改既有项目。Vue 2 附录用于识别版本差异，不把 Vue 2 代码混入 Vue 3 练习环境。
 
 ## 4. 示例与综合项目
 

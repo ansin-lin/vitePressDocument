@@ -18,7 +18,7 @@
 
 ## 前置检查
 
-开始前应会使用 ES Module、对象/数组展开、`map`/`filter`、`async/await`、`try...catch`、HTTP/JSON 和 npm。JavaScript 部分可回看[本站 JavaScript 课程](../JavaScript/index.md)；Node.js 与 npm 的基础说明见[参考教材](https://github.com/ansin-lin/LearnDocument/tree/main/docs/frontend/NodeJS)。
+开始前应会使用 ES Module、对象/数组展开、`map`/`filter`、`async/await`、`try...catch`、HTTP/JSON 和 npm。JavaScript 部分可回看[本站 JavaScript 课程](../JavaScript/index.md)；工具基础可回看[本站 Node.js 与 npm 课程](../NodeJS/index.md)。
 
 ## 封版技术基线
 

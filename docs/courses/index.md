@@ -8,6 +8,8 @@
 
 [JavaScript 基础教程](../frontend/JavaScript/index.md)学习程序逻辑、DOM 交互、浏览器存储和异步请求。部分章节可以在线修改并运行代码。
 
+[Node.js 与 npm 基础](../frontend/NodeJS/index.md) 学习前端项目使用的运行环境、依赖管理和脚本命令，建议在 TypeScript、Vue、React 之前完成。
+
 [TypeScript 基础教程](../frontend/TypeScript/index.md)从类型标注学到泛型、模块和业务数据建模，并通过结课练习检查外部数据。
 
 [Vue 3 教程](../frontend/Vue/index.md)从单文件组件、响应式状态和组件通信，学到路由、接口、状态管理与测试。

@@ -37,8 +37,6 @@ sequenceDiagram
 
 图中先**注册**回调，再由Vue在对应时机**调用**回调；两者不是同一件事。`script setup`中的顶层代码在创建组件实例时执行，此时真实DOM尚未放进页面，不能立即读取输入框尺寸或调用`focus()`。`onBeforeMount()`和`onBeforeUpdate()`等更细的时机会在第8节对照。
 
-<VueLiveDemo example="lifecycle" />
-
 ## 2. 使用onMounted处理挂载后的工作
 
 `onMounted(callback)`注册一个回调。当组件第一次生成的DOM已经挂载到页面后，Vue调用该回调。
@@ -309,6 +307,8 @@ onUnmounted(() => {
 ```
 
 `setInterval()`每隔指定毫秒数重复执行函数，并返回定时器编号；`clearInterval()`使用该编号停止定时器。DOM监听器、定时器、`ResizeObserver`、WebSocket连接和第三方图表实例都遵循“创建与释放成对出现”的原则。
+
+<VueLiveDemo example="lifecycle" />
 
 ## 8. 常用生命周期时机
 

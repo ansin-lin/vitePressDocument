@@ -14,13 +14,13 @@ export default {
   data() {
     return {
       title: '',
-      tasks: [{ id: 1, title: '阅读教程', completed: false }],
+      tasks: [{ id: 1, title: '阅读教程', assignee: '未分配', priority: 'normal', status: 'todo', dueDate: '' }],
       message: '',
     }
   },
   computed: {
     unfinishedCount() {
-      return this.tasks.filter(task => !task.completed).length
+      return this.tasks.filter(task => task.status !== 'done').length
     },
   },
   watch: {
@@ -31,10 +31,10 @@ export default {
   methods: {
     addTask() {
       if (!this.title.trim()) return
-      this.tasks.push({ id: Date.now(), title: this.title.trim(), completed: false })
+      this.tasks.push({ id: Date.now(), title: this.title.trim(), assignee: '未分配', priority: 'normal', status: 'todo', dueDate: '' })
       this.title = ''
     },
-    toggleTask(task) { task.completed = !task.completed },
+    toggleTask(task) { task.status = task.status === 'done' ? 'todo' : 'done' },
   },
 }
 </script>
@@ -45,7 +45,7 @@ export default {
   <button @click="addTask">添加</button>
   <ul>
     <li v-for="task in tasks" :key="task.id">
-      <button @click="toggleTask(task)">{{ task.completed ? '恢复' : '完成' }}</button>
+      <button @click="toggleTask(task)">{{ task.status === 'done' ? '恢复' : '完成' }}</button>
       {{ task.title }}
     </li>
   </ul>

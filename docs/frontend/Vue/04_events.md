@@ -37,8 +37,6 @@ function showMessage() {
 
 `@click="showMessage"`表示点击时调用`showMessage()`。函数本身仍是普通JavaScript函数，Vue负责把它连接到按钮。函数名应表达动作，如`openDetail`、`submitTask`，不要使用含义不明的`doIt`。
 
-<VueLiveDemo example="events" />
-
 ## 2. 内联处理与函数处理
 
 只有一个简单操作时可以写内联表达式：
@@ -80,6 +78,8 @@ function showTask(id, title) {
 ```
 
 需要参数时，在模板中写函数调用。传递任务编号能让处理函数知道操作对象。
+
+<VueLiveDemo example="events" />
 
 ## 4. 取得原生事件对象
 

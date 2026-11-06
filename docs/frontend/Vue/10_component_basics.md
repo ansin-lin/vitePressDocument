@@ -32,8 +32,6 @@ TaskListView.vue
 
 这个结构表示组件使用关系，不代表最终DOM一定有相同的嵌套标签。
 
-<VueLiveDemo example="component" />
-
 ## 2. 为什么需要拆分组件
 
 ### 2.1 降低单个文件的职责
@@ -215,6 +213,8 @@ import TaskCounter from './components/TaskCounter.vue'
 页面会创建两个`TaskCounter`实例。点击第一个组件的按钮只修改第一个实例的`count`，第二个不会变化。
 
 组件文件像创建实例的设计说明，每次使用标签都会产生一个实例。局部状态默认属于各自实例，不是自动共享的全局状态。
+
+<VueLiveDemo example="component" />
 
 ## 9. 父组件和子组件
 

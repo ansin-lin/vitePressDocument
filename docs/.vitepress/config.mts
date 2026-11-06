@@ -9,6 +9,7 @@ export default defineConfig({
         { text: 'HTML 教程', link: '/frontend/HTML/' },
         { text: 'CSS 教程', link: '/frontend/CSS/' },
         { text: 'JavaScript 教程', link: '/frontend/JavaScript/' },
+        { text: 'Node.js 与 npm 基础', link: '/frontend/NodeJS/' },
         { text: 'TypeScript 教程', link: '/frontend/TypeScript/' },
         { text: 'Vue 3 教程', link: '/frontend/Vue/' },
         { text: 'React 教程', link: '/frontend/React/' },
@@ -23,6 +24,13 @@ export default defineConfig({
       ] }
     ],
     sidebar: {
+      '/frontend/NodeJS/': [
+        { text: 'Node.js 与 npm 基础', link: '/frontend/NodeJS/', items: [
+          { text: '1. Node.js 与运行环境', link: '/frontend/NodeJS/01_nodejs_runtime_basics' },
+          { text: '2. npm 与项目依赖', link: '/frontend/NodeJS/02_npm_package_dependencies' },
+          { text: '3. scripts、npx 与团队工作流', link: '/frontend/NodeJS/03_npm_scripts_npx_workflow' }
+        ] }
+      ],
       '/frontend/Vue/': [
         { text: 'Vue 3 章节目录', link: '/frontend/Vue/', items: [
           { text: '1. 认识 Vue 与创建项目', link: '/frontend/Vue/01_intro_project_setup' },
@@ -42,6 +50,7 @@ export default defineConfig({
           { text: '15. Composables', link: '/frontend/Vue/15_composables' },
           { text: '16. Vue Router', link: '/frontend/Vue/16_vue_router' },
           { text: '17. API 层与异步处理', link: '/frontend/Vue/17_http_api' },
+          { text: '17A. 课堂任务接口准备', link: '/frontend/Vue/17_task_api_mock' },
           { text: '18. Pinia 状态管理', link: '/frontend/Vue/18_pinia' },
           { text: '19. 前端测试基础', link: '/frontend/Vue/19_frontend_testing' },
           { text: '20. Vue 自动测试', link: '/frontend/Vue/20_vue_unit_testing' },
@@ -49,6 +58,7 @@ export default defineConfig({
           { text: '附录：项目 API 规格', link: '/frontend/Vue/appendix_paid_leave_api' },
           { text: '附录：Options API', link: '/frontend/Vue/appendix_options_api' },
           { text: '附录：Vue 2 写法与差异', link: '/frontend/Vue/appendix_vue2' },
+          { text: '附录：常见内置能力', link: '/frontend/Vue/appendix_common_patterns' },
           { text: '22. 综合项目', link: '/exercises/frontend/Vue/22_vue_project' },
           { text: '23. SES 改修练习', link: '/exercises/frontend/Vue/23_ses_change_practice' }
         ] }

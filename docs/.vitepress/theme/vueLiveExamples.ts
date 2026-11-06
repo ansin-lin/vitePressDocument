@@ -13,27 +13,23 @@ export const vueExamples = {
   intro: single('第一次运行 Vue 组件', '修改模板文本，观察预览实时变化。', '把标题改成自己的课程名称。', `<template>
   <main><h1>我的第一个 Vue 页面</h1><p>修改左侧文字试试。</p></main>
 </template>`),
-  template: single('模板中的插值与指令', '修改数据，观察插值、属性绑定和条件内容。', '修改 employeeName 和 hasLeave 的值。', `<script setup>
+  template: single('模板中的插值与属性绑定', '修改数据，观察文字和链接属性怎样更新。', '修改 employeeName 和 profileUrl 的值。', `<script setup>
 const employeeName = '田中'
-const hasLeave = true
 const profileUrl = 'https://example.com/profile'
 </script>
 
 <template>
   <h2>你好，{{ employeeName }}</h2>
   <a :href="profileUrl">员工资料</a>
-  <p v-if="hasLeave">可以申请休假</p>
-  <p v-else>暂无可用休假</p>
 </template>`),
-  ref: single('ref 与响应式更新', '点击按钮后，响应式值改变，页面自动更新。', '把每次增加的数量改成 2。', `<script setup>
+  ref: single('ref 与响应式更新', '观察响应式值变化后，模板怎样自动更新。', '把最终文字改为“任务已完成”，再观察预览。', `<script setup>
 import { ref } from 'vue'
-const count = ref(0)
-function add() { count.value += 1 }
+const statusMessage = ref('等待处理')
+setTimeout(() => { statusMessage.value = '处理完成' }, 800)
 </script>
 
 <template>
-  <p>点击次数：{{ count }}</p>
-  <button @click="add">增加</button>
+  <p>当前状态：{{ statusMessage }}</p>
 </template>`),
   events: single('事件绑定与参数', '按钮事件把当前员工编号传给处理函数。', '为第二名员工也加一个按钮。', `<script setup>
 import { ref } from 'vue'
@@ -57,14 +53,17 @@ const approved = ref(false)
 </template>`),
   list: single('列表渲染与新增', 'v-for 根据数组生成列表，新增后页面同步变化。', '给列表增加删除按钮。', `<script setup>
 import { ref } from 'vue'
-const tasks = ref([{ id: 1, name: '确认申请' }, { id: 2, name: '发送通知' }])
+const tasks = ref([
+  { id: 1, title: '确认申请', assignee: '田中', priority: 'normal', status: 'todo', dueDate: '' },
+  { id: 2, title: '发送通知', assignee: '佐藤', priority: 'high', status: 'doing', dueDate: '' }
+])
 let nextId = 3
-function addTask() { tasks.value.push({ id: nextId++, name: '新任务' }) }
+function addTask() { tasks.value.push({ id: nextId++, title: '新任务', assignee: '未分配', priority: 'normal', status: 'todo', dueDate: '' }) }
 </script>
 
 <template>
   <button @click="addTask">新增任务</button>
-  <ul><li v-for="task in tasks" :key="task.id">{{ task.name }}</li></ul>
+  <ul><li v-for="task in tasks" :key="task.id">{{ task.title }}</li></ul>
 </template>`),
   computed: single('computed 派生结果', '派生值会随着原始状态改变而更新。', '把及格线从 60 改为 80。', `<script setup>
 import { ref, computed } from 'vue'
@@ -100,21 +99,22 @@ watch(keyword, (next, previous) => {
   <ul><li v-for="(item, index) in history" :key="index">{{ item }}</li></ul>
 </template>`),
   component: {
-    title: '拆分并复用组件', description: '同一个子组件可以用不同数据重复使用。', task: '在 App.vue 中再增加一张员工卡片。', files: {
+    title: '拆分并复用组件', description: '同一个子组件多次使用时，各自保存独立状态。', task: '再增加一个计数卡片，观察三个卡片互不影响。', files: {
       'src/App.vue': `<script setup>
-import EmployeeCard from './EmployeeCard.vue'
+import CounterCard from './CounterCard.vue'
 </script>
 
 <template>
-  <EmployeeCard name="田中" department="开发部" />
-  <EmployeeCard name="佐藤" department="销售部" />
+  <CounterCard />
+  <CounterCard />
 </template>`,
-      'src/EmployeeCard.vue': `<script setup>
-defineProps({ name: String, department: String })
+      'src/CounterCard.vue': `<script setup>
+import { ref } from 'vue'
+const count = ref(0)
 </script>
 
 <template>
-  <article><h3>{{ name }}</h3><p>{{ department }}</p></article>
+  <button @click="count++">这个卡片：{{ count }}</button>
 </template>`
     }
   },
@@ -274,13 +274,13 @@ const route = useRoute()
       'import-map.json': JSON.stringify({ imports: { 'vue-router': 'https://cdn.jsdelivr.net/npm/vue-router@4.6.4/dist/vue-router.esm-browser.prod.js' } }, null, 2)
     }
   },
-  optionsBasics: single('Options API：状态、计算与方法', 'Vue 3 中真实运行 Options API，修改数据并观察模板更新。', '新增任务后观察总数；修改 completed 的初始值。', `<script>
+  optionsBasics: single('Options API：状态、计算与方法', 'Vue 3 中真实运行 Options API，修改数据并观察模板更新。', '新增任务后观察总数；修改第一条任务的 status 初始值。', `<script>
 export default {
   data() {
-    return { title: '', tasks: [{ id: 1, title: '阅读教程', completed: false }], message: '' }
+    return { title: '', tasks: [{ id: 1, title: '阅读教程', assignee: '未分配', priority: 'normal', status: 'todo', dueDate: '' }], message: '' }
   },
   computed: {
-    unfinishedCount() { return this.tasks.filter(task => !task.completed).length }
+    unfinishedCount() { return this.tasks.filter(task => task.status !== 'done').length }
   },
   watch: {
     unfinishedCount(newValue, oldValue) { this.message = '未完成数：' + oldValue + ' → ' + newValue }
@@ -288,10 +288,10 @@ export default {
   methods: {
     addTask() {
       if (!this.title.trim()) return
-      this.tasks.push({ id: Date.now(), title: this.title.trim(), completed: false })
+      this.tasks.push({ id: Date.now(), title: this.title.trim(), assignee: '未分配', priority: 'normal', status: 'todo', dueDate: '' })
       this.title = ''
     },
-    toggleTask(task) { task.completed = !task.completed }
+    toggleTask(task) { task.status = task.status === 'done' ? 'todo' : 'done' }
   }
 }
 </script>
@@ -299,7 +299,7 @@ export default {
   <h2>未完成：{{ unfinishedCount }}</h2>
   <input v-model="title" placeholder="任务名称" @keyup.enter="addTask" />
   <button @click="addTask">添加</button>
-  <ul><li v-for="task in tasks" :key="task.id"><button @click="toggleTask(task)">{{ task.completed ? '恢复' : '完成' }}</button> {{ task.title }}</li></ul>
+  <ul><li v-for="task in tasks" :key="task.id"><button @click="toggleTask(task)">{{ task.status === 'done' ? '恢复' : '完成' }}</button> {{ task.title }}</li></ul>
   <p>{{ message }}</p>
 </template>`),
   optionsCommunication: {
@@ -341,6 +341,68 @@ export default {
 }
 </script>
 <template><p>运行 {{ seconds }} 秒</p></template>`
+    }
+  },
+  dynamicKeepAlive: {
+    title: '动态组件与 KeepAlive', description: '切换组件时观察计数是否保留；KeepAlive 缓存非活动组件实例。', task: '暂时移除 KeepAlive，再切换标签比较计数结果。', files: {
+      'src/App.vue': `<script setup>
+import { shallowRef } from 'vue'
+import CounterA from './CounterA.vue'
+import CounterB from './CounterB.vue'
+const current = shallowRef(CounterA)
+</script>
+<template>
+  <button @click="current = CounterA">显示 A</button>
+  <button @click="current = CounterB">显示 B</button>
+  <KeepAlive><component :is="current" /></KeepAlive>
+</template>`,
+      'src/CounterA.vue': `<script setup>
+import { ref } from 'vue'
+const count = ref(0)
+</script>
+<template><p>A 组件：<button @click="count++">{{ count }}</button></p></template>`,
+      'src/CounterB.vue': `<script setup>
+import { ref } from 'vue'
+const count = ref(0)
+</script>
+<template><p>B 组件：<button @click="count++">{{ count }}</button></p></template>`
+    }
+  },
+  teleport: single('Teleport 弹窗位置', '弹窗由当前组件控制，但 DOM 被放到预览文档的 body 下。', '打开弹窗，查看显示的 DOM 父元素；再修改弹窗文字。', `<script setup>
+import { nextTick, ref } from 'vue'
+const open = ref(false)
+const parentTag = ref('')
+async function show() {
+  open.value = true
+  await nextTick()
+  parentTag.value = document.querySelector('#lesson-modal')?.parentElement?.tagName || ''
+}
+</script>
+<template>
+  <button @click="show">打开弹窗</button>
+  <p>弹窗节点的 DOM 父元素：{{ parentTag || '尚未打开' }}</p>
+  <Teleport to="body">
+    <div v-if="open" id="lesson-modal" class="modal"><p>这段内容在 body 下</p><button @click="open = false">关闭</button></div>
+  </Teleport>
+</template>
+<style scoped>
+.modal { position: fixed; inset: 15% 15% auto; z-index: 1000; padding: 20px; border: 2px solid #42b883; border-radius: 8px; background: white; color: #222; }
+</style>`),
+  expose: {
+    title: 'defineExpose 公开子组件方法', description: '父组件通过模板引用调用子组件明确公开的 reset 方法。', task: '点击子组件加一后，在父组件点击重置。', files: {
+      'src/App.vue': `<script setup>
+import { ref } from 'vue'
+import CounterPanel from './CounterPanel.vue'
+const panel = ref(null)
+</script>
+<template><CounterPanel ref="panel" /><button @click="panel?.reset()">父组件重置</button></template>`,
+      'src/CounterPanel.vue': `<script setup>
+import { ref } from 'vue'
+const count = ref(0)
+function reset() { count.value = 0 }
+defineExpose({ reset })
+</script>
+<template><button @click="count++">子组件计数：{{ count }}</button></template>`
     }
   },
   pinia: {
