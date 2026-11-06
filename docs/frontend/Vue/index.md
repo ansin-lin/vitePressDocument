@@ -47,15 +47,17 @@
 
 [附录：有給休暇申請系统 API 入出力规格](appendix_paid_leave_api.md)
 
-[附录：阅读既有Vue项目中的Options API](appendix_options_api.md)
+[附录：读懂并修改 Options API 组件](appendix_options_api.md)
+
+[附录：识读 Vue 2 写法与 Vue 3 差异](appendix_vue2.md)
 
 ## 3. 学习范围
 
 - 【必须掌握】模板、响应式状态、事件、条件与列表、表单、computed、watch基础、组件职责、Props/Emits、组件v-model、Attributes、基础插槽、生命周期清理、Router、Axios API层、Pinia、测试和交付。
 - 【会使用、能看懂】`reactive`、作用域插槽、provide/inject、Composable中的生命周期和异步状态、嵌套路由及组件内路由守卫。
-- 【会读即可】`useSlots()`、Symbol注入键、完整生命周期顺序、复杂导航守卫和Options API。
+- 【会读即可】`useSlots()`、Symbol注入键、完整生命周期顺序、复杂导航守卫。Options API 和 Vue 2 的识读、局部修改集中放在附录。
 
-Render Function、JSX、复杂动画、响应式底层实现等低频高级内容不进入第一阶段主线。Options API只用于帮助阅读既有项目，不作为从零开发方式。
+Render Function、JSX、复杂动画、响应式底层实现等低频高级内容不进入第一阶段主线。Options API 在 Vue 3 中仍受支持；本课程把它用于阅读和局部修改既有项目。Vue 2 附录用于识别版本差异，不把 Vue 2 代码混入 Vue 3 练习环境。
 
 ## 4. 示例与综合项目
 

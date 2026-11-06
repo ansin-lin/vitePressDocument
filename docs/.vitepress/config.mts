@@ -48,6 +48,7 @@ export default defineConfig({
           { text: '21. TypeScript 与项目质量', link: '/frontend/Vue/21_build_quality_delivery' },
           { text: '附录：项目 API 规格', link: '/frontend/Vue/appendix_paid_leave_api' },
           { text: '附录：Options API', link: '/frontend/Vue/appendix_options_api' },
+          { text: '附录：Vue 2 写法与差异', link: '/frontend/Vue/appendix_vue2' },
           { text: '22. 综合项目', link: '/exercises/frontend/Vue/22_vue_project' },
           { text: '23. SES 改修练习', link: '/exercises/frontend/Vue/23_ses_change_practice' }
         ] }

@@ -274,6 +274,75 @@ const route = useRoute()
       'import-map.json': JSON.stringify({ imports: { 'vue-router': 'https://cdn.jsdelivr.net/npm/vue-router@4.6.4/dist/vue-router.esm-browser.prod.js' } }, null, 2)
     }
   },
+  optionsBasics: single('Options API：状态、计算与方法', 'Vue 3 中真实运行 Options API，修改数据并观察模板更新。', '新增任务后观察总数；修改 completed 的初始值。', `<script>
+export default {
+  data() {
+    return { title: '', tasks: [{ id: 1, title: '阅读教程', completed: false }], message: '' }
+  },
+  computed: {
+    unfinishedCount() { return this.tasks.filter(task => !task.completed).length }
+  },
+  watch: {
+    unfinishedCount(newValue, oldValue) { this.message = '未完成数：' + oldValue + ' → ' + newValue }
+  },
+  methods: {
+    addTask() {
+      if (!this.title.trim()) return
+      this.tasks.push({ id: Date.now(), title: this.title.trim(), completed: false })
+      this.title = ''
+    },
+    toggleTask(task) { task.completed = !task.completed }
+  }
+}
+</script>
+<template>
+  <h2>未完成：{{ unfinishedCount }}</h2>
+  <input v-model="title" placeholder="任务名称" @keyup.enter="addTask" />
+  <button @click="addTask">添加</button>
+  <ul><li v-for="task in tasks" :key="task.id"><button @click="toggleTask(task)">{{ task.completed ? '恢复' : '完成' }}</button> {{ task.title }}</li></ul>
+  <p>{{ message }}</p>
+</template>`),
+  optionsCommunication: {
+    title: 'Options API：Props 与事件', description: '父组件传 Props，子组件用 $emit 把操作结果交回父组件。', task: '把按钮文字改成“标记已读”，再观察父组件收到的消息。', files: {
+      'src/App.vue': `<script>
+import TaskCard from './TaskCard.vue'
+export default {
+  components: { TaskCard },
+  data() { return { currentTask: '确认设计书', message: '尚未操作' } },
+  methods: { handleDone(title) { this.message = '已完成：' + title } }
+}
+</script>
+<template><TaskCard :title="currentTask" @done="handleDone" /><p>{{ message }}</p></template>`,
+      'src/TaskCard.vue': `<script>
+export default {
+  props: { title: { type: String, required: true } },
+  emits: ['done'],
+  methods: { finish() { this.$emit('done', this.title) } }
+}
+</script>
+<template><button @click="finish">完成 {{ title }}</button></template>`
+    }
+  },
+  optionsLifecycle: {
+    title: 'Options API：挂载与清理', description: '组件 mounted 时启动计时器，beforeUnmount 时停止。', task: '切换组件并观察计时器从零开始；把间隔改为 500 毫秒。', files: {
+      'src/App.vue': `<script>
+import TimerPanel from './TimerPanel.vue'
+export default {
+  components: { TimerPanel },
+  data() { return { visible: true } }
+}
+</script>
+<template><button @click="visible = !visible">切换组件</button><TimerPanel v-if="visible" /></template>`,
+      'src/TimerPanel.vue': `<script>
+export default {
+  data() { return { seconds: 0, timer: null } },
+  mounted() { this.timer = setInterval(() => { this.seconds++ }, 1000) },
+  beforeUnmount() { clearInterval(this.timer) }
+}
+</script>
+<template><p>运行 {{ seconds }} 秒</p></template>`
+    }
+  },
   pinia: {
     title: 'Pinia 共享状态', description: '两个组件使用同一个真实 Pinia Store；数据只在预览会话内保存。', task: '修改初始任务，或为 Store 增加删除 action。', files: {
       'src/App.vue': `<script setup>
