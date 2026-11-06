@@ -43,6 +43,8 @@ const task = ref({
 
 子组件不会自动读取父组件的`task`。组件具有独立作用域，必须明确声明并传递公开输入。
 
+<VueLiveDemo example="propsEmits" />
+
 ## 2. 使用defineProps声明输入
 
 ### 2.1 声明第一个Prop

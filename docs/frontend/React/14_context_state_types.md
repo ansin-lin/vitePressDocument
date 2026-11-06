@@ -26,6 +26,8 @@
 3. 很深的不同区域都需要：考虑 Context。
 4. 变化和业务 Action 较复杂：再评估第 16 章的 Store。
 
+<ReactLiveDemo example="context" />
+
 ## 2. Context 解决什么问题
 
 ```text

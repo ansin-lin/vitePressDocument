@@ -30,6 +30,8 @@ flowchart LR
 
 数据向下传递，事件意图向上报告，这是 React 常见的单向数据流。
 
+<ReactLiveDemo example="communication" />
+
 ## 2. 父组件向子组件传递数据
 
 第三章已经学习数据 Props：

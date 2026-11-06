@@ -24,6 +24,8 @@ tasks（原始状态）
 
 能可靠计算出来的数据通常不重复保存，而是使用计算属性。
 
+<VueLiveDemo example="computed" />
+
 ## 2. 最小示例
 
 `App.vue`：

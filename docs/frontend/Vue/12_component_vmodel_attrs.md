@@ -26,6 +26,8 @@
 
 父组件与输入组件之间仍遵守上一章的Prop向下、事件向上。下节用`SearchInput.vue`的代码观察一次输入发生时的完整过程。
 
+<VueLiveDemo example="componentModel" />
+
 ## 2. 先理解底层Prop与事件写法
 
 组件`v-model`本质上是特定名称的Prop和事件组合。`SearchInput.vue`可以先用第11章知识实现：

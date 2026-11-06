@@ -30,6 +30,8 @@ function focusKeyword() {
 
 使用 Ref 处理焦点、测量或非 React 小部件。能通过 Props/State 声明的 DOM 内容不要用 Ref 手工修改，否则 React 与手工 DOM 会争夺事实来源。
 
+<ReactLiveDemo example="refs" />
+
 ## 2. 保存不触发渲染的数据
 
 ```jsx

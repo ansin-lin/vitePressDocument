@@ -25,6 +25,8 @@ JavaScript知道变量从`1`变成了`2`，但Vue无法仅凭普通赋值判断�
 
 Vue不会重新创建整个网页，而是更新受影响的部分。开发者主要修改数据，不必反复使用`querySelector()`查找元素并手工修改文字。
 
+<VueLiveDemo example="ref" />
+
 ## 2. 使用ref声明一个响应式值
 
 ### 2.1 创建ref

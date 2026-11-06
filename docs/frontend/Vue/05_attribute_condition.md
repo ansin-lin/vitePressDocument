@@ -45,6 +45,8 @@ const linkLabel = '查看规格确认任务'
 
 第三种虽然能运行，但固定值直接写普通HTML属性更清楚。
 
+<VueLiveDemo example="conditional" />
+
 ## 2. 属性表达式可以写什么
 
 属性绑定的值可以是单个JavaScript表达式：

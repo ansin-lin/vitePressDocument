@@ -38,6 +38,8 @@ const [saving, setSaving] = useState(false);
 const [serverError, setServerError] = useState('');
 ```
 
+<ReactLiveDemo example="form" />
+
 ## 2. 什么是受控组件
 
 输入框的显示值由 React State 决定，并通过 `onChange` 更新 State，这种写法称为受控组件：

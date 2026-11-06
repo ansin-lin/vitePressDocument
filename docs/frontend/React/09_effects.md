@@ -31,6 +31,8 @@ React 提交 UI
 
 Effect 在 React 把画面提交给浏览器之后运行，不应在 Render 阶段直接执行外部操作。
 
+<ReactLiveDemo example="effect" />
+
 ## 2. 三类代码放在哪里
 
 ### 2.1 渲染代码

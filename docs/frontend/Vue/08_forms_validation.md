@@ -66,6 +66,8 @@ const quantity = ref(1)
 
 对`type="number"`的输入框，Vue会自动尝试进行数字转换，效果与使用`.number`修饰符相近。但清空输入时仍可能得到空字符串，浏览器允许输入的值也不等于业务上有效，因此仍要检查空值、有限数字和允许范围。
 
+<VueLiveDemo example="form" />
+
 ## 2. 常见控件
 
 ```vue

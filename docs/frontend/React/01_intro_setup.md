@@ -24,6 +24,8 @@ UI = Component(Props, State)
 
 React 是 UI 库，不是后端、数据库、路由器或构建工具。SPA 通常只加载一个 HTML 壳，之后由客户端路由根据 URL 组合页面；但服务器仍需把入口 HTML 正确返回，并且所有业务权限仍由后端确认。
 
+<ReactLiveDemo example="intro" />
+
 ## 2. JavaScript 框架与 UI 框架有什么区别
 
 在前端项目中，“框架”这个词经常被用来表示不同层次的工具。先区分它们负责什么，可以避免把 React、Vue、Bootstrap 和 Vuetify 当成同一种技术。

@@ -27,6 +27,8 @@ E001     | 张三 | 开发 | 有效 | 编辑 删除
 
 这一张页面已经组合了 Form、Input、Select、Table、Search、Filter、Sort、Pagination、Loading、Empty、Error、Dialog、Toast 和按钮状态。本章先分别掌握，再把它们连接成一个 CRUD 流程。
 
+<ReactLiveDemo example="search" />
+
 ## 2. Form 与 Controlled Component
 
 React 中常用 State 同步管理输入值，这类输入称为 Controlled Component：

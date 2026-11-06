@@ -44,6 +44,8 @@ Setter 接收新值
 React 安排重新渲染
 ```
 
+<ReactLiveDemo example="immutable" />
+
 ## 2. 更新对象 State
 
 ```jsx

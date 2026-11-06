@@ -133,6 +133,8 @@ Vue 的两个核心特点是：
 
 完整 SPA 通常还会使用 Vue Router、Pinia、测试工具和构建工具。这些属于 Vue 生态，不等于 Vue 核心本身。
 
+<VueLiveDemo example="intro" />
+
 ## 2. 本课程采用的开发方式
 
 主线使用：

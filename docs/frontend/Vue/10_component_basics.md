@@ -32,6 +32,8 @@ TaskListView.vue
 
 这个结构表示组件使用关系，不代表最终DOM一定有相同的嵌套标签。
 
+<VueLiveDemo example="component" />
+
 ## 2. 为什么需要拆分组件
 
 ### 2.1 降低单个文件的职责

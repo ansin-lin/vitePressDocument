@@ -28,6 +28,8 @@
 | 修改 | `PUT` | `/employees/{id}` | 修改后的员工 |
 | 删除 | `DELETE` | `/employees/{id}` | 通常无 Body |
 
+<ReactLiveDemo example="crud" />
+
 ## 2. 先确认 API 契约
 
 API 契约就是请求要传什么、响应会返回什么。分页查询条件示例：

@@ -20,6 +20,8 @@
 某个值变化后执行动作 → watch
 ```
 
+<VueLiveDemo example="watch" />
+
 ## 2. 观察ref
 
 ```vue

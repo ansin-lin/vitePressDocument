@@ -105,6 +105,8 @@ createServer((request, response) => {
 
 在一个终端运行`node task-api-mock.mjs`，保留终端窗口；浏览器打开`http://127.0.0.1:8080/api/tasks`，应看到一条初始任务。另一个终端启动Vue开发服务器，并按第10节配置Vite Proxy。请求`/api/tasks`成功时会返回数组；提交空标题会得到400，可用于练习错误显示。结束后按`Ctrl+C`停止模拟接口。
 
+<VueLiveDemo example="asyncState" />
+
 ## 2. 为什么需要API层
 
 如果每个组件都直接写服务器地址、超时和错误转换，同一项目很快就会出现不一致。推荐分层如下：

@@ -30,6 +30,8 @@
 开发者：保留 Status、traceId 等调查线索
 ```
 
+<ReactLiveDemo example="errorState" />
+
 ## 2. Axios 请求失败时发生了什么
 
 ```js

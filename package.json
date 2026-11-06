@@ -11,6 +11,8 @@
     "predev": "node scripts/prepare-mermaid.mjs"
   },
   "dependencies": {
+    "@codesandbox/sandpack-client": "2.19.8",
+    "@vue/repl": "4.7.2",
     "mermaid": "^12.2.0",
     "vitepress": "^1.6.4",
     "vue": "^3.5.44"

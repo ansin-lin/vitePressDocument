@@ -62,6 +62,8 @@ React 组成 Props 对象 { count: 12 }
 
 Props 是 Properties（属性）的简称。父组件负责提供值，子组件负责根据收到的值显示内容。
 
+<ReactLiveDemo example="props" />
+
 ## 2. Props 实际上是一个对象
 
 下面的调用传入三个 Props：

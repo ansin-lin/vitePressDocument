@@ -35,6 +35,8 @@ App.vue
 
 当前只修改根组件`App.vue`。第10章再学习怎样创建和组合多个组件。
 
+<VueLiveDemo example="template" />
+
 ## 2. 什么是单文件组件
 
 **单文件组件（Single-File Component，简称SFC）**是以`.vue`结尾的组件文件。它把一个组件相关的JavaScript、HTML模板和CSS样式放在同一个文件中。

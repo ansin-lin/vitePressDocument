@@ -33,6 +33,8 @@ React UI
 
 浏览器不能安全地直接连接业务数据库。数据库账号、SQL 和最终权限判断应留在后端。
 
+<ReactLiveDemo example="asyncState" />
+
 ## 2. 一次 HTTP 请求包含什么
 
 以读取员工列表为例：

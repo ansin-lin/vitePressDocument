@@ -37,6 +37,8 @@ const filteredTasks = computed(() =>
 
 如果多个页面都需要相同筛选逻辑，复制代码会产生多处修改点。即使目前只使用一次，当筛选规则已经是一项可独立说明和测试的职责时，也可以考虑提取。
 
+<VueLiveDemo example="composable" />
+
 ## 2. 什么是Composable
 
 Composable具有以下特点：

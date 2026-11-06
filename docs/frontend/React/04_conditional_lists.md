@@ -27,6 +27,8 @@ React 不提供专用的 `v-if` 指令，而是使用 JavaScript 的 `if`、三�
 
 本章先使用固定变量和 Props 观察显示结果。第五章学习 State 后，用户操作将能够改变条件并触发页面更新。
 
+<ReactLiveDemo example="conditionList" />
+
 ## 2. 使用 if 提前返回
 
 当整个组件只能处于一种主要状态时，优先使用 `if` 提前返回：
