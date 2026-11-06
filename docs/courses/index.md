@@ -10,6 +10,10 @@
 
 [TypeScript 基础教程](../frontend/TypeScript/index.md)从类型标注学到泛型、模块和业务数据建模，并通过结课练习检查外部数据。
 
+[Vue 3 教程](../frontend/Vue/index.md)从单文件组件、响应式状态和组件通信，学到路由、接口、状态管理与测试。
+
+[React 教程](../frontend/React/index.md)从 JSX、Props 和 State，学到业务页面、请求、路由、状态管理与测试。
+
 ## Java
 
 [Java 基础教程](../backend/java/index.md)从第 1 章入门，依次覆盖语法、面向对象、集合、文件、Maven、JDBC 和 JUnit。进入课程后可用左侧目录切换章节。

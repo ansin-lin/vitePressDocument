@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 export default defineConfig({
-  lang: 'zh-CN', title: '技术研习室', description: 'HTML、CSS、JavaScript、TypeScript、Java 与 SQL 技术课程',
+  lang: 'zh-CN', title: '技术研习室', description: 'HTML、CSS、JavaScript、TypeScript、Vue、React、Java 与 SQL 技术课程',
   base: process.env.BASE_PATH || '/',
   themeConfig: {
     nav: [
@@ -10,6 +10,8 @@ export default defineConfig({
         { text: 'CSS 教程', link: '/frontend/CSS/' },
         { text: 'JavaScript 教程', link: '/frontend/JavaScript/' },
         { text: 'TypeScript 教程', link: '/frontend/TypeScript/' },
+        { text: 'Vue 3 教程', link: '/frontend/Vue/' },
+        { text: 'React 教程', link: '/frontend/React/' },
         { text: '网页编辑室', link: '/frontend/playground' }
       ] },
       { text: '数据库', activeMatch: '/database/', items: [
@@ -21,6 +23,82 @@ export default defineConfig({
       ] }
     ],
     sidebar: {
+      '/frontend/Vue/': [
+        { text: 'Vue 3 章节目录', link: '/frontend/Vue/', items: [
+          { text: '1. 认识 Vue 与创建项目', link: '/frontend/Vue/01_intro_project_setup' },
+          { text: '2. 单文件组件与模板语法', link: '/frontend/Vue/02_sfc_template_syntax' },
+          { text: '3. ref 与 reactive', link: '/frontend/Vue/03_reactivity_ref_reactive' },
+          { text: '4. 事件绑定', link: '/frontend/Vue/04_events' },
+          { text: '5. 属性、样式与条件渲染', link: '/frontend/Vue/05_attribute_condition' },
+          { text: '6. 列表渲染与 CRUD', link: '/frontend/Vue/06_list_crud' },
+          { text: '7. computed 与派生状态', link: '/frontend/Vue/07_computed' },
+          { text: '8. 表单绑定与校验', link: '/frontend/Vue/08_forms_validation' },
+          { text: '9. watch 与副作用', link: '/frontend/Vue/09_watch_effects' },
+          { text: '10. 组件基础', link: '/frontend/Vue/10_component_basics' },
+          { text: '11. Props 与 Emits', link: '/frontend/Vue/11_props_emits' },
+          { text: '12. 组件 v-model 与 Attributes', link: '/frontend/Vue/12_component_vmodel_attrs' },
+          { text: '13. Slots 与 provide/inject', link: '/frontend/Vue/13_slots_provide_inject' },
+          { text: '14. 生命周期与模板引用', link: '/frontend/Vue/14_lifecycle_template_refs' },
+          { text: '15. Composables', link: '/frontend/Vue/15_composables' },
+          { text: '16. Vue Router', link: '/frontend/Vue/16_vue_router' },
+          { text: '17. API 层与异步处理', link: '/frontend/Vue/17_http_api' },
+          { text: '18. Pinia 状态管理', link: '/frontend/Vue/18_pinia' },
+          { text: '19. 前端测试基础', link: '/frontend/Vue/19_frontend_testing' },
+          { text: '20. Vue 自动测试', link: '/frontend/Vue/20_vue_unit_testing' },
+          { text: '21. TypeScript 与项目质量', link: '/frontend/Vue/21_build_quality_delivery' },
+          { text: '附录：项目 API 规格', link: '/frontend/Vue/appendix_paid_leave_api' },
+          { text: '附录：Options API', link: '/frontend/Vue/appendix_options_api' },
+          { text: '22. 综合项目', link: '/exercises/frontend/Vue/22_vue_project' },
+          { text: '23. SES 改修练习', link: '/exercises/frontend/Vue/23_ses_change_practice' }
+        ] }
+      ],
+      '/exercises/frontend/Vue/': [
+        { text: 'Vue 3 课程', link: '/frontend/Vue/', items: [
+          { text: '返回章节目录', link: '/frontend/Vue/' },
+          { text: '22. 综合项目', link: '/exercises/frontend/Vue/22_vue_project' },
+          { text: '23. SES 改修练习', link: '/exercises/frontend/Vue/23_ses_change_practice' }
+        ] }
+      ],
+      '/frontend/React/': [
+        { text: 'React 章节目录', link: '/frontend/React/', items: [
+          { text: '1. 定位与创建项目', link: '/frontend/React/01_intro_setup' },
+          { text: '2. JSX 与组件', link: '/frontend/React/02_jsx_components' },
+          { text: '3. Props 与组件拆分', link: '/frontend/React/03_props_components' },
+          { text: '4. 条件渲染与列表', link: '/frontend/React/04_conditional_lists' },
+          { text: '5. 事件与 useState', link: '/frontend/React/05_events_state' },
+          { text: '6. 状态与重新渲染', link: '/frontend/React/06_state_render' },
+          { text: '7. 组件通信', link: '/frontend/React/07_component_communication' },
+          { text: '8. 表单与校验', link: '/frontend/React/08_forms_validation' },
+          { text: '9. useEffect', link: '/frontend/React/09_effects' },
+          { text: '10. REST API 与异步 UI', link: '/frontend/React/10_api_async_ui' },
+          { text: '11. 员工 CRUD 数据流', link: '/frontend/React/11_crud' },
+          { text: '12. Router 与导航', link: '/frontend/React/12_router_navigation' },
+          { text: '13. useRef 与自定义 Hook', link: '/frontend/React/13_refs_custom_hooks' },
+          { text: '14. Context 与状态分类', link: '/frontend/React/14_context_state_types' },
+          { text: '15. 认证路由与权限', link: '/frontend/React/15_auth_routes' },
+          { text: '16. 状态管理库', link: '/frontend/React/16_state_libraries' },
+          { text: '17. 项目结构与 API Layer', link: '/frontend/React/17_project_structure' },
+          { text: '18. 错误处理', link: '/frontend/React/18_error_handling' },
+          { text: '19. 常见业务功能', link: '/frontend/React/19_common_features' },
+          { text: '20. 文件、环境变量与安全', link: '/frontend/React/20_files_env_security' },
+          { text: '21. React 测试', link: '/frontend/React/21_testing' },
+          { text: '22. 调试与项目调查', link: '/frontend/React/22_debug_investigation' },
+          { text: '附录：旧项目与进阶能力', link: '/frontend/React/appendix_legacy_advanced' },
+          { text: '23. 项目规格与结构', link: '/exercises/frontend/React/23_project_spec' },
+          { text: '24. 登录、注册与首页', link: '/exercises/frontend/React/24_project_login_list' },
+          { text: '25. 申请与一览', link: '/exercises/frontend/React/25_project_crud' },
+          { text: '26. 改修与交付', link: '/exercises/frontend/React/26_delivery_existing_project' }
+        ] }
+      ],
+      '/exercises/frontend/React/': [
+        { text: 'React 课程', link: '/frontend/React/', items: [
+          { text: '返回章节目录', link: '/frontend/React/' },
+          { text: '23. 项目规格与结构', link: '/exercises/frontend/React/23_project_spec' },
+          { text: '24. 登录、注册与首页', link: '/exercises/frontend/React/24_project_login_list' },
+          { text: '25. 申请与一览', link: '/exercises/frontend/React/25_project_crud' },
+          { text: '26. 改修与交付', link: '/exercises/frontend/React/26_delivery_existing_project' }
+        ] }
+      ],
       '/frontend/TypeScript/': [
         { text: 'TypeScript 章节目录', link: '/frontend/TypeScript/', items: [
           { text: '1. 认识 TypeScript 与运行代码', link: '/frontend/TypeScript/01_intro_setup_compile' },
