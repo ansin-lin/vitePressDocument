@@ -1,4 +1,22 @@
- :root { --vp-c-brand-1: #21815c; --vp-c-brand-2: #29996e; --vp-c-brand-3: #237e5d; }
+/* Warm paper palette for the light reading mode. Dark mode keeps VitePress defaults. */
+:root:not(.dark) {
+  --vp-c-bg: #f7f4ec;
+  --vp-c-bg-alt: #f0ede4;
+  --vp-c-bg-elv: #fbf9f3;
+  --vp-c-bg-soft: #f0ede4;
+  --vp-c-border: #c8c8bc;
+  --vp-c-divider: #ddddd1;
+  --vp-c-gutter: #ddddd1;
+  --vp-c-text-1: #2d3430;
+  --vp-c-text-2: #526057;
+  --vp-c-text-3: #626d64;
+  --vp-c-brand-1: #246b52;
+  --vp-c-brand-2: #205e49;
+  --vp-c-brand-3: #174f3c;
+  --vp-button-brand-bg: #246b52;
+  --vp-button-brand-hover-bg: #205e49;
+  --vp-code-block-bg: #ece9e1;
+}
 .dark { --vp-c-brand-1: #62dca6; --vp-c-brand-2: #49b98b; }
 .demo { border: 1px solid var(--vp-c-divider); border-radius: 12px; margin: 24px 0; overflow: hidden; }
 .demo header { padding: 20px; display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; background: var(--vp-c-bg-soft); }
