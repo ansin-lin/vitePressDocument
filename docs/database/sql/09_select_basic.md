@@ -23,6 +23,8 @@ SQL 的书写顺序与逻辑处理顺序不同。下面的两列分别从上往�
     <ol>
       <li><strong>SELECT</strong><span>选择输出列</span></li>
       <li><strong>FROM</strong><span>指定数据来源</span></li>
+      <li><strong>JOIN</strong><span>写出要关联的表</span></li>
+      <li><strong>ON</strong><span>写出表之间的匹配条件</span></li>
       <li><strong>WHERE</strong><span>筛选明细行</span></li>
       <li><strong>GROUP BY</strong><span>分组</span></li>
       <li><strong>HAVING</strong><span>筛选分组</span></li>
@@ -34,6 +36,7 @@ SQL 的书写顺序与逻辑处理顺序不同。下面的两列分别从上往�
     <h3 id="sql-logical-title">SQL 逻辑处理顺序</h3>
     <ol>
       <li><strong>FROM</strong><span>取得数据</span></li>
+      <li><strong>JOIN + ON</strong><span>按关联条件组合表；外连接还会保留未匹配行</span></li>
       <li><strong>WHERE</strong><span>筛选明细行</span></li>
       <li><strong>GROUP BY</strong><span>分组</span></li>
       <li><strong>HAVING</strong><span>筛选分组</span></li>
@@ -44,7 +47,7 @@ SQL 的书写顺序与逻辑处理顺序不同。下面的两列分别从上往�
   </section>
 </div>
 
-没有使用的子句可以跳过。例如本章的基础查询没有 `GROUP BY` 和 `HAVING`；这两项会在[第 11 章分组与聚合函数](11_groupby_aggregate.md)中学习。分页语法依数据库而异，见本章第六节。图表示帮助理解查询结果的逻辑顺序，不代表数据库实际逐步执行的物理计划；复杂查询还可能涉及去重、窗口函数或集合操作。
+没有使用的子句可以跳过。例如本章的基础查询没有 `JOIN`、`ON`、`GROUP BY` 和 `HAVING`：`JOIN ... ON` 在[第 10 章多表查询](10_join_subquery_union.md)学习，分组与分组筛选在[第 11 章](11_groupby_aggregate.md)学习。`ON` 属于关联过程；尤其在外连接中，不能把 `ON` 与关联结果出来后的 `WHERE` 当成同一步。分页语法依数据库而异，见本章第六节。图表示帮助理解查询结果的逻辑顺序，不代表数据库实际逐步执行的物理计划；复杂查询还可能涉及去重、窗口函数或集合操作。
 
 ## 二、查询指定字段
 
